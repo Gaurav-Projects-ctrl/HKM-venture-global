@@ -1,0 +1,32 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Nav from './Nav.astro';
+import PageHeader from './PageHeader.astro';
+import Footer from './Footer.astro';
+
+interface Props { title: string; description: string; heading: string; updated: string; }
+const { title, description, heading, updated } = Astro.props;
+---
+<Layout title={title} description={description}>
+  <Nav />
+  <main>
+    <PageHeader overline="Legal" title={heading} crumbs={[{ label: heading }]} showButtons={false} sub={`Last updated: ${updated}`} />
+    <section class="section-pad">
+      <div class="container">
+        <article class="legal"><slot /></article>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</Layout>
+
+<style>
+  .legal { max-width: 760px; }
+  .legal :global(h2) { font-size: 28px; margin: 48px 0 14px; color: var(--on-surface); }
+  .legal :global(h2:first-child) { margin-top: 0; }
+  .legal :global(p), .legal :global(li) { font-size: 16px; line-height: 1.8; color: var(--on-surface-variant); }
+  .legal :global(p) { margin-bottom: 16px; }
+  .legal :global(ul) { padding-left: 22px; margin-bottom: 16px; }
+  .legal :global(li) { margin-bottom: 6px; }
+  .legal :global(a) { color: var(--primary); }
+</style>

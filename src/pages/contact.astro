@@ -1,0 +1,83 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Nav from '../components/Nav.astro';
+import PageHeader from '../components/PageHeader.astro';
+import Contact from '../components/Contact.astro';
+import Footer from '../components/Footer.astro';
+import { company, waLink } from '../data/site';
+
+const ways = [
+  { label: 'WhatsApp', value: 'Fastest reply', href: waLink(), cta: 'Start chat →', external: true },
+  { label: 'Email', value: company.email, href: `mailto:${company.email}`, cta: 'Send email →' },
+  { label: 'Phone', value: company.phone, href: `tel:${company.phone.replace(/\s/g, '')}`, cta: 'Call us →' },
+  { label: 'Brochure', value: 'Company & products PDF', href: '#', cta: 'Download →', brochure: true },
+];
+---
+<Layout
+  title="Contact Us — Request a Quote | HKM Venture Global"
+  description="Request a quote for pharmaceuticals, chemicals or frozen foods from India. Reach HKM Venture Global by WhatsApp, email or phone — we reply within 24 hours."
+>
+  <Nav />
+  <main>
+    <PageHeader
+      overline="Contact"
+      title="Let’s talk about"
+      titleEm="your requirement."
+      sub="Tell us what you import today, where it ships to and in what volume. A founder will reply within 24 hours with next steps — usually a quotation and samples."
+      crumbs={[{ label: 'Contact' }]}
+      image="contact"
+      showButtons={false}
+    />
+    <section class="ways">
+      <div class="container ways-grid">
+        {ways.map((w) => (
+          <a
+            href={w.href}
+            class="way"
+            data-brochure={w.brochure ? '' : undefined}
+            target={w.external ? '_blank' : undefined}
+            rel={w.external ? 'noopener' : undefined}
+          >
+            <span class="label way-label">{w.label}</span>
+            <span class="way-value">{w.value}</span>
+            <span class="label way-cta">{w.cta}</span>
+          </a>
+        ))}
+      </div>
+    </section>
+    <Contact />
+  </main>
+  <Footer />
+</Layout>
+
+<style>
+  .ways { background: var(--surface-low); border-bottom: 1px solid var(--outline-variant); }
+  /* email column gets more room so the address doesn't break mid-word */
+  .ways-grid { display: grid; grid-template-columns: 1fr 1.45fr 1fr 1fr; }
+  .way {
+    display: flex; flex-direction: column; gap: 10px;
+    padding: 40px 28px;
+    text-decoration: none;
+    border-right: 1px solid var(--outline-variant);
+    transition: background 0.25s;
+    min-width: 0;
+  }
+  .way:first-child { padding-left: 0; }
+  .way:last-child { border-right: none; }
+  .way:hover { background: var(--surface-container); }
+  .way-label { color: var(--outline); font-size: 9px; }
+  .way-value { font-family: var(--font-display); font-size: clamp(18px, 1.6vw, 22px); color: var(--on-surface); overflow-wrap: anywhere; }
+  .way-cta { color: var(--primary); font-size: 10px; margin-top: auto; }
+  @media (max-width: 1100px) {
+    .ways-grid { grid-template-columns: 1fr 1fr; }
+    .way { padding: 28px 20px; }
+    .way:first-child { padding-left: 20px; }
+    .way:nth-child(2) { border-right: none; }
+    .way:nth-child(-n+2) { border-bottom: 1px solid var(--outline-variant); }
+  }
+  @media (max-width: 520px) {
+    .ways-grid { grid-template-columns: 1fr; }
+    .way { border-right: none; border-bottom: 1px solid var(--outline-variant); padding-left: 0 !important; }
+    .way:last-child { border-bottom: none; }
+  }
+</style>

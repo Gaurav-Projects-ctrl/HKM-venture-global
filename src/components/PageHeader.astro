@@ -1,0 +1,164 @@
+---
+interface Props {
+  overline: string;
+  title: string;
+  titleEm?: string;
+  sub?: string;
+  crumbs?: { label: string; href?: string }[];
+  showButtons?: boolean;
+  primaryLabel?: string;
+  primaryHref?: string;
+  /** Optional background photo name, e.g. 'about' → loads /headers/about-desktop.jpg
+   *  and /headers/about-mobile.jpg (phones, ≤768px). Files live in /public/headers/ */
+  image?: string;
+  /** Focal point of the photo for cropping, e.g. 'center', '70% 40%' */
+  imagePosition?: string;
+}
+const {
+  overline,
+  title,
+  titleEm,
+  sub,
+  crumbs = [],
+  showButtons = true,
+  primaryLabel = 'Request a Quote',
+  primaryHref = '/contact',
+  image,
+  imagePosition = 'center',
+} = Astro.props;
+import { srcsets } from '../lib/images';
+const mob = image ? srcsets('headers', `${image}-mobile`) : { avif: '', webp: '' };
+const desk = image ? srcsets('headers', `${image}-desktop`) : { avif: '', webp: '' };
+const M = '(max-width: 768px)';
+---
+<header class:list={['ph', { 'ph--img': image }]}>
+  {image && (
+    <picture class="ph-media" aria-hidden="true">
+      {mob.avif && <source media={M} type="image/avif" srcset={mob.avif} sizes="100vw" />}
+      {mob.webp && <source media={M} type="image/webp" srcset={mob.webp} sizes="100vw" />}
+      <source media={M} srcset={`/headers/${image}-mobile.jpg`} />
+      {desk.avif && <source type="image/avif" srcset={desk.avif} sizes="100vw" />}
+      {desk.webp && <source type="image/webp" srcset={desk.webp} sizes="100vw" />}
+      <img
+        src={`/headers/${image}-desktop.jpg`}
+        alt=""
+        loading="eager"
+        fetchpriority="high"
+        decoding="async"
+        style={`object-position:${imagePosition}`}
+        onerror="this.parentElement.remove()"
+      />
+      <div class="ph-shade"></div>
+    </picture>
+  )}
+  <div class="ph-glow"></div>
+  <div class="container ph-inner">
+    {crumbs.length > 0 && (
+      <nav class="ph-crumbs" aria-label="Breadcrumb">
+        <a href="/">Home</a>
+        {crumbs.map((c) => (
+          <>
+            <span aria-hidden="true">/</span>
+            {c.href ? <a href={c.href}>{c.label}</a> : <span aria-current="page">{c.label}</span>}
+          </>
+        ))}
+      </nav>
+    )}
+    <span class="label ph-over">{overline}</span>
+    <h1 class="ph-title">{title}{titleEm && <><br/><em>{titleEm}</em></>}</h1>
+    {sub && <p class="ph-sub">{sub}</p>}
+    {showButtons && (
+      <div class="ph-btns">
+        <a href={primaryHref} class="btn btn-gold">{primaryLabel}</a>
+        <a href="#" data-brochure class="btn btn-ghost-gold">Download Brochure</a>
+      </div>
+    )}
+  </div>
+</header>
+
+<style>
+  .ph {
+    position: relative;
+    background: var(--hero-bg);
+    color: var(--hero-text);
+    padding: 172px 0 104px;
+    overflow: hidden;
+    border-bottom: 1px solid rgba(229, 193, 136, 0.1);
+  }
+  .ph-glow {
+    position: absolute;
+    width: 720px; height: 720px;
+    right: -200px; top: -260px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(229,193,136,0.16), transparent 65%);
+    pointer-events: none;
+  }
+  .ph-inner { position: relative; z-index: 1; }
+
+  /* ── Background photo (only when `image` is passed) ── */
+  .ph--img {
+    padding: 196px 0 128px;
+    /* Short headers (e.g. Contact, no buttons) still get enough room to show the photo */
+    min-height: 640px;
+    display: flex; flex-direction: column; justify-content: center;
+  }
+  .ph--img .ph-inner { width: 100%; }
+  .ph-media { position: absolute; inset: 0; z-index: 0; }
+  .ph-media img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    filter: saturate(0.8) brightness(0.85);
+    transform: scale(1.08);
+    animation: ph-drift 14s ease-out forwards;
+  }
+  /* Dark on the left where the text sits, letting the photo show on the right */
+  .ph-shade {
+    position: absolute; inset: 0;
+    background:
+      linear-gradient(90deg, rgba(8,7,6,0.94) 0%, rgba(8,7,6,0.78) 38%, rgba(8,7,6,0.35) 72%, rgba(8,7,6,0.2) 100%),
+      linear-gradient(0deg, rgba(8,7,6,0.8) 0%, rgba(8,7,6,0) 28%),
+      linear-gradient(180deg, rgba(8,7,6,0.6) 0%, rgba(8,7,6,0) 22%);
+  }
+  @keyframes ph-drift { to { transform: scale(1); } }
+  @media (prefers-reduced-motion: reduce) {
+    .ph-media img { animation: none; transform: none; }
+  }
+
+  .ph-crumbs {
+    display: flex; flex-wrap: wrap; gap: 10px;
+    font-family: var(--font-label);
+    font-size: 10px; font-weight: 600;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    color: rgba(229,193,136,0.4);
+    margin-bottom: 40px;
+  }
+  .ph-crumbs a { color: rgba(229,193,136,0.6); text-decoration: none; }
+  .ph-crumbs a:hover { color: var(--hero-glow); }
+  .ph-crumbs [aria-current] { color: rgba(245,240,232,0.55); }
+
+  .ph-over { color: var(--hero-glow); display: block; margin-bottom: 24px; letter-spacing: 0.3em; }
+  .ph-title {
+    font-size: clamp(44px, 6.4vw, 88px);
+    line-height: 1.02;
+    letter-spacing: -0.025em;
+    color: var(--hero-text);
+    max-width: 900px;
+  }
+  .ph-title em { font-style: italic; color: var(--hero-glow); }
+  .ph-sub {
+    margin-top: 28px;
+    max-width: 640px;
+    font-size: 17px;
+    line-height: 1.8;
+    color: rgba(245,240,232,0.68);
+  }
+  .ph-btns { display: flex; gap: 14px; flex-wrap: wrap; margin-top: 44px; }
+
+  @media (max-width: 768px) {
+    .ph { padding: 128px 0 72px; }
+    .ph--img { padding: 148px 0 88px; min-height: 0; }
+    /* Text spans full width on phones, so darken the whole photo */
+    .ph-shade { background: rgba(8,7,6,0.78); }
+    .ph-sub { font-size: 15px; }
+  }
+</style>

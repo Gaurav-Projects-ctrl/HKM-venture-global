@@ -1,0 +1,464 @@
+---
+const TOTAL_FRAMES = 61;
+---
+
+<!-- Hero scroll wrapper — 500vh gives ~5 screens of scroll room -->
+<div id="hero-wrapper" style="height:300vh; position:relative;">
+  <section id="hero">
+    <canvas id="hero-canvas"></canvas>
+    <div class="hero-overlay"></div>
+
+    <!-- Technical corner labels -->
+    <div class="corner top-left">
+      <span class="label">IMPORT · EXPORT</span>
+      <span class="label">INDIA — GLOBAL</span>
+    </div>
+    <div class="corner bottom-left">
+      <span class="label">HEALTHCARE & PHARMACEUTICALS · CHEMICALS · FROZEN</span>
+    </div>
+    <div class="corner bottom-right">
+      <div class="scroll-indicator">
+        <div class="scroll-line"></div>
+        <span class="label">SCROLL</span>
+      </div>
+    </div>
+
+    <!-- Main hero content -->
+    <div class="hero-content" id="hero-content">
+      <div id="h-overline">
+        <span class="label" style="color:#f5d99a;letter-spacing:0.3em;font-size:13px;opacity:1;">
+          INDIA'S GLOBAL TRADE PARTNER
+        </span>
+      </div>
+      <h1 class="hero-title">
+        <span class="h-line" id="h-line-1">We Move What</span>
+        <span class="h-line" id="h-line-2">the World <em>Needs.</em></span>
+      </h1>
+      <p class="hero-sub" id="h-sub">
+        We connect international buyers with reliable Indian manufacturers
+        across pharmaceuticals &amp; healthcare, chemicals, and frozen foods —
+        providing sourcing, third-party manufacturing, quality assurance,
+        and end-to-end export execution at scale.
+      </p>
+      <div class="hero-btns" id="h-btns">
+        <a href="#contact" class="btn btn-gold">Request a Quote</a>
+        <a href="/products" class="btn btn-ghost-gold">Explore Products</a>
+      </div>
+    </div>
+
+    <!-- Mid-scroll tagline (fades in/out) -->
+    <div class="hero-tagline" id="h-tagline">
+      <p>Connecting Markets.<br/><em>Delivering Trust.</em></p>
+    </div>
+
+    <!-- End-of-scroll product panels -->
+    <div class="hero-end-panel left" id="h-end-left">
+      <div class="end-item">
+        <span class="label" style="color:var(--hero-glow);">Healthcare & Pharmaceuticals</span>
+        <p>WHO-GMP Sourced Generics</p>
+      </div>
+      <div class="end-item">
+        <span class="label" style="color:var(--hero-glow);">Chemicals</span>
+        <p>Industrial &amp; Specialty</p>
+      </div>
+    </div>
+    <div class="hero-end-panel right" id="h-end-right">
+      <div class="end-item">
+        <span class="label" style="color:var(--hero-glow);">Frozen Foods</span>
+        <p>Cold Chain Managed</p>
+      </div>
+      <div class="end-item">
+        <span class="label" style="color:var(--hero-glow);">Focus Market</span>
+        <p>Ghana &amp; West Africa</p>
+      </div>
+    </div>
+
+    <!-- Preload progress overlay -->
+    <div class="hero-loader" id="hero-loader">
+      <div class="loader-box">
+        <span class="label" style="color:rgba(229,193,136,0.5);letter-spacing:0.4em;">
+          HKM VENTURE GLOBAL
+        </span>
+        <div class="loader-track">
+          <div class="loader-fill" id="loader-fill"></div>
+        </div>
+        <span class="label loader-pct" id="loader-pct">0%</span>
+      </div>
+    </div>
+  </section>
+</div>
+
+<style>
+  #hero {
+    position: sticky;
+    top: 0;
+    width: 100%;
+    height: 100vh;
+    background: var(--hero-bg);
+    overflow: hidden;
+  }
+
+  #hero-canvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      160deg,
+      rgba(8,7,6,0.55) 0%,
+      rgba(8,7,6,0.15) 45%,
+      rgba(8,7,6,0.25) 65%,
+      rgba(8,7,6,0.75) 100%
+    );
+    pointer-events: none;
+  }
+
+  /* Corner labels */
+  .corner {
+    position: absolute;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    pointer-events: none;
+  }
+  .corner .label {
+    display: block;
+    color: rgba(229,193,136,0.4);
+    font-size: 9px;
+    letter-spacing: 0.22em;
+  }
+  .top-left    { top: 90px; left: 40px; }
+  .top-right   { top: 90px; right: 40px; text-align: right; }
+  .bottom-left { bottom: 36px; left: 40px; }
+  .bottom-right{ bottom: 36px; right: 40px; }
+
+  /* Animated scroll line */
+  .scroll-indicator { display: flex; flex-direction: column; align-items: flex-end; gap: 8px; }
+  .scroll-line {
+    width: 1px; height: 44px;
+    background: rgba(229,193,136,0.15);
+    position: relative; overflow: hidden;
+  }
+  .scroll-line::after {
+    content: '';
+    position: absolute; top: -100%; left: 0;
+    width: 100%; height: 100%;
+    background: var(--hero-glow);
+    animation: drip 1.8s ease-in-out infinite;
+  }
+  @keyframes drip { to { top: 200%; } }
+
+  /* Hero content */
+  .hero-content {
+    position: absolute;
+    inset: 0;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-end;
+    padding: 0 8vw 0 22vw;
+  }
+
+  #h-overline { margin-bottom: 24px; overflow: hidden; text-align: center; }
+
+  .hero-content > * { width: 100%; max-width: 620px; }
+
+  .hero-title {
+    font-size: clamp(52px, 7.5vw, 100px);
+    line-height: 1.04;
+    letter-spacing: -0.025em;
+    color: var(--hero-text);
+    margin-bottom: 28px;
+  }
+
+  .h-line { display: block; }
+
+  .hero-title em {
+    font-style: italic;
+    color: var(--hero-glow);
+    text-shadow:
+      0 0 40px rgba(229,193,136,0.65),
+      0 0 100px rgba(229,193,136,0.25);
+  }
+
+  .hero-sub {
+    font-family: 'Optima', 'Candara', 'Segoe UI', sans-serif;
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 1.8;
+    color: #f5f0e8;
+    max-width: 520px;
+    margin-bottom: 44px;
+    text-shadow: 0 1px 12px rgba(0,0,0,1), 0 2px 32px rgba(0,0,0,0.9);
+    text-align: center;
+  }
+
+  .hero-btns { display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; }
+
+  /* Mid-scroll tagline */
+  .hero-tagline {
+    position: absolute;
+    inset: 0;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    will-change: opacity, transform;
+  }
+  .hero-tagline p {
+    font-family: var(--font-display);
+    font-size: clamp(38px, 5.5vw, 78px);
+    font-weight: 400;
+    color: var(--hero-text);
+    text-align: center;
+    line-height: 1.15;
+    letter-spacing: -0.01em;
+  }
+  .hero-tagline em {
+    font-style: italic;
+    color: var(--hero-glow);
+    text-shadow: 0 0 60px rgba(229,193,136,0.5);
+  }
+
+  /* End panels */
+  .hero-end-panel {
+    position: absolute;
+    bottom: 15vh;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+    opacity: 0;
+    pointer-events: none;
+    will-change: opacity, transform;
+  }
+  .hero-end-panel.left  { left: 10vw; }
+  .hero-end-panel.right { right: 10vw; text-align: right; }
+
+  .end-item .label {
+    display: block;
+    font-size: 9px;
+    letter-spacing: 0.22em;
+    margin-bottom: 5px;
+  }
+  .end-item p {
+    font-family: var(--font-display);
+    font-size: 22px;
+    color: rgba(245,240,232,0.8);
+    line-height: 1.2;
+  }
+
+  /* Loader */
+  .hero-loader {
+    position: absolute;
+    inset: 0;
+    background: var(--hero-bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+  }
+  .loader-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
+  .loader-track {
+    width: 220px;
+    height: 1px;
+    background: rgba(229,193,136,0.12);
+  }
+  .loader-fill {
+    height: 100%;
+    width: 0%;
+    background: var(--hero-glow);
+    box-shadow: 0 0 12px rgba(229,193,136,0.6);
+    transition: width 0.08s linear;
+  }
+  .loader-pct {
+    color: rgba(229,193,136,0.35);
+    font-size: 10px;
+  }
+
+  @media (max-width: 768px) {
+    .corner { display: none; }
+    /* top padding keeps the heading clear of the fixed nav */
+    .hero-content { padding: 84px 24px 24px; }
+    .hero-end-panel { display: none; }
+    .hero-tagline p { font-size: 32px; padding: 0 24px; }
+    #h-overline { margin-bottom: 16px; }
+    .hero-title { font-size: clamp(40px, 11vw, 52px); margin-bottom: 20px; }
+    .hero-sub { font-size: 16px; line-height: 1.7; margin-bottom: 28px; }
+  }
+  /* Short phones (iPhone SE, Androids with browser bars) */
+  @media (max-width: 768px) and (max-height: 700px) {
+    .hero-title { font-size: 38px; margin-bottom: 14px; }
+    .hero-sub { font-size: 14.5px; line-height: 1.6; margin-bottom: 20px; }
+    .hero-btns { gap: 10px; }
+  }
+</style>
+
+<script>
+  import { gsap } from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  const TOTAL = 40;
+  const canvas  = document.getElementById('hero-canvas') as HTMLCanvasElement;
+  const ctx     = canvas.getContext('2d')!;
+  const counter = document.getElementById('frame-counter');
+  const loader  = document.getElementById('hero-loader')!;
+  const loaderFill = document.getElementById('loader-fill') as HTMLElement;
+  const loaderPct  = document.getElementById('loader-pct')!;
+
+  // Resize canvas to match physical pixels
+  const resize = () => {
+    const dpr = window.devicePixelRatio || 1;
+    canvas.width  = window.innerWidth  * dpr;
+    canvas.height = window.innerHeight * dpr;
+    ctx.scale(dpr, dpr);
+  };
+  resize();
+
+  // WebP frames: 1280px on desktop, 768px on phones (made by `npm run images`)
+  const frameDir = window.innerWidth <= 768 ? 'sm' : 'webp';
+  const frameSrc = (i: number) =>
+    `/frames/${frameDir}/frame_${String(i + 1).padStart(4, '0')}.webp`;
+  const frameJpg = (i: number) =>
+    `/frames/frame_${String(i + 1).padStart(4, '0')}.jpg`;
+
+  // Cover-fill draw
+  const drawImage = (img: HTMLImageElement) => {
+    const cw = window.innerWidth, ch = window.innerHeight;
+    const iw = img.naturalWidth,  ih = img.naturalHeight;
+    const scale = Math.max(cw / iw, ch / ih);
+    const dw = iw * scale, dh = ih * scale;
+    ctx.clearRect(0, 0, cw, ch);
+    ctx.drawImage(img, (cw - dw) / 2, (ch - dh) / 2, dw, dh);
+  };
+
+  // Preload all frames
+  const images: HTMLImageElement[] = new Array(TOTAL);
+  let loaded = 0;
+
+  let started = false;
+  const onLoaded = () => {
+    loaded++;
+    const pct = Math.round((loaded / TOTAL) * 100);
+    loaderFill.style.width = pct + '%';
+    loaderPct.textContent  = pct + '%';
+  };
+  const load = (i: number, onDone?: () => void) => {
+    const img = new Image();
+    img.onload = () => { onLoaded(); onDone?.(); };
+    // Fall back to the original JPG if the WebP copy is missing
+    img.onerror = () => {
+      if (!img.src.endsWith('.jpg')) { img.src = frameJpg(i); return; }
+      onLoaded(); onDone?.();
+    };
+    img.src = frameSrc(i);
+    images[i] = img;
+  };
+
+  // Show the hero as soon as the first frame is ready; the rest stream in behind it
+  load(0, () => { if (!started) { started = true; initHero(); } });
+  for (let i = 1; i < TOTAL; i++) load(i);
+
+  // Nearest frame that has finished loading (scrolling may outrun the download)
+  const nearestLoaded = (idx: number) => {
+    for (let d = 0; d < TOTAL; d++) {
+      if (images[idx - d]?.complete && images[idx - d].naturalWidth) return images[idx - d];
+      if (images[idx + d]?.complete && images[idx + d].naturalWidth) return images[idx + d];
+    }
+    return null;
+  };
+
+  function initHero() {
+    // Fade out loader
+    gsap.to(loader, {
+      opacity: 0, duration: 0.9, ease: 'power2.in',
+      onComplete: () => loader.remove(),
+    });
+
+    drawImage(images[0]);
+
+    // ── Entrance animation ──
+    const tl = gsap.timeline({ delay: 0.4 });
+    tl.from('#h-overline .label', {
+      y: 24, opacity: 0, duration: 0.8, ease: 'power3.out',
+    });
+    tl.from('#h-line-1', {
+      y: 70, opacity: 0, duration: 1, ease: 'power3.out',
+    }, '-=0.4');
+    tl.from('#h-line-2', {
+      y: 70, opacity: 0, duration: 1, ease: 'power3.out',
+    }, '-=0.65');
+    tl.from('#h-sub', {
+      y: 30, opacity: 0, duration: 0.85, ease: 'power3.out',
+    }, '-=0.5');
+    tl.from('#h-btns', {
+      y: 20, opacity: 0, duration: 0.7, ease: 'power3.out',
+    }, '-=0.4');
+
+    // ── ScrollTrigger frame scrub ──
+    let curFrame = 0;
+
+    ScrollTrigger.create({
+      trigger: '#hero-wrapper',
+      start: 'top top',
+      end: 'bottom bottom',
+      scrub: 1.2,
+      onUpdate(self) {
+        const p = self.progress; // 0 → 1
+
+        // ── Frame scrub ──
+        const idx = Math.min(Math.floor(p * (TOTAL - 1)), TOTAL - 1);
+        if (idx !== curFrame) {
+          curFrame = idx;
+          const img = nearestLoaded(idx);
+          if (img) drawImage(img);
+          if (counter) counter.textContent = `FRAME ${String(idx + 1).padStart(3,'0')} / 121`;
+        }
+
+        // ── Hero text exit (p: 0.05 → 0.22) ──
+        const exitP = smoothstep(0.05, 0.22, p);
+        gsap.set('#h-overline', { y: -30 * exitP, opacity: 1 - exitP });
+        gsap.set('#h-line-1',   { x: -180 * exitP, opacity: 1 - exitP });
+        gsap.set('#h-line-2',   { x:  180 * exitP, opacity: 1 - exitP });
+        gsap.set('#h-sub',      { y:  40 * exitP, opacity: 1 - exitP });
+        gsap.set('#h-btns',     { y:  30 * exitP, opacity: 1 - exitP });
+
+        // ── Tagline fades in and stays (p: 0.35 → 0.55, then holds) ──
+        const tagP = smoothstep(0.35, 0.55, p);
+        gsap.set('#h-tagline', { opacity: tagP, scale: 0.94 + 0.06 * tagP });
+
+        // ── End panels slide in with tagline and stay ──
+        const endP = smoothstep(0.35, 0.55, p);
+        gsap.set('#h-end-left',  { opacity: endP, x: -28 * (1 - endP) });
+        gsap.set('#h-end-right', { opacity: endP, x:  28 * (1 - endP) });
+      },
+    });
+
+    window.addEventListener('resize', () => {
+      resize();
+      const img = nearestLoaded(curFrame);
+      if (img) drawImage(img);
+    });
+  }
+
+  function smoothstep(edge0: number, edge1: number, x: number) {
+    const t = Math.max(0, Math.min(1, (x - edge0) / (edge1 - edge0)));
+    return t * t * (3 - 2 * t);
+  }
+</script>

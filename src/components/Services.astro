@@ -1,0 +1,163 @@
+---
+const services = [
+  {
+    num: '01',
+    title: 'Export Management',
+    body: 'We handle all outbound documentation, pricing, and logistics for your goods going global.',
+  },
+  {
+    num: '02',
+    title: 'Import Solutions',
+    body: 'Seamless sourcing and inbound clearance for international products entering India.',
+  },
+  {
+    num: '03',
+    title: 'Customs & Documentation',
+    body: 'Full compliance with Indian and international trade regulations — zero delays.',
+  },
+  {
+    num: '04',
+    title: 'Logistics & Freight',
+    body: 'Air, sea, and land freight management tailored to the nature of your cargo.',
+  },
+  {
+    num: '05',
+    title: 'Cold Chain Management',
+    body: 'Temperature-controlled storage and transport for frozen food products.',
+  },
+  {
+    num: '06',
+    title: 'Quality Assurance',
+    body: 'Pre-shipment inspection and supplier verification across all product categories.',
+  },
+];
+import SectionImage from './SectionImage.astro';
+import { hasImage } from '../lib/images';
+const svcImg = hasImage('home-services');
+---
+
+<section id="services" class="services section-pad">
+  <div class="container">
+    <div class:list={['svc-top', { 'has-img': svcImg }]}>
+      <div class="services-intro">
+        <span class="label svc-label">Services</span>
+        <div class="divider"></div>
+        <h2 class="svc-headline">End-to-End<br/><em>Trade Solutions</em></h2>
+      </div>
+      <SectionImage name="home-services" alt="Signing export documents at a port office with containers and cranes outside" ratio="16 / 9" />
+    </div>
+
+    <div class="svc-grid">
+      {services.map((s) => (
+        <div class="svc-item">
+          <span class="svc-num">{s.num}</span>
+          <div class="svc-content">
+            <h3 class="svc-title">{s.title}</h3>
+            <p class="svc-body">{s.body}</p>
+          </div>
+          <div class="svc-line"></div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .services {
+    background: var(--surface);
+    border-top: 1px solid var(--outline-variant);
+  }
+
+  .services-intro { margin-bottom: 72px; }
+  .svc-label { color: var(--primary); display: block; margin-bottom: 20px; }
+
+  .svc-headline {
+    font-size: clamp(38px, 4vw, 56px);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    color: var(--on-surface);
+  }
+  .svc-headline em { font-style: italic; color: var(--primary); }
+
+  .svc-top.has-img {
+    display: grid; grid-template-columns: 1fr 1.15fr; gap: 80px; align-items: center;
+    margin-bottom: 64px;
+  }
+  .svc-top.has-img .services-intro { margin-bottom: 0; }
+  @media (max-width: 900px) {
+    .svc-top.has-img { grid-template-columns: 1fr; gap: 36px; margin-bottom: 48px; }
+  }
+  .svc-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+  }
+
+  .svc-item {
+    display: grid;
+    grid-template-columns: 56px 1fr;
+    gap: 0 24px;
+    align-items: start;
+    padding: 36px 0;
+    position: relative;
+    border-bottom: 1px solid var(--outline-variant);
+  }
+
+  .svc-item:nth-child(odd)  { padding-right: 48px; border-right: 1px solid var(--outline-variant); }
+  .svc-item:nth-child(even) { padding-left: 48px; }
+  .svc-item:nth-last-child(-n+2) { border-bottom: none; }
+
+  .svc-num {
+    font-family: var(--font-display);
+    font-size: 14px;
+    font-style: italic;
+    color: var(--primary-container);
+    padding-top: 3px;
+    letter-spacing: 0.04em;
+  }
+
+  .svc-title {
+    font-family: var(--font-display);
+    font-size: 24px;
+    font-weight: 400;
+    color: var(--on-surface);
+    margin-bottom: 10px;
+    letter-spacing: -0.01em;
+  }
+
+  .svc-body {
+    font-size: 14px;
+    line-height: 1.75;
+    color: var(--on-surface-variant);
+  }
+
+  .svc-line {
+    position: absolute;
+    bottom: 0; left: 56px;
+    width: 0;
+    height: 1px;
+    background: var(--primary);
+    transition: width 0.6s ease;
+  }
+
+  .svc-item:hover .svc-line { width: calc(100% - 56px); }
+
+  @media (max-width: 768px) {
+    .svc-grid { grid-template-columns: 1fr; }
+    .svc-item:nth-child(odd)  { padding-right: 0; border-right: none; }
+    .svc-item:nth-child(even) { padding-left: 0; }
+    .svc-item:nth-last-child(-n+2) { border-bottom: 1px solid var(--outline-variant); }
+    .svc-item:last-child { border-bottom: none; }
+  }
+</style>
+
+<script>
+  import { gsap } from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+  gsap.registerPlugin(ScrollTrigger);
+
+  gsap.from('.svc-item', {
+    y: 40, opacity: 0, duration: 0.7, stagger: 0.1, ease: 'power3.out',
+    scrollTrigger: { trigger: '.svc-grid', start: 'top 78%' },
+  });
+</script>

@@ -1,0 +1,49 @@
+---
+import LegalPage from '../components/LegalPage.astro';
+import { company } from '../data/site';
+---
+<LegalPage
+  title="Privacy Policy | HKM Venture Global"
+  description="How HKM Venture Global collects, uses and protects the information you share through our website."
+  heading="Privacy Policy"
+  updated="21 October 2026"
+>
+  <h2>1. Who we are</h2>
+  <p>This website is operated by {company.name} (“HKM”, “we”, “us”), {company.address}. For any privacy question, contact us at <a href={`mailto:${company.email}`}>{company.email}</a>.</p>
+
+  <h2>2. Information we collect</h2>
+  <p>We only collect information you choose to give us:</p>
+  <ul>
+    <li><strong>Enquiry form:</strong> your name, company, email address, phone number, product of interest and message.</li>
+    <li><strong>Brochure download:</strong> your name, company, email address and country.</li>
+    <li><strong>WhatsApp, email or phone:</strong> the details you share when you contact us directly.</li>
+  </ul>
+  <p>Like most websites, our hosting provider may automatically record technical data such as your IP address, browser type and pages visited, for security and performance purposes.</p>
+
+  <h2>3. How we use it</h2>
+  <ul>
+    <li>To reply to your enquiry and prepare quotations, samples and documents.</li>
+    <li>To send you the brochure or product information you requested.</li>
+    <li>To follow up on an enquiry or an ongoing business relationship.</li>
+    <li>To meet legal, tax and export-compliance obligations.</li>
+  </ul>
+  <p>We do not sell or rent your personal information, and we do not send marketing messages unrelated to your enquiry. You can ask us to stop contacting you at any time.</p>
+
+  <h2>4. Service providers</h2>
+  <p>We use trusted third parties to run this website: Web3Forms to deliver form submissions to our inbox, our website hosting provider, and Google Fonts to display typefaces. When you contact us on WhatsApp, WhatsApp’s own privacy policy applies. These providers process data only to provide their service to us.</p>
+
+  <h2>5. Cookies</h2>
+  <p>This website does not use advertising or tracking cookies. If we add analytics in future, we will update this policy.</p>
+
+  <h2>6. How long we keep it</h2>
+  <p>Enquiry and contact details are kept for as long as needed to respond and to maintain a business relationship, and for any period required by law. You can ask us to delete your details at any time.</p>
+
+  <h2>7. Your rights</h2>
+  <p>You can ask us to access, correct or delete the personal information we hold about you, or to stop using it. Email <a href={`mailto:${company.email}`}>{company.email}</a> and we will respond within 30 days. These rights apply in line with India’s Digital Personal Data Protection Act, 2023 and the data protection laws of your country where applicable.</p>
+
+  <h2>8. Security</h2>
+  <p>We take reasonable technical and organisational measures to protect your information. No internet transmission is completely secure, so please do not send sensitive personal data through the website.</p>
+
+  <h2>9. Changes</h2>
+  <p>We may update this policy from time to time. The “last updated” date at the top shows when it last changed.</p>
+</LegalPage>

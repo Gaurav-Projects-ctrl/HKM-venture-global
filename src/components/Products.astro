@@ -1,0 +1,332 @@
+---
+const products = [
+  {
+    id: 'pharmaceuticals',
+    overline: 'Category 01',
+    title: 'Healthcare & Pharmaceuticals',
+    body: 'Handled under rigorous regulatory and quality control frameworks, ensuring every product meets international pharma standards.',
+    items: [
+      'Medical & Non-Medical Equipment',
+      'Surgical Equipment & Supplies',
+      'Finished Pharmaceutical Formulations',
+      'Generic Medicines',
+      'APIs & Pharmaceutical Intermediates',
+      'Nutraceuticals & Health Products',
+      'Pharmaceutical Extracts',
+    ],
+    icon: '✦',
+  },
+  {
+    id: 'chemicals',
+    overline: 'Category 02',
+    title: 'Chemicals',
+    body: 'Sourced from certified suppliers globally, meeting strict hazmat and industry compliance standards across every shipment.',
+    items: [
+      'Specialty Chemicals',
+      'Industrial Chemicals',
+      'Solvents',
+      'Chemical Raw Materials',
+      'Castor Derivatives',
+      'Essential Oils',
+      'Agrochemicals & Related Products',
+    ],
+    icon: '⬡',
+  },
+  {
+    id: 'frozen-foods',
+    overline: 'Category 03',
+    title: 'Frozen Foods',
+    body: 'Cold chain managed from origin to destination, preserving freshness and quality across every international delivery.',
+    items: [
+      'Packaged Indian Snacks',
+      'Frozen Vegetables',
+      'Seafood',
+      'Meat & Processed Food Products',
+      'Multicuisine Frozen Foods',
+    ],
+    icon: '◈',
+  },
+];
+---
+
+<section id="products" class="products section-pad">
+  <div class="container">
+    <div class="products-header">
+      <span class="label products-label">What We Trade</span>
+      <div class="divider"></div>
+      <h2 class="products-headline">Our Product <em>Categories</em></h2>
+    </div>
+
+    <!-- Letter scramble statement -->
+    <p class="scramble-text" data-text="MOVING GOODS ACROSS BORDERS WITH PRECISION AND TRUST">
+      MOVING GOODS ACROSS BORDERS WITH PRECISION AND TRUST
+    </p>
+
+    <div class="products-grid">
+      {products.map((p) => (
+        <article class="product-card" id={`card-${p.id}`}>
+          <div class="card-glow"></div>
+          <div class="card-inner">
+            <div class="card-header">
+              <span class="card-icon">{p.icon}</span>
+              <span class="label card-overline">{p.overline}</span>
+            </div>
+            <h3 class="card-title">{p.title}</h3>
+            <p class="card-body">{p.body}</p>
+            <ul class="card-items">
+              {p.items.map((item) => (
+                <li class="card-item">{item}</li>
+              ))}
+            </ul>
+            <a href={`/products/${p.id}`} class="label card-link">Explore {p.title} →</a>
+          </div>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .products {
+    background: var(--surface-low);
+    overflow: hidden;
+  }
+
+  .products-header { margin-bottom: 24px; }
+  .products-label { color: var(--primary); display: block; margin-bottom: 20px; }
+
+  .products-headline {
+    font-size: clamp(36px, 4vw, 52px);
+    color: var(--on-surface);
+    letter-spacing: -0.02em;
+  }
+  .products-headline em { font-style: italic; color: var(--primary); }
+
+  /* Scramble statement */
+  .scramble-text {
+    font-family: var(--font-label);
+    font-size: clamp(13px, 1.8vw, 18px);
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    color: var(--outline-variant);
+    margin: 48px 0 64px;
+    line-height: 1.5;
+    transition: color 0.3s;
+  }
+  .scramble-text.revealed { color: var(--on-surface-variant); }
+
+  /* Cards grid */
+  .products-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+
+  .product-card {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    border: 1px solid var(--outline-variant);
+    border-radius: 4px;
+    background: var(--surface);
+    overflow: hidden;
+    cursor: default;
+    transition: border-color 0.3s;
+  }
+
+  .product-card:hover { border-color: rgba(117,90,43,0.4); }
+
+  /* Mouse-following glow */
+  .card-glow {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    pointer-events: none;
+    background: radial-gradient(
+      400px circle at var(--mx, 50%) var(--my, 50%),
+      rgba(229, 193, 136, 0.09),
+      transparent 60%
+    );
+    transition: opacity 0.3s;
+    z-index: 0;
+  }
+  .product-card:hover .card-glow { opacity: 1; }
+
+  .card-inner {
+    padding: 36px 32px;
+    position: relative;
+    z-index: 1;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+  .card-inner .card-link { margin-top: auto; padding-top: 28px; }
+
+  .card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+
+  .card-icon {
+    font-size: 20px;
+    color: var(--primary-container);
+    line-height: 1;
+  }
+
+  .card-overline { color: var(--outline); }
+
+  .card-title {
+    font-family: var(--font-display);
+    font-size: 32px;
+    font-weight: 400;
+    color: var(--on-surface);
+    margin-bottom: 16px;
+    letter-spacing: -0.01em;
+    min-height: 103px;
+  }
+
+  .card-body {
+    font-size: 14px;
+    line-height: 1.75;
+    color: var(--on-surface-variant);
+    margin-bottom: 32px;
+    min-height: 147px;
+  }
+
+  /* Subcategory list */
+  .card-items {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    border-top: 1px solid var(--outline-variant);
+    padding-top: 24px;
+  }
+
+  .card-item {
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--on-surface-variant);
+    padding-left: 14px;
+    position: relative;
+  }
+
+  .card-item::before {
+    content: '—';
+    position: absolute;
+    left: 0;
+    color: var(--primary-container);
+    font-size: 8px;
+  }
+
+  .card-link {
+    display: inline-block;
+    margin-top: 28px;
+    color: var(--primary);
+    text-decoration: none;
+    font-size: 10px;
+    line-height: 1.6;
+  }
+  .card-link:hover { text-decoration: underline; }
+
+  /* Spec bars */
+  .card-specs { display: flex; flex-direction: column; gap: 14px; }
+
+  .spec-row { display: flex; flex-direction: column; gap: 6px; }
+
+  .spec-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .spec-label { color: var(--on-surface-variant); font-size: 9px; letter-spacing: 0.15em; }
+  .spec-pct   { color: var(--primary); font-size: 9px; }
+
+  .spec-track {
+    width: 100%;
+    height: 1px;
+    background: var(--outline-variant);
+  }
+
+  .spec-bar {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, var(--primary), var(--inverse-primary));
+    box-shadow: 0 0 6px rgba(229,193,136,0.35);
+    transition: width 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  @media (max-width: 900px) {
+    .products-grid { grid-template-columns: 1fr; }
+  }
+</style>
+
+<script>
+  import { gsap } from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+  gsap.registerPlugin(ScrollTrigger);
+
+  // Staggered card reveal
+  gsap.from('.product-card', {
+    y: 60, opacity: 0, duration: 0.85, stagger: 0.18, ease: 'power3.out',
+    scrollTrigger: { trigger: '.products-grid', start: 'top 78%' },
+  });
+
+  // Animate progress bars on enter
+  document.querySelectorAll('.spec-bar').forEach((bar) => {
+    const el = bar as HTMLElement;
+    const w = el.dataset.width ?? '0';
+    ScrollTrigger.create({
+      trigger: el,
+      start: 'top 90%',
+      onEnter: () => { el.style.width = w + '%'; },
+    });
+  });
+
+  // Mouse-following glow per card
+  document.querySelectorAll('.product-card').forEach((card) => {
+    const glow = card.querySelector('.card-glow') as HTMLElement;
+    card.addEventListener('mousemove', (e) => {
+      const ev = e as MouseEvent;
+      const rect = card.getBoundingClientRect();
+      const x = ((ev.clientX - rect.left) / rect.width) * 100;
+      const y = ((ev.clientY - rect.top) / rect.height) * 100;
+      glow.style.setProperty('--mx', x + '%');
+      glow.style.setProperty('--my', y + '%');
+    });
+  });
+
+  // Letter scramble reveal
+  const CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ·';
+  const scrambleEl = document.querySelector('.scramble-text') as HTMLElement;
+  let scrambled = false;
+
+  ScrollTrigger.create({
+    trigger: scrambleEl,
+    start: 'top 80%',
+    onEnter: () => {
+      if (scrambled) return;
+      scrambled = true;
+      const original = scrambleEl.dataset.text ?? scrambleEl.textContent ?? '';
+      let iter = 0;
+      const interval = setInterval(() => {
+        scrambleEl.textContent = original.split('').map((ch, i) => {
+          if (ch === ' ') return ' ';
+          if (i < iter) return original[i];
+          return CHARS[Math.floor(Math.random() * CHARS.length)];
+        }).join('');
+        iter += 0.6;
+        if (iter >= original.length) {
+          clearInterval(interval);
+          scrambleEl.textContent = original;
+          scrambleEl.classList.add('revealed');
+        }
+      }, 28);
+    },
+  });
+</script>

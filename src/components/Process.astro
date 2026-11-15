@@ -1,0 +1,158 @@
+---
+const steps = [
+  {
+    num: '01',
+    title: 'Inquiry',
+    body: 'Tell us what you need to import or export.',
+  },
+  {
+    num: '02',
+    title: 'Quotation & Sourcing',
+    body: 'We find the right suppliers and provide a competitive quote.',
+  },
+  {
+    num: '03',
+    title: 'Quality Check & Dispatch',
+    body: 'Pre-shipment inspection and full documentation handled.',
+  },
+  {
+    num: '04',
+    title: 'Delivery & Support',
+    body: 'Your cargo arrives on time, with post-shipment support if needed.',
+  },
+];
+---
+
+<section id="process" class="process section-pad">
+  <div class="container">
+    <div class="process-header">
+      <span class="label proc-label">Process</span>
+      <div class="divider"></div>
+      <h2 class="proc-headline">Simple Process.<br/><em>Reliable Results.</em></h2>
+    </div>
+
+    <div class="proc-steps">
+      {steps.map((s, i) => (
+        <div class="proc-step" data-index={i}>
+          <div class="proc-connector">
+            <div class="proc-dot"></div>
+            {i < steps.length - 1 && <div class="proc-line"></div>}
+          </div>
+          <div class="proc-content">
+            <span class="proc-num label">{s.num}</span>
+            <h3 class="proc-title">{s.title}</h3>
+            <p class="proc-body">{s.body}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .process {
+    background: var(--surface-low);
+    border-top: 1px solid var(--outline-variant);
+  }
+
+  .process-header { margin-bottom: 72px; }
+  .proc-label { color: var(--primary); display: block; margin-bottom: 20px; }
+
+  .proc-headline {
+    font-size: clamp(36px, 4vw, 52px);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    color: var(--on-surface);
+  }
+  .proc-headline em { font-style: italic; color: var(--primary); }
+
+  .proc-steps {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    position: relative;
+  }
+
+  .proc-step {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .proc-connector {
+    display: flex;
+    align-items: center;
+    gap: 0;
+  }
+
+  .proc-dot {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    background: var(--primary);
+    flex-shrink: 0;
+    box-shadow: 0 0 0 4px rgba(117,90,43,0.15);
+  }
+
+  .proc-line {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, var(--primary), var(--outline-variant));
+  }
+
+  .proc-step:last-child .proc-connector { width: 10px; }
+
+  .proc-content {
+    padding: 0 24px 0 0;
+  }
+
+  .proc-num {
+    display: block;
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 36px;
+    font-weight: 400;
+    color: var(--primary-container);
+    letter-spacing: -0.01em;
+    margin-bottom: 12px;
+    font-family: var(--font-display);
+  }
+
+  .proc-title {
+    font-family: var(--font-display);
+    font-size: 22px;
+    color: var(--on-surface);
+    margin-bottom: 10px;
+    letter-spacing: -0.01em;
+  }
+
+  .proc-body {
+    font-size: 14px;
+    line-height: 1.75;
+    color: var(--on-surface-variant);
+  }
+
+  @media (max-width: 900px) {
+    .proc-steps { grid-template-columns: 1fr 1fr; gap: 48px; }
+    .proc-line   { display: none; }
+  }
+  @media (max-width: 540px) {
+    .proc-steps { grid-template-columns: 1fr; }
+  }
+</style>
+
+<script>
+  import { gsap } from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+  gsap.registerPlugin(ScrollTrigger);
+
+  gsap.from('.proc-step', {
+    y: 50, opacity: 0, duration: 0.8, stagger: 0.15, ease: 'power3.out',
+    scrollTrigger: { trigger: '.proc-steps', start: 'top 78%' },
+  });
+
+  // Animate connector lines growing
+  gsap.from('.proc-line', {
+    scaleX: 0, transformOrigin: 'left center', duration: 1.2, stagger: 0.2, ease: 'power2.out',
+    scrollTrigger: { trigger: '.proc-steps', start: 'top 75%' },
+  });
+</script>

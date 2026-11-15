@@ -1,0 +1,139 @@
+---
+import SectionImage from './SectionImage.astro';
+---
+<section id="about" class="about section-pad">
+  <div class="container">
+    <div class="about-grid split-media">
+      <div class="about-left split-media__img">
+        <SectionImage name="home-about" alt="Container ship crossing a world map — trade between India and global markets" fill />
+      </div>
+      <div class="about-right split-media__text">
+        <span class="label about-label">About Us</span>
+        <div class="divider"></div>
+        <h2 class="about-headline">Built for Global<br/>Trade. Rooted<br/>in <em>India.</em></h2>
+        <p class="about-body">
+          HKM Venture Global is an India-based sourcing, export, and third-party
+          manufacturing company that connects international buyers, importers, distributors,
+          and businesses with reliable Indian manufacturers. We operate across Healthcare
+          &amp; Pharmaceuticals, Chemicals, and Frozen Food, offering both direct sourcing
+          and customized third-party manufacturing solutions based on our clients' product,
+          quality, packaging, regulatory, and volume requirements.
+        </p>
+        <p class="about-body">
+          Our team understands the regulatory demands of each sector we operate in,
+          ensuring every shipment is compliant, on time, and handled with care. Whether
+          you are a manufacturer looking to source raw materials or a buyer seeking
+          reliable supply from international markets, HKM Venture Global is your
+          trusted partner.
+        </p>
+        <div class="about-stats">
+          <div class="a-stat">
+            <span class="a-stat-num">3</span>
+            <span class="label a-stat-label">Core Industry Sectors</span>
+          </div>
+          <div class="a-stat">
+            <span class="a-stat-num">24<sup>h</sup></span>
+            <span class="label a-stat-label">Enquiry Response</span>
+          </div>
+          <div class="a-stat">
+            <span class="a-stat-num">GMP</span>
+            <span class="label a-stat-label">Certified Partners</span>
+          </div>
+        </div>
+        <a href="/about" class="about-more">More about us &amp; our founders →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .about {
+    overflow-x: clip;
+    background: var(--surface);
+    border-bottom: 1px solid var(--outline-variant);
+  }
+
+  .about-label {
+    color: var(--primary);
+    display: block;
+    margin-bottom: 20px;
+  }
+
+  .about-headline { margin-bottom: 36px; }
+  .about-headline {
+    font-size: clamp(38px, 4vw, 56px);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    color: var(--on-surface);
+  }
+  .about-headline em {
+    font-style: italic;
+    color: var(--primary);
+  }
+
+  .about-body {
+    font-size: 16px;
+    line-height: 1.8;
+    color: var(--on-surface-variant);
+    margin-bottom: 24px;
+  }
+
+  .about-stats {
+    display: flex;
+    justify-content: space-between;
+    gap: 24px;
+    margin-top: 48px;
+    padding-top: 40px;
+    border-top: 1px solid var(--outline-variant);
+  }
+
+  .a-stat { display: flex; flex-direction: column; gap: 6px; flex: 1; align-items: center; text-align: center; }
+
+  .a-stat-num {
+    font-family: var(--font-display);
+    font-size: 44px;
+    font-weight: 400;
+    color: var(--primary);
+    line-height: 1;
+  }
+  .a-stat-num sup { font-size: 0.5em; vertical-align: super; }
+
+  .a-stat-label { color: var(--outline); }
+
+  .about-more {
+    display: inline-block;
+    margin-top: 36px;
+    font-family: var(--font-label);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--primary);
+    text-decoration: none;
+  }
+  .about-more:hover { text-decoration: underline; }
+
+  @media (max-width: 900px) {
+    .about-headline { margin-bottom: 28px; }
+    .about-stats { gap: 32px; }
+  }
+</style>
+
+<script>
+  import { gsap } from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+  gsap.registerPlugin(ScrollTrigger);
+
+  gsap.from('.about-left', {
+    x: -50, opacity: 0, duration: 1, ease: 'power3.out',
+    scrollTrigger: { trigger: '.about-grid', start: 'top 75%' },
+  });
+  gsap.from('.about-right', {
+    x: 50, opacity: 0, duration: 1, ease: 'power3.out',
+    scrollTrigger: { trigger: '.about-grid', start: 'top 75%' },
+  });
+  gsap.from('.a-stat', {
+    y: 30, opacity: 0, duration: 0.7, stagger: 0.15, ease: 'power3.out',
+    scrollTrigger: { trigger: '.about-stats', start: 'top 85%' },
+  });
+</script>

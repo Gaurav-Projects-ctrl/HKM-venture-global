@@ -1,0 +1,167 @@
+:root {
+  --surface: #fcf9f5;
+  --surface-dim: #dcdad6;
+  --surface-low: #f6f3ef;
+  --surface-container: #f0ede9;
+  --on-surface: #1c1c1a;
+  --on-surface-variant: #4e463a;
+  --inverse-surface: #31302e;
+  --outline: #7f7669;
+  --outline-variant: #d1c5b6;
+  --primary: #755a2b;
+  --primary-container: #b89762;
+  --inverse-primary: #e5c188;
+  --secondary: #5f5e5e;
+  --tertiary: #4c5f7f;
+
+  /* Hero dark palette */
+  --hero-bg: #080706;
+  --hero-text: #f5f0e8;
+  --hero-glow: #e5c188;
+  --hero-glow-dim: rgba(229, 193, 136, 0.5);
+
+  --font-display: 'EB Garamond', Georgia, serif;
+  --font-body: 'Manrope', system-ui, sans-serif;
+  --font-label: 'Montserrat', system-ui, sans-serif;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: auto; }
+
+body {
+  background: var(--surface);
+  color: var(--on-surface);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.6;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4 { font-family: var(--font-display); font-weight: 400; }
+
+.label {
+  font-family: var(--font-label);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 64px;
+}
+
+@media (max-width: 768px) {
+  .container { padding: 0 20px; }
+}
+
+section { position: relative; }
+
+/* ── Photo + text side by side; the photo stretches to the text's height ── */
+.split-media {
+  display: grid;
+  grid-template-columns: 1fr 1.1fr;
+  gap: 80px;
+  align-items: stretch;
+}
+.split-media--img-right { grid-template-columns: 1.1fr 1fr; }
+.split-media--img-right > .split-media__img { order: 2; }
+.split-media__img { display: flex; min-width: 0; }
+.split-media__text { align-self: center; min-width: 0; }
+/* No photo for this section → text uses the full width */
+.split-media:not(:has(.simg)) { grid-template-columns: 1fr; }
+.split-media:not(:has(.simg)) > .split-media__img { display: none; }
+
+/* Column holding heading + intro + photo; photo fills down to the other column's bottom */
+.stack-fill { display: flex; flex-direction: column; }
+
+@media (max-width: 900px) {
+  .split-media, .split-media--img-right { grid-template-columns: 1fr; gap: 32px; }
+  .split-media--img-right > .split-media__img { order: 0; }
+}
+
+/* Shared section spacing */
+.section-pad { padding: 120px 0; }
+.section-pad-sm { padding: 80px 0; }
+
+/* Gold divider line */
+.divider {
+  width: 48px;
+  height: 1px;
+  background: var(--primary);
+  margin-bottom: 32px;
+}
+
+/* Button styles */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-label);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  text-decoration: none;
+  padding: 14px 32px;
+  border-radius: 2px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+  border: none;
+}
+
+.btn-dark {
+  background: var(--inverse-surface);
+  color: var(--surface);
+}
+.btn-dark:hover {
+  background: var(--on-surface);
+  box-shadow: 0 8px 30px rgba(28, 28, 26, 0.2);
+}
+
+.btn-outline {
+  background: transparent;
+  color: var(--primary);
+  border: 1px solid var(--primary);
+}
+.btn-outline:hover {
+  background: var(--primary);
+  color: #fff;
+}
+
+.btn-gold {
+  background: var(--hero-glow);
+  color: var(--hero-bg);
+}
+.btn-gold:hover {
+  background: #f5d9a0;
+  box-shadow: 0 0 30px rgba(229, 193, 136, 0.4);
+}
+
+.btn-ghost-gold {
+  background: transparent;
+  color: var(--hero-glow);
+  border: 1px solid rgba(229, 193, 136, 0.4);
+}
+.btn-ghost-gold:hover {
+  border-color: var(--hero-glow);
+  background: rgba(229, 193, 136, 0.06);
+}
+
+/* Scroll reveal for inner pages (JS adds .js to <html>) */
+.js .reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1), transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.js .reveal.in { opacity: 1; transform: none; }
+@media (prefers-reduced-motion: reduce) {
+  .js .reveal { opacity: 1; transform: none; transition: none; }
+}
+
+/* Hide floating WhatsApp button while the mobile menu is open */
+body:has(.nav-mobile.open) .wa-float { display: none; }

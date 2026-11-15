@@ -1,0 +1,144 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Nav from '../../components/Nav.astro';
+import PageHeader from '../../components/PageHeader.astro';
+import CTA from '../../components/CTA.astro';
+import Footer from '../../components/Footer.astro';
+import { verticals, waLink } from '../../data/site';
+---
+<Layout
+  title="Products — Pharmaceuticals, Chemicals & Frozen Foods | HKM Venture Global"
+  description="Our full export range from India: generic medicines and healthcare products, specialty and industrial chemicals, and frozen and packaged foods — sourced from certified manufacturers."
+>
+  <Nav />
+  <main>
+    <PageHeader
+      overline="What We Trade"
+      title="Our"
+      titleEm="Products"
+      sub="Three sectors, one standard: certified manufacturers, complete documentation and a single point of contact from quotation to delivery."
+      crumbs={[{ label: 'Products' }]}
+      image="products"
+    />
+
+    <div class="p-tabs" id="p-tabs">
+      <div class="container p-tabs-inner">
+        {verticals.map((v) => (
+          <a href={`#${v.slug}`} class="p-tab" data-tab={v.slug}>
+            <span class="p-tab-icon">{v.icon}</span>{v.short}
+          </a>
+        ))}
+      </div>
+    </div>
+
+    {verticals.map((v, idx) => (
+      <section id={v.slug} class:list={['p-sec section-pad', { alt: idx % 2 === 1 }]}>
+        <div class="container">
+          <div class="p-sec-head reveal">
+            <div>
+              <span class="label p-over">Category {v.index}</span>
+              <h2 class="p-title">{v.title} <em>{v.titleEm}</em></h2>
+            </div>
+            <div class="p-sec-intro">
+              <p>{v.cardBody}</p>
+              <a href={`/products/${v.slug}`} class="btn btn-outline">See the full range →</a>
+            </div>
+          </div>
+          <div class="p-groups">
+            {v.groups.map((g) => (
+              <div class="p-group reveal">
+                <h3>{g.name}</h3>
+                <ul>
+                  {g.items.map((it) => <li>{it}</li>)}
+                </ul>
+              </div>
+            ))}
+          </div>
+          <p class="p-note reveal">
+            {v.groupsNote}{' '}
+            <a href={waLink(`Hello HKM Venture Global, please share your full ${v.short} product list.`)} target="_blank" rel="noopener">Request the full list on WhatsApp →</a>
+          </p>
+        </div>
+      </section>
+    ))}
+
+    <CTA primaryHref="/contact" />
+  </main>
+  <Footer />
+</Layout>
+
+<style>
+  .p-tabs {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgba(252, 249, 245, 0.94);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--outline-variant);
+  }
+  .p-tabs-inner { display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; }
+  .p-tabs-inner::-webkit-scrollbar { display: none; }
+  .p-tab {
+    display: inline-flex; align-items: center; gap: 10px;
+    white-space: nowrap;
+    padding: 20px 18px;
+    font-family: var(--font-label);
+    font-size: 10px; font-weight: 600;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--on-surface-variant);
+    text-decoration: none;
+    border-bottom: 2px solid transparent;
+    transition: color 0.2s, border-color 0.2s;
+  }
+  .p-tab:hover, .p-tab.on { color: var(--primary); border-bottom-color: var(--primary); }
+  .p-tab-icon { color: var(--primary-container); font-size: 13px; }
+
+  .p-sec { scroll-margin-top: 60px; border-bottom: 1px solid var(--outline-variant); }
+  .p-sec.alt { background: var(--surface-low); }
+  .p-sec-head {
+    display: grid; grid-template-columns: 1.1fr 1fr; gap: 64px; align-items: end;
+    margin-bottom: 56px;
+  }
+  .p-over { color: var(--primary); display: block; margin-bottom: 16px; }
+  .p-title { font-size: clamp(36px, 4.4vw, 58px); line-height: 1.05; letter-spacing: -0.02em; }
+  .p-title em { font-style: italic; color: var(--primary); }
+  .p-sec-intro p { font-size: 16px; line-height: 1.8; color: var(--on-surface-variant); margin-bottom: 24px; }
+
+  .p-groups {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 40px 48px;
+    padding-top: 40px;
+    border-top: 1px solid var(--outline-variant);
+  }
+  .p-group h3 { font-size: 21px; color: var(--on-surface); margin-bottom: 12px; line-height: 1.25; }
+  .p-group ul { list-style: none; display: flex; flex-direction: column; gap: 6px; }
+  .p-group li {
+    font-size: 14px; line-height: 1.55; color: var(--on-surface-variant);
+    padding-left: 14px; position: relative;
+  }
+  .p-group li::before { content: '—'; position: absolute; left: 0; top: 2px; font-size: 8px; color: var(--primary-container); }
+  .p-note { margin-top: 48px; font-size: 14px; line-height: 1.7; color: var(--outline); max-width: 760px; }
+  .p-note a { color: var(--primary); font-weight: 600; text-decoration: none; }
+
+  @media (max-width: 900px) {
+    .p-sec-head { grid-template-columns: 1fr; gap: 24px; }
+    .p-groups { grid-template-columns: 1fr 1fr; gap: 32px; }
+  }
+  @media (max-width: 560px) {
+    .p-groups { grid-template-columns: 1fr; }
+  }
+</style>
+
+<script>
+  const tabs = [...document.querySelectorAll('.p-tab')] as HTMLElement[];
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((e) => {
+      if (e.isIntersecting) {
+        tabs.forEach((t) => t.classList.toggle('on', t.dataset.tab === e.target.id));
+      }
+    });
+  }, { rootMargin: '-40% 0px -55% 0px' });
+  document.querySelectorAll('.p-sec').forEach((s) => io.observe(s));
+</script>

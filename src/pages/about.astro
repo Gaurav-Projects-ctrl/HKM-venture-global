@@ -1,0 +1,284 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Nav from '../components/Nav.astro';
+import PageHeader from '../components/PageHeader.astro';
+import CTA from '../components/CTA.astro';
+import Footer from '../components/Footer.astro';
+import SectionImage from '../components/SectionImage.astro';
+import SectionBg from '../components/SectionBg.astro';
+import { hasImage } from '../lib/images';
+const visionImg = hasImage('about-vision');
+const partnersImg = hasImage('about-partners');
+import { founders, registrations, verticals } from '../data/site';
+
+const commitments = [
+  { title: 'Certified manufacturers only', body: 'We source from manufacturers holding the certifications your market requires — WHO-GMP for pharmaceuticals — and share those certificates before you order.' },
+  { title: 'Samples before your first order', body: 'Approve us on evidence. Samples and the supporting documents arrive before you commit.' },
+  { title: 'A full document set, every time', body: 'COA, origin, regulatory and shipping documents come with every shipment as standard — not on request.' },
+  { title: 'Batch-level traceability', body: 'Every batch we ship can be traced back to the manufacturer and its test results.' },
+  { title: 'A reply within 24 hours', body: 'Every enquiry gets a response from a named person within one working day.' },
+  { title: 'Trial orders welcome', body: 'Start small and scale when you are satisfied. We would rather earn the second order than oversell the first.' },
+];
+
+const steps = [
+  { title: 'Certification check', body: 'Valid GMP and export certifications, verified with the issuing authority.' },
+  { title: 'Site visit', body: 'Our team visits the facility in person — most of our partners are within driving distance in Gujarat.' },
+  { title: 'Sample testing', body: 'Product samples tested against specification before we offer it to any buyer.' },
+  { title: 'Ongoing review', body: 'Every shipment’s quality, documents and timeliness tracked against the partner.' },
+];
+
+const initials = (name: string) =>
+  name.replace(/[\[\]]/g, '').split(' ').filter(Boolean).slice(0, 2).map((w) => w[0]).join('').toUpperCase();
+---
+<Layout
+  title="About Us — HKM Venture Global | Export Partner from Vadodara, India"
+  description="HKM Venture Global is a Vadodara-based sourcing and export company connecting importers in Ghana and Africa with certified Indian manufacturers of pharmaceuticals, chemicals and frozen foods. Meet our founding team."
+>
+  <Nav />
+  <main>
+    <PageHeader
+      overline="About HKM Venture Global"
+      title="Judge us by"
+      titleEm="how we work."
+      sub="We are a young company, and we say so. What we offer instead of a long history is a clear set of standards — and founders who answer for every order personally."
+      crumbs={[{ label: 'About Us' }]}
+      image="about"
+    />
+
+    <!-- Story -->
+    <section class="section-pad a-story">
+      <div class="container split-media">
+        <div class="split-media__img">
+          <SectionImage name="about-story" alt="Quality technician checking a stainless-steel production vessel at a manufacturing plant" fill />
+        </div>
+        <div class="split-media__text reveal">
+          <span class="label a-label">Who We Are</span>
+          <div class="divider"></div>
+          <h2 class="a-h2 a-h2--spaced">Built for global trade.<br/>Rooted in <em>Gujarat.</em></h2>
+          <p class="a-body">
+            HKM Venture Global is an India-based sourcing, export and third-party manufacturing company. We connect international importers, distributors and businesses with reliable Indian manufacturers across {verticals.map((v) => v.short).join(', ').replace(/, ([^,]*)$/, ' and $1')}.
+          </p>
+          <p class="a-body">
+            We are based in Vadodara, at the centre of Gujarat — home to many of India’s pharmaceutical and chemical manufacturers. Being close to our manufacturing partners means we can visit them, inspect material and solve problems in person rather than over email.
+          </p>
+          <p class="a-body">
+            We do not manufacture. Our job is to choose the right manufacturer for each product, hold them to our standards and manage everything between their factory and your warehouse.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Mission / vision -->
+    <section class:list={['a-mv', { 'has-img': visionImg }]}>
+      <SectionBg name="about-vision" shade={0.74} />
+      <div class="container a-mv-grid">
+        <div class="mv reveal">
+          <span class="label">Our Mission</span>
+          <p>To make sourcing from India simple and safe for importers — with certified products, complete documentation and one accountable point of contact.</p>
+        </div>
+        <div class="mv reveal">
+          <span class="label">Our Vision</span>
+          <p>To become the most trusted Indian trade partner for healthcare and essential goods in Africa, one long-term relationship at a time.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Commitments -->
+    <section class="section-pad a-commit">
+      <div class="container">
+        <div class="a-head reveal">
+          <span class="label a-label">Our Commitments</span>
+          <div class="divider"></div>
+          <h2 class="a-h2">Six promises we make<br/><em>to every buyer</em></h2>
+        </div>
+        <div class="commit-grid">
+          {commitments.map((c, i) => (
+            <div class="commit reveal">
+              <span class="commit-num">{String(i + 1).padStart(2, '0')}</span>
+              <h3>{c.title}</h3>
+              <p>{c.body}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Founders -->
+    <section class="section-pad a-founders" id="founders">
+      <div class="container">
+        <div class="a-head reveal">
+          <span class="label a-label gold">Founding Members</span>
+          <div class="divider gold"></div>
+          <h2 class="a-h2 light">The people<br/><em>behind every order</em></h2>
+          <p class="a-body light">When you work with HKM, you work directly with its founders. No call centres, no hand-offs.</p>
+        </div>
+        <div class="founder-grid">
+          {founders.map((f) => (
+            <article class="founder reveal">
+              <div class="founder-photo">
+                {f.photo
+                  ? <img src={f.photo} alt={f.name} loading="lazy" />
+                  : <span class="founder-mono">{initials(f.name)}</span>}
+              </div>
+              <h3 class="founder-name">{f.name}</h3>
+              <span class="label founder-role">{f.role}</span>
+              <p class="founder-bio">{f.bio}</p>
+              {f.linkedin && (
+                <a class="founder-li" href={f.linkedin} target="_blank" rel="noopener">LinkedIn →</a>
+              )}
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Manufacturer selection -->
+    <section class="section-pad a-steps">
+      <div class="container">
+        <div class:list={['a-steps-top', { 'has-img': partnersImg }]}>
+          <div class="a-head reveal">
+            <span class="label a-label">Partner Selection</span>
+            <div class="divider"></div>
+            <h2 class="a-h2">How we choose<br/><em>our manufacturers</em></h2>
+          </div>
+          <SectionImage name="about-partners" alt="Quality checklist blocks — GMP, cleaning, hygiene, validation, documentation" ratio="16 / 9" />
+        </div>
+        <div class="steps">
+          {steps.map((s, i) => (
+            <div class="step reveal">
+              <span class="step-num">{String(i + 1).padStart(2, '0')}</span>
+              <h3>{s.title}</h3>
+              <p>{s.body}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Registrations -->
+    <section class="a-reg">
+      <div class="container">
+        <div class="a-reg-inner reveal">
+          <div>
+            <span class="label a-label">Registered & Compliant</span>
+            <h2 class="a-reg-title">Government registrations</h2>
+            <p class="a-body">Verify us. Copies of these registrations are included in our compliance document pack, available on request.</p>
+          </div>
+          <dl class="reg-list">
+            {registrations.map((r) => (
+              <div class="reg">
+                <dt class="label">{r.label}</dt>
+                <dd>{r.value}</dd>
+              </div>
+            ))}
+          </dl>
+        </div>
+      </div>
+    </section>
+
+    <CTA primaryHref="/contact" />
+  </main>
+  <Footer />
+</Layout>
+
+<style>
+  .a-label { color: var(--primary); display: block; margin-bottom: 20px; }
+  .a-label.gold { color: var(--hero-glow); }
+  .divider.gold { background: var(--hero-glow); opacity: 0.6; }
+  .a-h2 { font-size: clamp(34px, 4vw, 52px); line-height: 1.1; letter-spacing: -0.02em; color: var(--on-surface); }
+  .a-h2 em { font-style: italic; color: var(--primary); }
+  .a-h2.light { color: #f3f0ec; }
+  .a-h2.light em { color: var(--inverse-primary); }
+  .a-body { font-size: 16px; line-height: 1.8; color: var(--on-surface-variant); margin-bottom: 20px; }
+  .a-body.light { color: rgba(243,240,236,0.6); margin-top: 24px; max-width: 560px; }
+  .a-head { margin-bottom: 56px; }
+
+  .a-two { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start; }
+
+  .a-mv { background: var(--surface-low); border-top: 1px solid var(--outline-variant); border-bottom: 1px solid var(--outline-variant); }
+  .a-mv-grid { display: grid; grid-template-columns: 1fr 1fr; }
+  /* Mission & vision over a photo */
+  .a-mv.has-img { position: relative; overflow: hidden; background: var(--hero-bg); border-color: transparent; }
+  .a-mv.has-img .a-mv-grid { position: relative; z-index: 1; padding-top: 56px; padding-bottom: 56px; }
+  .a-mv.has-img .mv p { color: var(--hero-text); }
+  .a-mv.has-img .mv .label { color: var(--hero-glow, #e5c188); }
+  .a-mv.has-img .mv + .mv { border-left-color: rgba(229,193,136,0.25); }
+  .a-h2--spaced { margin-bottom: 32px; }
+  .a-steps-top.has-img { display: grid; grid-template-columns: 1fr 1.15fr; gap: 80px; align-items: center; margin-bottom: 64px; }
+  .a-steps-top.has-img .a-head { margin-bottom: 0; }
+  .mv { padding: 64px 48px 64px 0; }
+  .mv + .mv { padding-left: 48px; border-left: 1px solid var(--outline-variant); }
+  .mv .label { color: var(--primary); display: block; margin-bottom: 18px; }
+  .mv p { font-family: var(--font-display); font-size: clamp(22px, 2.2vw, 28px); line-height: 1.4; color: var(--on-surface); }
+
+  .commit-grid { display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1px solid var(--outline-variant); }
+  .commit { padding: 36px 32px 36px 0; border-bottom: 1px solid var(--outline-variant); }
+  .commit:not(:nth-child(3n+1)) { padding-left: 32px; border-left: 1px solid var(--outline-variant); }
+  .commit-num { font-family: var(--font-display); font-style: italic; font-size: 26px; color: var(--primary-container); }
+  .commit h3 { font-size: 22px; margin: 10px 0 10px; color: var(--on-surface); line-height: 1.25; }
+  .commit p { font-size: 14px; line-height: 1.75; color: var(--on-surface-variant); }
+
+  .a-founders { background: var(--inverse-surface); }
+  .founder-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
+  .founder {
+    border: 1px solid rgba(229,193,136,0.14);
+    border-radius: 4px;
+    padding: 28px;
+    background: rgba(255,255,255,0.02);
+  }
+  .founder-photo {
+    aspect-ratio: 4 / 5;
+    border-radius: 3px;
+    overflow: hidden;
+    background: linear-gradient(160deg, #3a3833, #24231f);
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 24px;
+  }
+  .founder-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .founder-mono { font-family: var(--font-display); font-size: 64px; color: rgba(229,193,136,0.45); letter-spacing: 0.04em; }
+  .founder-name { font-size: 26px; color: #f3f0ec; margin-bottom: 8px; }
+  .founder-role { color: var(--inverse-primary); font-size: 9px; display: block; margin-bottom: 16px; line-height: 1.6; }
+  .founder-bio { font-size: 14px; line-height: 1.75; color: rgba(243,240,236,0.55); }
+  .founder-li { display: inline-block; margin-top: 16px; font-size: 13px; color: var(--inverse-primary); text-decoration: none; }
+
+  .steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px; }
+  .step { border-top: 1px solid var(--primary-container); padding-top: 24px; }
+  .step-num { font-family: var(--font-display); font-style: italic; font-size: 30px; color: var(--primary-container); }
+  .step h3 { font-size: 21px; margin: 8px 0 10px; }
+  .step p { font-size: 14px; line-height: 1.7; color: var(--on-surface-variant); }
+
+  .a-reg { padding: 0 0 120px; }
+  .a-reg-inner {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 64px;
+    padding: 48px;
+    border: 1px solid var(--outline-variant);
+    border-radius: 4px;
+    background: var(--surface-low);
+  }
+  .a-reg-title { font-size: 34px; margin-bottom: 16px; }
+  .reg-list { display: grid; grid-template-columns: 1fr 1fr; gap: 24px 32px; align-content: center; }
+  .reg dt { font-size: 9px; color: var(--outline); margin-bottom: 6px; }
+  .reg dd { font-size: 16px; color: var(--on-surface); }
+
+  @media (max-width: 1000px) {
+    .steps { grid-template-columns: 1fr 1fr; }
+    .founder-grid { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 900px) {
+    .a-two, .a-reg-inner { grid-template-columns: 1fr; gap: 40px; }
+    .a-mv-grid { grid-template-columns: 1fr; }
+    .a-steps-top.has-img { grid-template-columns: 1fr; gap: 36px; margin-bottom: 48px; }
+    .a-mv.has-img .mv + .mv { border-left: none; border-top: 1px solid rgba(229,193,136,0.25); }
+    .mv, .mv + .mv { padding: 44px 0; border-left: none; }
+    .mv + .mv { border-top: 1px solid var(--outline-variant); }
+    .commit-grid { grid-template-columns: 1fr 1fr; }
+    .commit, .commit:not(:nth-child(3n+1)) { padding: 32px 24px 32px 0; border-left: none; }
+    .commit:nth-child(even) { padding-left: 24px; border-left: 1px solid var(--outline-variant); }
+  }
+  @media (max-width: 640px) {
+    .commit-grid, .steps, .founder-grid, .reg-list { grid-template-columns: 1fr; }
+    .commit:nth-child(even) { padding-left: 0; border-left: none; }
+    .a-reg-inner { padding: 32px 24px; }
+    .a-reg { padding-bottom: 80px; }
+  }
+</style>

@@ -1,0 +1,315 @@
+---
+import { company, waLink } from '../data/site';
+interface Props { product?: string; }
+const { product = '' } = Astro.props;
+---
+<section id="contact" class="contact section-pad">
+  <div class="container">
+    <div class="contact-grid">
+      <div class="contact-left">
+        <span class="label contact-label">Contact</span>
+        <div class="divider"></div>
+        <h2 class="contact-headline">Get in <em>Touch</em></h2>
+        <p class="contact-sub">
+          Reach out for a customised trade solution. Our team responds within 24 hours.
+        </p>
+
+        <dl class="contact-details">
+          <div class="detail-row">
+            <dt class="label">Company</dt>
+            <dd>{company.name}</dd>
+          </div>
+          <div class="detail-row">
+            <dt class="label">Office</dt>
+            <dd>{company.address}</dd>
+          </div>
+          <div class="detail-row">
+            <dt class="label">Email</dt>
+            <dd><a href={`mailto:${company.email}`}>{company.email}</a></dd>
+          </div>
+          <div class="detail-row">
+            <dt class="label">Phone / WhatsApp</dt>
+            <dd>
+              <a href={`tel:${company.phone.replace(/\s/g, '')}`}>{company.phone}</a>
+              <a class="wa-inline" href={waLink()} target="_blank" rel="noopener">Chat on WhatsApp →</a>
+            </dd>
+          </div>
+          <div class="detail-row">
+            <dt class="label">Hours</dt>
+            <dd>{company.hours}</dd>
+          </div>
+        </dl>
+      </div>
+
+      <form class="contact-form" id="contact-form" novalidate>
+        <input type="hidden" name="access_key" value="72884102-36af-41f8-9214-3aec938ab1de" />
+        <input type="hidden" name="subject" value="New Enquiry — HKM Venture Global Website" />
+        <input type="hidden" name="from_name" value="HKM Venture Global Website" />
+        <input type="checkbox" name="botcheck" style="display:none;" />
+        <div class="form-row two-col">
+          <div class="form-group">
+            <label class="label" for="name">Full Name</label>
+            <input type="text" id="name" name="name" required placeholder="Your full name" />
+          </div>
+          <div class="form-group">
+            <label class="label" for="company">Company Name</label>
+            <input type="text" id="company" name="company" placeholder="Your company" />
+          </div>
+        </div>
+        <div class="form-row two-col">
+          <div class="form-group">
+            <label class="label" for="email">Email Address</label>
+            <input type="email" id="email" name="email" required placeholder="you@company.com" />
+          </div>
+          <div class="form-group">
+            <label class="label" for="phone">Phone Number</label>
+            <div class="phone-row">
+              <select id="phone-code" name="phone_code" class="phone-code-select">
+                <option value="+91">🇮🇳 +91</option>
+                <option value="+1">🇺🇸 +1</option>
+                <option value="+44">🇬🇧 +44</option>
+                <option value="+971">🇦🇪 +971</option>
+                <option value="+966">🇸🇦 +966</option>
+                <option value="+974">🇶🇦 +974</option>
+                <option value="+965">🇰🇼 +965</option>
+                <option value="+968">🇴🇲 +968</option>
+                <option value="+973">🇧🇭 +973</option>
+                <option value="+49">🇩🇪 +49</option>
+                <option value="+33">🇫🇷 +33</option>
+                <option value="+39">🇮🇹 +39</option>
+                <option value="+34">🇪🇸 +34</option>
+                <option value="+31">🇳🇱 +31</option>
+                <option value="+7">🇷🇺 +7</option>
+                <option value="+86">🇨🇳 +86</option>
+                <option value="+81">🇯🇵 +81</option>
+                <option value="+82">🇰🇷 +82</option>
+                <option value="+65">🇸🇬 +65</option>
+                <option value="+60">🇲🇾 +60</option>
+                <option value="+66">🇹🇭 +66</option>
+                <option value="+62">🇮🇩 +62</option>
+                <option value="+63">🇵🇭 +63</option>
+                <option value="+880">🇧🇩 +880</option>
+                <option value="+92">🇵🇰 +92</option>
+                <option value="+94">🇱🇰 +94</option>
+                <option value="+977">🇳🇵 +977</option>
+                <option value="+20">🇪🇬 +20</option>
+                <option value="+27">🇿🇦 +27</option>
+                <option value="+55">🇧🇷 +55</option>
+                <option value="+61">🇦🇺 +61</option>
+                <option value="+64">🇳🇿 +64</option>
+              </select>
+              <input type="tel" id="phone" name="phone" placeholder="00000 00000" />
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="label" for="product">Product of Interest</label>
+          <select id="product" name="product">
+            <option value="" selected={!product}>Select a category</option>
+            <option value="pharmaceuticals" selected={product === 'pharmaceuticals'}>Healthcare & Pharmaceuticals</option>
+            <option value="chemicals" selected={product === 'chemicals'}>Chemicals</option>
+            <option value="frozen-foods" selected={product === 'frozen-foods'}>Frozen Foods</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="label" for="message">Message</label>
+          <textarea id="message" name="message" rows="5" placeholder="Tell us about your requirement…"></textarea>
+        </div>
+        <button type="submit" class="btn btn-dark form-submit">
+          Send Enquiry →
+        </button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<style>
+  .contact {
+    overflow-x: clip;
+    background: var(--surface);
+    border-top: 1px solid var(--outline-variant);
+  }
+
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 400px 1fr;
+    gap: 80px;
+    align-items: start;
+  }
+
+  .contact-label { color: var(--primary); display: block; margin-bottom: 20px; }
+
+  .contact-headline {
+    font-size: clamp(36px, 4vw, 52px);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    color: var(--on-surface);
+    margin-bottom: 20px;
+  }
+  .contact-headline em { font-style: italic; color: var(--primary); }
+
+  .contact-sub {
+    font-size: 15px;
+    line-height: 1.8;
+    color: var(--on-surface-variant);
+    margin-bottom: 48px;
+  }
+
+  .contact-details { list-style: none; display: flex; flex-direction: column; gap: 20px; }
+
+  .detail-row { display: flex; flex-direction: column; gap: 4px; }
+
+  .detail-row dt {
+    color: var(--outline);
+    font-size: 9px;
+    letter-spacing: 0.2em;
+  }
+
+  .detail-row dd {
+    font-size: 15px;
+    color: var(--on-surface);
+  }
+  .detail-row dd a { color: var(--on-surface); text-decoration: none; }
+  .detail-row dd a:hover { color: var(--primary); }
+  .detail-row .wa-inline {
+    display: inline-block;
+    margin-left: 14px;
+    font-size: 13px;
+    color: #128c4a;
+    font-weight: 600;
+  }
+
+  /* Form */
+  .contact-form { display: flex; flex-direction: column; gap: 24px; }
+
+  .form-row { display: flex; gap: 20px; }
+  .form-row.two-col > * { flex: 1; }
+
+  .form-group { display: flex; flex-direction: column; gap: 8px; }
+
+  .form-group .label {
+    color: var(--outline);
+    font-size: 9px;
+    letter-spacing: 0.18em;
+  }
+
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    width: 100%;
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid var(--outline-variant);
+    padding: 10px 0;
+    font-family: var(--font-body);
+    font-size: 15px;
+    color: var(--on-surface);
+    outline: none;
+    transition: border-color 0.25s;
+    -webkit-appearance: none;
+    border-radius: 0;
+  }
+
+  .form-group input::placeholder,
+  .form-group textarea::placeholder { color: var(--outline); }
+
+  .form-group input:focus,
+  .form-group select:focus,
+  .form-group textarea:focus { border-bottom-color: var(--primary); }
+
+  .form-group textarea { resize: vertical; min-height: 120px; }
+
+  .form-group select {
+    cursor: pointer;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%237f7669' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 4px center;
+    padding-right: 24px;
+  }
+
+  .phone-row {
+    display: flex;
+    gap: 0;
+    border-bottom: 1px solid var(--outline-variant);
+    transition: border-color 0.25s;
+  }
+  .phone-row:focus-within { border-color: var(--primary); }
+
+  .phone-code-select {
+    border: none !important;
+    border-bottom: none !important;
+    width: auto !important;
+    padding-right: 8px !important;
+    flex-shrink: 0;
+    font-size: 14px !important;
+    color: var(--on-surface) !important;
+    background: transparent;
+    cursor: pointer;
+  }
+
+  .phone-row input {
+    border-bottom: none !important;
+    flex: 1;
+    min-width: 0;
+  }
+
+  .contact-grid > *, .form-group { min-width: 0; }
+
+  .form-submit {
+    align-self: flex-start;
+    margin-top: 8px;
+  }
+
+  @media (max-width: 900px) {
+    .contact-grid { grid-template-columns: 1fr; gap: 48px; }
+    .form-row { flex-direction: column; }
+  }
+</style>
+
+<script>
+  import { gsap } from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+  gsap.registerPlugin(ScrollTrigger);
+
+  gsap.from('.contact-left', {
+    x: -40, opacity: 0, duration: 1, ease: 'power3.out',
+    scrollTrigger: { trigger: '.contact-grid', start: 'top 75%' },
+  });
+  gsap.from('.contact-form', {
+    x: 40, opacity: 0, duration: 1, ease: 'power3.out',
+    scrollTrigger: { trigger: '.contact-grid', start: 'top 75%' },
+  });
+
+  document.getElementById('contact-form')!.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const form = e.currentTarget as HTMLFormElement;
+    const btn = form.querySelector('.form-submit') as HTMLButtonElement;
+    if (!form.checkValidity()) { form.reportValidity(); return; }
+
+    btn.textContent = 'Sending…';
+    btn.disabled = true;
+
+    const data = Object.fromEntries(new FormData(form));
+
+    const res = await fetch('https://api.web3forms.com/submit', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify(data),
+    });
+
+    const json = await res.json();
+
+    if (json.success) {
+      btn.textContent = 'Enquiry Sent ✓';
+      btn.style.background = 'var(--primary)';
+      btn.style.color = '#fff';
+      form.reset();
+    } else {
+      btn.textContent = 'Failed — Try Again';
+      btn.style.background = '#ba1a1a';
+      btn.style.color = '#fff';
+      btn.disabled = false;
+    }
+  });
+</script>

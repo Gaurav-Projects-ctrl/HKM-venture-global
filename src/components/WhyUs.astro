@@ -1,0 +1,142 @@
+---
+const reasons = [
+  {
+    title: 'Sector Expertise',
+    body: 'Deep knowledge of chemical, pharma, and food trade regulations across global markets.',
+  },
+  {
+    title: 'Compliance First',
+    body: 'Every shipment meets the documentation and regulatory requirements of origin and destination countries.',
+  },
+  {
+    title: 'Reliable Supply Chain',
+    body: 'Vetted supplier network and strong logistics partnerships ensure no disruptions.',
+  },
+  {
+    title: 'Transparent Process',
+    body: 'Real-time updates from order confirmation to final delivery.',
+  },
+];
+import SectionImage from './SectionImage.astro';
+---
+
+<section id="why" class="why section-pad">
+  <div class="container">
+    <div class="why-inner">
+      <div class="why-left stack-fill">
+        <span class="label why-label">Why Choose Us</span>
+        <div class="divider"></div>
+        <h2 class="why-headline">Why Businesses<br/><em>Trust HKM</em></h2>
+        <p class="why-sub">
+          We are more than a logistics provider — we are your dedicated trade partner,
+          handling every step so you can focus on growing your business.
+        </p>
+        <SectionImage name="home-why" alt="Inspector checking goods against a clipboard checklist" fill class="why-img" />
+      </div>
+      <div class="why-right">
+        {reasons.map((r, i) => (
+          <div class="why-item">
+            <div class="why-dash">—</div>
+            <div>
+              <h3 class="why-title">{r.title}</h3>
+              <p class="why-body">{r.body}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .why-left :global(.why-img) { margin-top: 40px; min-height: 240px; }
+  .why {
+    overflow-x: clip;
+    background: var(--inverse-surface);
+    color: var(--inverse-on-surface);
+  }
+
+  .why-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: stretch;
+  }
+
+  .why-label { color: var(--inverse-primary); display: block; margin-bottom: 20px; }
+
+  .why-headline {
+    font-size: clamp(36px, 4vw, 52px);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    color: #f3f0ec;
+    margin-bottom: 28px;
+  }
+  .why-headline em { font-style: italic; color: var(--inverse-primary); }
+
+  .why-sub {
+    font-size: 15px;
+    line-height: 1.8;
+    color: rgba(243,240,236,0.6);
+  }
+
+  .why-right {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .why-item {
+    display: grid;
+    grid-template-columns: 32px 1fr;
+    gap: 0 16px;
+    padding: 28px 0;
+    border-bottom: 1px solid rgba(243,240,236,0.1);
+  }
+  .why-item:last-child { border-bottom: none; }
+
+  .why-dash {
+    font-family: var(--font-display);
+    font-size: 20px;
+    font-style: italic;
+    color: var(--inverse-primary);
+    padding-top: 2px;
+    line-height: 1;
+  }
+
+  .why-title {
+    font-family: var(--font-display);
+    font-size: 22px;
+    color: #f3f0ec;
+    margin-bottom: 8px;
+    letter-spacing: -0.01em;
+  }
+
+  .why-body {
+    font-size: 14px;
+    line-height: 1.75;
+    color: rgba(243,240,236,0.55);
+  }
+
+  .divider { background: rgba(229,193,136,0.4); }
+
+  @media (max-width: 900px) {
+    .why-inner { grid-template-columns: 1fr; gap: 48px; }
+    .why-left :global(.why-img) { min-height: 0; }
+  }
+</style>
+
+<script>
+  import { gsap } from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+  gsap.registerPlugin(ScrollTrigger);
+
+  gsap.from('.why-left', {
+    x: -40, opacity: 0, duration: 1, ease: 'power3.out',
+    scrollTrigger: { trigger: '.why-inner', start: 'top 75%' },
+  });
+  gsap.from('.why-item', {
+    x: 40, opacity: 0, duration: 0.7, stagger: 0.12, ease: 'power3.out',
+    scrollTrigger: { trigger: '.why-right', start: 'top 78%' },
+  });
+</script>

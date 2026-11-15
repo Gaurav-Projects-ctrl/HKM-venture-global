@@ -1,0 +1,40 @@
+---
+import LegalPage from '../components/LegalPage.astro';
+import { company } from '../data/site';
+---
+<LegalPage
+  title="Terms & Conditions | HKM Venture Global"
+  description="Terms and conditions for using the HKM Venture Global website."
+  heading="Terms & Conditions"
+  updated="21 October 2026"
+>
+  <h2>1. About these terms</h2>
+  <p>These terms govern your use of the {company.name} website. By using the website you agree to them. If you do not agree, please do not use the website.</p>
+
+  <h2>2. Website information</h2>
+  <p>The product names, categories, descriptions and specifications on this website are for general information only. They describe products we can source and do not constitute an offer to sell. Availability, specifications, pricing, minimum order quantities, lead times and documentation are confirmed only in a written quotation.</p>
+
+  <h2>3. Orders and contracts</h2>
+  <p>No contract is formed through this website. Every order is governed by the written quotation, proforma invoice or sales contract agreed between you and {company.name}, which takes precedence over anything on this website.</p>
+
+  <h2>4. Regulatory responsibility</h2>
+  <p>Importers are responsible for complying with the laws of their own country, including product registration, import licences and permits. We support registration by providing manufacturer documents but cannot guarantee the outcome of any regulatory application.</p>
+
+  <h2>5. Intellectual property</h2>
+  <p>The website’s content, design, text, graphics and logos belong to {company.name} or are used with permission. You may not copy or reuse them without our written consent. Product and company names of third parties belong to their respective owners.</p>
+
+  <h2>6. Acceptable use</h2>
+  <p>You agree not to misuse the website — including by submitting false information, attempting unauthorised access or interfering with its operation.</p>
+
+  <h2>7. Limitation of liability</h2>
+  <p>The website is provided “as is”. While we work to keep it accurate and available, we do not warrant that it is error-free or uninterrupted. To the extent permitted by law, we are not liable for any loss arising from your use of, or reliance on, the website.</p>
+
+  <h2>8. External links</h2>
+  <p>Links to third-party websites, including WhatsApp, are provided for convenience. We are not responsible for their content or practices.</p>
+
+  <h2>9. Governing law</h2>
+  <p>These terms are governed by the laws of India. Any dispute relating to the website is subject to the exclusive jurisdiction of the courts at Vadodara, Gujarat.</p>
+
+  <h2>10. Contact</h2>
+  <p>Questions about these terms: <a href={`mailto:${company.email}`}>{company.email}</a>.</p>
+</LegalPage>

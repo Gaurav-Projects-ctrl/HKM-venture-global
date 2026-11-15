@@ -1,0 +1,101 @@
+---
+// Honest, verifiable figures only. `text` shows a fixed value instead of a counter.
+const stats: { num?: number; text?: string; suffix: string; label: string }[] = [
+  { num: 3,  suffix: '',  label: 'Core Industry Sectors' },
+  { num: 24, suffix: 'h', label: 'Enquiry Response Time' },
+  { text: 'WHO-GMP', suffix: '', label: 'Certified Pharma Partners' },
+];
+---
+
+<section class="stats-strip">
+  <div class="stats-inner container">
+    {stats.map((s) => (
+      <div class="stat-item">
+        {s.text
+          ? <span class="stat-num stat-text">{s.text}</span>
+          : <span class="stat-num stat-count" data-target={s.num} data-suffix={s.suffix}>0{s.suffix}</span>}
+        <span class="label stat-label">{s.label}</span>
+      </div>
+    ))}
+  </div>
+</section>
+
+<style>
+  .stats-strip {
+    background: var(--on-surface);
+    padding: 64px 0;
+    border-top: 1px solid rgba(255,255,255,0.06);
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+
+  .stats-inner {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+  }
+
+  .stat-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    padding: 0 24px;
+    border-right: 1px solid rgba(255,255,255,0.08);
+  }
+  .stat-item:last-child { border-right: none; }
+
+  .stat-num {
+    font-family: var(--font-display);
+    font-size: clamp(44px, 5vw, 64px);
+    font-weight: 400;
+    color: var(--inverse-primary);
+    line-height: 1;
+    letter-spacing: -0.02em;
+  }
+
+  .stat-text { font-size: clamp(32px, 3.6vw, 48px); letter-spacing: 0; padding-top: 8px; }
+
+  .stat-label {
+    color: rgba(229,193,136,0.4);
+    font-size: 9px;
+    letter-spacing: 0.22em;
+    text-align: center;
+  }
+
+  @media (max-width: 768px) {
+    .stats-inner { grid-template-columns: 1fr 1fr; gap: 40px 0; }
+    .stat-item:nth-child(2) { border-right: none; }
+    /* third stat spans the full row instead of leaving an empty cell */
+    .stat-item:nth-child(3) { grid-column: 1 / -1; border-right: none; }
+  }
+</style>
+
+<script>
+  import { gsap } from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+  gsap.registerPlugin(ScrollTrigger);
+
+  document.querySelectorAll('.stat-count').forEach((el) => {
+    const target  = Number((el as HTMLElement).dataset.target ?? 0);
+    const suffix  = (el as HTMLElement).dataset.suffix ?? '';
+    const obj     = { value: 0 };
+
+    ScrollTrigger.create({
+      trigger: el,
+      start: 'top 85%',
+      onEnter: () => {
+        gsap.to(obj, {
+          value: target,
+          duration: 2.2,
+          ease: 'power2.out',
+          onUpdate() { el.textContent = Math.round(obj.value) + suffix; },
+        });
+      },
+    });
+  });
+
+  gsap.from('.stat-item', {
+    y: 30, opacity: 0, duration: 0.8, stagger: 0.12, ease: 'power3.out',
+    scrollTrigger: { trigger: '.stats-strip', start: 'top 80%' },
+  });
+</script>

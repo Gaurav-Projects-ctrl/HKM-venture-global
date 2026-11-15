@@ -1,0 +1,126 @@
+---
+interface Props { primaryHref?: string; }
+const { primaryHref = '#contact' } = Astro.props;
+import SectionBg from './SectionBg.astro';
+---
+<section class="cta section-pad">
+  <SectionBg name="home-cta" shade={0.68} />
+  <div class="cta-ambient"></div>
+  <div class="cta-ambient two"></div>
+  <div class="container cta-inner">
+    <span class="label cta-overline">Ready to Trade Global?</span>
+    <h2 class="cta-headline">
+      Take Your Trade<br/>
+      <em>Global Today</em>
+    </h2>
+    <p class="cta-sub">
+      Get in touch with our team for a customised import or export solution.<br/>
+      We respond within 24 hours.
+    </p>
+    <div class="cta-btns">
+      <a href={primaryHref} class="btn btn-gold">Contact Us Today</a>
+      <a href="#" data-brochure class="btn btn-ghost-gold">Download Brochure</a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .cta {
+    background: var(--on-surface);
+    position: relative;
+    overflow: hidden;
+    text-align: center;
+  }
+
+  .cta-ambient {
+    position: absolute;
+    border-radius: 50%;
+    pointer-events: none;
+    filter: blur(80px);
+    opacity: 0.18;
+    animation: pulse 6s ease-in-out infinite;
+  }
+
+  .cta-ambient:first-child {
+    width: 500px; height: 500px;
+    background: var(--primary);
+    top: -100px; left: -100px;
+  }
+  .cta-ambient.two {
+    width: 400px; height: 400px;
+    background: var(--inverse-primary);
+    bottom: -80px; right: -60px;
+    animation-delay: -3s;
+    opacity: 0.12;
+  }
+
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50%       { transform: scale(1.15); }
+  }
+
+  .cta-inner {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+  }
+
+  .cta-overline {
+    color: var(--inverse-primary);
+    opacity: 0.6;
+    display: block;
+    margin-bottom: 24px;
+  }
+
+  .cta-headline {
+    font-size: clamp(44px, 6vw, 80px);
+    line-height: 1.05;
+    letter-spacing: -0.025em;
+    color: #f3f0ec;
+    margin-bottom: 28px;
+    background: linear-gradient(135deg, #f3f0ec 0%, var(--inverse-primary) 50%, #f3f0ec 100%);
+    background-size: 200% 200%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: shimmer 4s ease infinite;
+  }
+
+  @keyframes shimmer {
+    0%   { background-position: 0% 50%; }
+    50%  { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+
+  .cta-headline em {
+    font-style: italic;
+  }
+
+  .cta-sub {
+    font-size: 16px;
+    line-height: 1.8;
+    color: rgba(243,240,236,0.5);
+    margin-bottom: 48px;
+    max-width: 480px;
+  }
+
+  .cta-btns { display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; }
+</style>
+
+<script>
+  import { gsap } from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+  gsap.registerPlugin(ScrollTrigger);
+
+  gsap.from('.cta-headline', {
+    y: 50, opacity: 0, duration: 1, ease: 'power3.out',
+    scrollTrigger: { trigger: '.cta', start: 'top 75%' },
+  });
+  gsap.from(['.cta-overline', '.cta-sub', '.cta-btns'], {
+    y: 30, opacity: 0, duration: 0.8, stagger: 0.15, ease: 'power3.out',
+    scrollTrigger: { trigger: '.cta', start: 'top 75%' },
+  });
+</script>

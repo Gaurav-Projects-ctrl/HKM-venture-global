@@ -1,0 +1,331 @@
+---
+import { verticals } from '../data/site';
+const path = Astro.url.pathname.replace(/\/$/, '') || '/';
+const isActive = (href: string) => (href === '/' ? path === '/' : path.startsWith(href));
+---
+<nav id="main-nav" class="nav">
+  <div class="nav-inner">
+    <a href="/" class="nav-logo">
+      <img src="/logo-white-nav.webp" width="94" height="40" alt="HKM Venture Global" class="nav-logo-img nav-logo-light" />
+      <img src="/logo-nav.webp" width="94" height="40" alt="HKM Venture Global" class="nav-logo-img nav-logo-dark" />
+    </a>
+    <ul class="nav-links">
+      <li><a href="/about" class:list={{ active: isActive('/about') }}>About</a></li>
+      <li class="nav-dd">
+        <a href="/products" class:list={{ active: isActive('/products') }} aria-haspopup="true">
+          Products <span class="dd-caret" aria-hidden="true">▾</span>
+        </a>
+        <div class="dd-panel">
+          <div class="dd-inner">
+            {verticals.map((v) => (
+              <a href={`/products/${v.slug}`} class="dd-item">
+                <span class="dd-icon">{v.icon}</span>
+                <span>
+                  <span class="dd-title">{v.short}</span>
+                  <span class="dd-desc">{v.groups.slice(0, 3).map((g) => g.name).join(' · ')}</span>
+                </span>
+              </a>
+            ))}
+            <a href="/products" class="dd-all">View all products →</a>
+          </div>
+        </div>
+      </li>
+      <li><a href="/#services">Services</a></li>
+      <li><a href="/#process">Process</a></li>
+      <li><a href="#" data-brochure class="nav-bro">Brochure ↓</a></li>
+      <li><a href="/contact" class="nav-cta">Contact Us</a></li>
+    </ul>
+    <button class="nav-burger" id="nav-burger" aria-label="Open menu" aria-expanded="false" aria-controls="nav-mobile">
+      <span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<div class="nav-mobile" id="nav-mobile" aria-hidden="true">
+  <ul>
+    <li><a href="/">Home</a></li>
+    <li><a href="/about">About Us</a></li>
+    <li><a href="/products">All Products</a></li>
+    {verticals.map((v) => (
+      <li class="sub"><a href={`/products/${v.slug}`}>{v.short}</a></li>
+    ))}
+    <li><a href="/#services">Services</a></li>
+    <li><a href="/contact">Contact Us</a></li>
+  </ul>
+  <div class="nm-btns">
+    <a href="/contact" class="btn btn-gold">Request a Quote</a>
+    <a href="#" data-brochure class="btn btn-ghost-gold">Download Brochure</a>
+  </div>
+</div>
+
+<style>
+.nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 999;
+  transition: transform 0.45s cubic-bezier(0.4, 0, 0.2, 1),
+              background 0.35s ease,
+              border-color 0.35s ease;
+  background: rgba(8, 7, 6, 0.08);
+  backdrop-filter: blur(24px) saturate(1.4);
+  -webkit-backdrop-filter: blur(24px) saturate(1.4);
+  border-bottom: 1px solid rgba(229, 193, 136, 0.1);
+}
+
+.nav.scrolled {
+  background: rgba(252, 249, 245, 0.9);
+  border-bottom: 1px solid var(--outline-variant);
+}
+
+.nav.nav-hidden {
+  transform: translateY(-100%);
+}
+
+.nav-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 72px;
+  padding: 0 40px;
+}
+
+.nav-logo {
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+}
+
+.nav-logo-img {
+  height: 40px;
+  width: auto;
+  display: block;
+}
+
+/* On dark hero: white+gold version */
+.nav-logo-light {
+  display: block;
+}
+.nav-logo-dark { display: none; }
+
+/* On scrolled (light bg): show original dark logo */
+.nav.scrolled .nav-logo-light { display: none; }
+.nav.scrolled .nav-logo-dark  { display: block; }
+
+.nav-links {
+  display: flex;
+  list-style: none;
+  gap: 32px;
+  align-items: center;
+  height: 100%;
+}
+
+.nav-links > li { height: 100%; display: flex; align-items: center; }
+
+.nav-links a {
+  font-family: var(--font-label);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: rgba(229, 193, 136, 0.75);
+  transition: color 0.25s;
+}
+
+.nav-links a:hover,
+.nav-links a.active { color: var(--hero-glow); }
+
+.nav.scrolled .nav-links a       { color: var(--on-surface-variant); }
+.nav.scrolled .nav-links a:hover,
+.nav.scrolled .nav-links a.active { color: var(--primary); }
+
+.nav-cta {
+  border: 1px solid rgba(229, 193, 136, 0.35) !important;
+  padding: 8px 20px;
+  border-radius: 2px;
+}
+
+.nav.scrolled .nav-cta {
+  border-color: var(--primary) !important;
+}
+
+.dd-caret { font-size: 8px; margin-left: 3px; }
+
+/* Products dropdown */
+.nav-dd { position: relative; }
+.dd-panel {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translate(-50%, 8px);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s;
+  padding-top: 6px;
+}
+.nav-dd:hover .dd-panel,
+.nav-dd:focus-within .dd-panel {
+  opacity: 1;
+  visibility: visible;
+  transform: translate(-50%, 0);
+}
+.dd-inner {
+  width: 400px;
+  background: var(--surface);
+  border: 1px solid var(--outline-variant);
+  border-radius: 4px;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.22);
+  padding: 10px;
+}
+.nav-links .dd-item {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  padding: 14px;
+  border-radius: 3px;
+  text-transform: none;
+  letter-spacing: 0;
+  color: var(--on-surface);
+}
+.nav-links .dd-item:hover { background: var(--surface-low); color: var(--on-surface); }
+.dd-icon { color: var(--primary-container); font-size: 16px; line-height: 1.3; }
+.dd-title {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 400;
+  color: var(--on-surface);
+  margin-bottom: 3px;
+}
+.dd-desc {
+  display: block;
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--outline);
+  line-height: 1.5;
+}
+.nav-links .dd-all,
+.nav.scrolled .nav-links .dd-all {
+  display: block;
+  padding: 12px 14px 8px;
+  margin-top: 4px;
+  border-top: 1px solid var(--outline-variant);
+  color: var(--primary);
+}
+.nav.scrolled .nav-links .dd-item { color: var(--on-surface); }
+
+.nav-burger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px 4px;
+  position: relative;
+  z-index: 1001;
+}
+
+.nav-burger span {
+  display: block;
+  width: 22px;
+  height: 1px;
+  background: var(--hero-glow);
+  transition: background 0.35s, transform 0.3s;
+}
+
+.nav.scrolled .nav-burger span { background: var(--on-surface); }
+.nav.menu-open .nav-burger span { background: var(--hero-glow); }
+.nav.menu-open .nav-burger span:first-child { transform: translateY(3px) rotate(45deg); }
+.nav.menu-open .nav-burger span:last-child  { transform: translateY(-3px) rotate(-45deg); }
+
+/* Mobile menu */
+.nav-mobile {
+  position: fixed;
+  inset: 0;
+  z-index: 998;
+  background: var(--hero-bg);
+  padding: 104px 28px 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow-y: auto;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s;
+}
+.nav-mobile.open { opacity: 1; visibility: visible; }
+.nav-mobile ul { list-style: none; display: flex; flex-direction: column; gap: 4px; }
+.nav-mobile ul a {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 30px;
+  color: var(--hero-text);
+  text-decoration: none;
+  padding: 6px 0;
+}
+.nav-mobile ul li.sub a {
+  font-family: var(--font-body);
+  font-size: 15px;
+  color: rgba(229, 193, 136, 0.75);
+  padding: 4px 0 4px 18px;
+}
+.nm-btns { display: flex; flex-direction: column; gap: 12px; margin-top: 36px; }
+.nm-btns .btn { justify-content: center; }
+
+@media (max-width: 1080px) {
+  .nav-links { gap: 22px; }
+  .nav-inner { padding: 0 28px; }
+}
+
+@media (max-width: 960px) {
+  .nav-links { display: none; }
+  .nav-burger { display: flex; }
+}
+@media (min-width: 961px) {
+  .nav-mobile { display: none; }
+}
+@media (max-width: 768px) {
+  .nav-inner { padding: 0 20px; }
+}
+</style>
+
+<script>
+const nav = document.getElementById('main-nav')!;
+const burger = document.getElementById('nav-burger')!;
+const mobile = document.getElementById('nav-mobile')!;
+let lastScroll = 0;
+let ticking = false;
+
+window.addEventListener('scroll', () => {
+  if (ticking) return;
+  ticking = true;
+  requestAnimationFrame(() => {
+    const y = window.scrollY;
+    nav.classList.toggle('scrolled', y > 60);
+    if (!nav.classList.contains('menu-open')) {
+      nav.classList.toggle('nav-hidden', y > lastScroll && y > 160);
+    }
+    lastScroll = y;
+    ticking = false;
+  });
+}, { passive: true });
+
+const setMenu = (open: boolean) => {
+  nav.classList.toggle('menu-open', open);
+  mobile.classList.toggle('open', open);
+  mobile.setAttribute('aria-hidden', String(!open));
+  burger.setAttribute('aria-expanded', String(open));
+  burger.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+  document.body.style.overflow = open ? 'hidden' : '';
+  if (open) nav.classList.remove('nav-hidden', 'scrolled');
+  else nav.classList.toggle('scrolled', window.scrollY > 60);
+};
+
+burger.addEventListener('click', () => setMenu(!nav.classList.contains('menu-open')));
+mobile.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => setMenu(false)));
+document.addEventListener('keydown', (e) => { if (e.key === 'Escape') setMenu(false); });
+</script>
