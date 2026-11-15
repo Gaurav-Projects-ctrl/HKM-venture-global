@@ -107,7 +107,7 @@ const M = '(max-width: 768px)';
   .ph-media img {
     width: 100%; height: 100%;
     object-fit: cover;
-    filter: saturate(0.8) brightness(0.85);
+    filter: saturate(0.85);
     transform: scale(1.08);
     animation: ph-drift 14s ease-out forwards;
   }
@@ -115,9 +115,9 @@ const M = '(max-width: 768px)';
   .ph-shade {
     position: absolute; inset: 0;
     background:
-      linear-gradient(90deg, rgba(8,7,6,0.94) 0%, rgba(8,7,6,0.78) 38%, rgba(8,7,6,0.35) 72%, rgba(8,7,6,0.2) 100%),
-      linear-gradient(0deg, rgba(8,7,6,0.8) 0%, rgba(8,7,6,0) 28%),
-      linear-gradient(180deg, rgba(8,7,6,0.6) 0%, rgba(8,7,6,0) 22%);
+      linear-gradient(90deg, rgba(8,7,6,0.88) 0%, rgba(8,7,6,0.66) 38%, rgba(8,7,6,0.18) 70%, rgba(8,7,6,0.05) 100%),
+      linear-gradient(0deg, rgba(8,7,6,0.65) 0%, rgba(8,7,6,0) 24%),
+      linear-gradient(180deg, rgba(8,7,6,0.55) 0%, rgba(8,7,6,0) 20%);
   }
   @keyframes ph-drift { to { transform: scale(1); } }
   @media (prefers-reduced-motion: reduce) {
@@ -158,7 +158,7 @@ const M = '(max-width: 768px)';
     .ph { padding: 128px 0 72px; }
     .ph--img { padding: 148px 0 88px; min-height: 0; }
     /* Text spans full width on phones, so darken the whole photo */
-    .ph-shade { background: rgba(8,7,6,0.78); }
+    .ph-shade { background: rgba(8,7,6,0.68); }
     .ph-sub { font-size: 15px; }
   }
 </style>
