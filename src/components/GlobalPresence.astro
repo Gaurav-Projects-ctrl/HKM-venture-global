@@ -1,0 +1,132 @@
+---
+/**
+ * "Present in X countries" — global export network section with country flags.
+ * Countries come from `presence` in src/data/site.ts; flags are drawn as inline SVG (no image downloads).
+ */
+import { presence } from '../data/site';
+
+const count = presence.length;
+
+// Simple tricolour flags (3:2). h = horizontal stripes, v = vertical stripes.
+const flags: Record<string, { dir: 'h' | 'v'; colors: string[]; star?: boolean }> = {
+  gh: { dir: 'h', colors: ['#CE1126', '#FCD116', '#006B3F'], star: true },
+  ng: { dir: 'v', colors: ['#008751', '#FFFFFF', '#008751'] },
+  ci: { dir: 'v', colors: ['#F77F00', '#FFFFFF', '#009E60'] },
+  sl: { dir: 'h', colors: ['#1EB53A', '#FFFFFF', '#0072C6'] },
+  gn: { dir: 'v', colors: ['#CE1126', '#FCD116', '#009460'] },
+  ml: { dir: 'v', colors: ['#14B53A', '#FCD116', '#CE1126'] },
+  ga: { dir: 'h', colors: ['#009E60', '#FCD116', '#3A75C4'] },
+};
+const star = '15.00,6.60 15.79,8.91 18.23,8.95 16.28,10.42 17.00,12.75 15.00,11.35 13.00,12.75 13.72,10.42 11.77,8.95 14.21,8.91';
+
+const regions = [
+  { name: 'West & Central Africa', list: presence.map((p) => p.name).join(' · ') },
+  { name: 'Expanding to', list: 'UAE · South East Asia · Asia Pacific · Central & South America' },
+];
+
+const stats = [
+  { num: `${count}+`, label: 'African countries', accent: true },
+  { num: '5000+', label: 'Products' },
+  { num: '3', label: 'Industry sectors' },
+  { num: '24h', label: 'Enquiry response' },
+];
+---
+<section class="gp section-pad" aria-labelledby="gp-title">
+  <div class="container">
+    <div class="gp-grid">
+      <div class="gp-text reveal">
+        <span class="label gp-label">Global Export Network</span>
+        <h2 class="gp-title" id="gp-title">
+          Present in <span class="gp-accent">{count}+ Countries</span><br/>Across Africa
+        </h2>
+        <p class="gp-body">
+          Indian medicines, chemicals and foods sourced by HKM reach importers and distributors across West and Central Africa — with new markets opening in the Middle East, Asia and the Americas.
+        </p>
+        <ul class="gp-regions">
+          {regions.map((r) => (
+            <li><span class="gp-dot" aria-hidden="true"></span><strong>{r.name}</strong> {r.list}</li>
+          ))}
+        </ul>
+      </div>
+
+      <div class="gp-stats reveal">
+        {stats.map((s) => (
+          <div class:list={['gp-stat', { 'gp-stat--accent': s.accent }]}>
+            <span class="gp-stat-num">{s.num}</span>
+            <span class="label gp-stat-label">{s.label}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <ul class="gp-flags reveal" aria-label="Countries we export to">
+      {presence.map((p) => {
+        const f = flags[p.code];
+        return (
+          <li class="gp-flag">
+            <svg viewBox="0 0 30 20" width="54" height="36" role="img" aria-label={`Flag of ${p.name}`}>
+              {f.colors.map((c, i) =>
+                f.dir === 'h'
+                  ? <rect x="0" y={(i * 20) / 3} width="30" height={20 / 3 + 0.05} fill={c} />
+                  : <rect x={i * 10} y="0" width="10.05" height="20" fill={c} />
+              )}
+              {f.star && <polygon points={star} fill="#000" />}
+            </svg>
+            <span>{p.name}</span>
+          </li>
+        );
+      })}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .gp { background: var(--inverse-surface); color: var(--hero-text); }
+
+  .gp-grid { display: grid; grid-template-columns: 1.15fr 1fr; gap: 80px; align-items: center; }
+
+  .gp-label { color: var(--inverse-primary); display: block; margin-bottom: 20px; }
+  .gp-title { font-size: clamp(34px, 4.2vw, 54px); line-height: 1.1; color: var(--hero-text); margin-bottom: 24px; }
+  .gp-accent { color: var(--inverse-primary); font-style: italic; }
+  .gp-body { font-size: 15.5px; line-height: 1.8; color: rgba(245, 240, 232, 0.72); max-width: 540px; margin-bottom: 32px; }
+
+  .gp-regions { list-style: none; display: flex; flex-direction: column; gap: 14px; }
+  .gp-regions li { font-size: 14px; line-height: 1.7; color: rgba(245, 240, 232, 0.62); padding-left: 22px; position: relative; }
+  .gp-regions strong { color: var(--hero-text); font-weight: 600; margin-right: 6px; }
+  .gp-dot { position: absolute; left: 0; top: 8px; width: 8px; height: 8px; border: 1px solid var(--inverse-primary); }
+
+  .gp-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .gp-stat {
+    padding: 30px 20px;
+    text-align: center;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(229, 193, 136, 0.14);
+    display: flex; flex-direction: column; gap: 8px; align-items: center;
+  }
+  .gp-stat--accent { background: var(--primary); border-color: var(--primary); }
+  .gp-stat-num { font-family: var(--font-display); font-size: 40px; line-height: 1; color: var(--hero-text); }
+  .gp-stat-label { color: rgba(245, 240, 232, 0.6); font-size: 9px; }
+  .gp-stat--accent .gp-stat-label { color: rgba(255, 255, 255, 0.85); }
+
+  .gp-flags {
+    list-style: none;
+    display: flex; flex-wrap: wrap; justify-content: center; gap: 28px 40px;
+    margin-top: 72px; padding-top: 48px;
+    border-top: 1px solid rgba(229, 193, 136, 0.14);
+  }
+  .gp-flag { display: flex; flex-direction: column; align-items: center; gap: 10px; }
+  .gp-flag svg { display: block; border-radius: 3px; box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.15), 0 6px 16px rgba(0, 0, 0, 0.3); transition: transform 0.3s ease; }
+  .gp-flag:hover svg { transform: translateY(-3px); }
+  .gp-flag span { font-size: 12px; color: rgba(245, 240, 232, 0.7); letter-spacing: 0.02em; }
+
+  @media (max-width: 900px) {
+    .gp-grid { grid-template-columns: 1fr; gap: 48px; }
+    .gp-flags { gap: 24px 26px; margin-top: 56px; padding-top: 40px; }
+  }
+  @media (max-width: 480px) {
+    .gp-stat { padding: 24px 12px; }
+    .gp-stat-num { font-size: 32px; }
+    .gp-flag svg { width: 44px; height: 30px; }
+    .gp-flag span { font-size: 11px; }
+  }
+</style>

@@ -4,7 +4,7 @@ const { primaryHref = '#contact' } = Astro.props;
 import SectionBg from './SectionBg.astro';
 ---
 <section class="cta section-pad">
-  <SectionBg name="home-cta" shade={0.68} />
+  <SectionBg name="home-cta" shade={0.46} />
   <div class="cta-ambient"></div>
   <div class="cta-ambient two"></div>
   <div class="container cta-inner">
@@ -69,8 +69,7 @@ import SectionBg from './SectionBg.astro';
   }
 
   .cta-overline {
-    color: var(--inverse-primary);
-    opacity: 0.6;
+    color: #fff;
     display: block;
     margin-bottom: 24px;
   }
@@ -100,11 +99,12 @@ import SectionBg from './SectionBg.astro';
   }
 
   .cta-sub {
-    font-size: 16px;
+    font-size: 18px;
     line-height: 1.8;
-    color: rgba(243,240,236,0.5);
+    color: rgba(243,240,236,0.92);
+    text-shadow: 0 1px 12px rgba(0,0,0,0.55);
     margin-bottom: 48px;
-    max-width: 480px;
+    max-width: 560px;
   }
 
   .cta-btns { display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; }

@@ -1,0 +1,133 @@
+---
+/**
+ * Auto-scrolling carousel of the certifications our manufacturing partners hold.
+ * Logos live in /public/certifications/ (webp + png). Items without a logo render as a text badge.
+ */
+import { certifications } from '../data/site';
+
+interface Props {
+  /** 'light' on cream sections, 'muted' on the slightly darker beige */
+  tone?: 'light' | 'muted';
+  title?: string;
+  sub?: string;
+}
+const {
+  tone = 'light',
+  title = 'Certifications our partners hold',
+  sub = 'We source only from manufacturers holding the certifications your market requires — and share those certificates before you order.',
+} = Astro.props;
+
+// Track is rendered twice so the loop is seamless
+const loop = [...certifications, ...certifications];
+---
+<section class:list={['certs', `certs--${tone}`]} aria-labelledby="certs-title">
+  <div class="container certs-head reveal">
+    <span class="label certs-label">Certified Manufacturers Only</span>
+    <div class="divider"></div>
+    <h2 class="certs-title" id="certs-title">{title}</h2>
+    <p class="certs-sub">{sub}</p>
+  </div>
+
+  <div class="certs-viewport">
+    <ul class="certs-track">
+      {loop.map((c, i) => (
+        <li class="cert" aria-hidden={i >= certifications.length ? 'true' : undefined}>
+          <div class="cert-mark">
+            {c.logo ? (
+              <picture>
+                <source srcset={`${c.logo}.webp`} type="image/webp" />
+                <img src={`${c.logo}.png`} alt={`${c.name} certified`} width="120" height="120" loading="lazy" decoding="async" />
+              </picture>
+            ) : (
+              <span class="cert-badge"><span>{c.name}</span><small>Certified</small></span>
+            )}
+          </div>
+          <span class="cert-name">{c.name}</span>
+          <span class="cert-scope">{c.scope}</span>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .certs { padding: 96px 0 104px; overflow: hidden; border-top: 1px solid var(--outline-variant); }
+  .certs--light { background: var(--surface, #faf7f2); }
+  .certs--muted { background: var(--surface-low, #f3eee6); }
+
+  .certs-head { text-align: center; display: flex; flex-direction: column; align-items: center; margin-bottom: 56px; }
+  .certs-label { color: var(--primary); display: block; margin-bottom: 20px; }
+  .certs-head .divider { margin: 0 auto 28px; }
+  .certs-title { font-size: clamp(30px, 3.6vw, 44px); line-height: 1.15; color: var(--on-surface); margin-bottom: 16px; }
+  .certs-sub { max-width: 620px; font-size: 15px; line-height: 1.8; color: var(--on-surface-variant); }
+
+  .certs-viewport {
+    position: relative;
+    /* fade the logos in/out at the edges */
+    -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 8%, #000 92%, transparent 100%);
+            mask-image: linear-gradient(90deg, transparent 0, #000 8%, #000 92%, transparent 100%);
+  }
+  .certs-track {
+    list-style: none;
+    display: flex;
+    width: max-content;
+    animation: certs-scroll 38s linear infinite;
+  }
+  .certs-viewport:hover .certs-track { animation-play-state: paused; }
+
+  .cert {
+    flex: 0 0 auto;
+    width: 220px;
+    margin: 0 12px;
+    padding: 28px 16px 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    background: #fff;
+    border: 1px solid var(--outline-variant);
+    transition: transform 0.4s ease, box-shadow 0.4s ease, border-color 0.4s ease;
+  }
+  .cert:hover { transform: translateY(-4px); border-color: var(--primary-container); box-shadow: 0 14px 30px rgba(60, 45, 25, 0.08); }
+
+  .cert-mark { height: 120px; width: 120px; display: flex; align-items: center; justify-content: center; margin-bottom: 18px; }
+  .cert-mark img { width: 100%; height: 100%; object-fit: contain; }
+
+  /* Text badge for certifications without a supplied logo */
+  .cert-badge {
+    width: 112px; height: 112px;
+    border-radius: 50%;
+    border: 2px solid var(--primary);
+    box-shadow: inset 0 0 0 6px #fff, inset 0 0 0 7px rgba(140, 105, 50, 0.35);
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px;
+    color: var(--primary);
+  }
+  .cert-badge span { font-family: var(--font-label); font-weight: 700; font-size: 15px; letter-spacing: 0.04em; line-height: 1.1; padding: 0 10px; }
+  .cert-badge small { font-family: var(--font-label); font-size: 8px; letter-spacing: 0.22em; text-transform: uppercase; opacity: 0.75; }
+
+  .cert-name { font-family: var(--font-display); font-size: 20px; color: var(--on-surface); line-height: 1.2; }
+  .cert-scope { margin-top: 6px; font-family: var(--font-label); font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--outline); }
+
+  @keyframes certs-scroll {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+
+  @media (max-width: 768px) {
+    .certs { padding: 72px 0 80px; }
+    .certs-head { margin-bottom: 40px; }
+    .cert { width: 172px; margin: 0 8px; padding: 22px 12px 20px; }
+    .cert-mark { height: 92px; width: 92px; }
+    .cert-badge { width: 88px; height: 88px; }
+    .cert-badge span { font-size: 13px; }
+    .certs-track { animation-duration: 30s; }
+  }
+
+  /* Reduced motion: no auto-scroll, show one set as a wrapping grid */
+  @media (prefers-reduced-motion: reduce) {
+    .certs-viewport { -webkit-mask-image: none; mask-image: none; }
+    .certs-track { animation: none; width: auto; flex-wrap: wrap; justify-content: center; gap: 16px; padding: 0 20px; }
+    .cert { margin: 0; }
+    .cert[aria-hidden='true'] { display: none; }
+  }
+</style>

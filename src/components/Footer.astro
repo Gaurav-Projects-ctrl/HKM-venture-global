@@ -1,5 +1,5 @@
 ---
-import { company, verticals, registrations, waLink } from '../data/site';
+import { company, verticals, waLink } from '../data/site';
 const year = new Date().getFullYear();
 ---
 <footer class="footer">
@@ -8,7 +8,7 @@ const year = new Date().getFullYear();
       <div class="footer-brand">
         <span class="footer-logo">HKM</span>
         <span class="footer-logo-sub">Venture Global</span>
-        <p class="footer-tagline">Connecting Markets. Delivering Trust.</p>
+        <p class="footer-tagline">Connecting Markets.<br/><em>Delivering Trust.</em></p>
         <address class="footer-contact">
           <span>{company.address}</span>
           <a href={`mailto:${company.email}`}>{company.email}</a>
@@ -47,9 +47,6 @@ const year = new Date().getFullYear();
         </div>
       </nav>
     </div>
-    <p class="footer-reg">
-      {registrations.map((r) => <span>{r.label}: {r.value}</span>)}
-    </p>
     <div class="footer-bottom">
       <p class="footer-copy">© {year} HKM Venture Global. All Rights Reserved. | {company.city}</p>
       <div class="footer-legal">
@@ -96,13 +93,15 @@ const year = new Date().getFullYear();
     margin-bottom: 16px;
   }
 
+  /* Same treatment as the home page tagline: white line + gold italic line */
   .footer-tagline {
     font-family: var(--font-display);
-    font-size: 16px;
-    font-style: italic;
-    color: rgba(229,193,136,0.45);
-    line-height: 1.4;
+    font-size: 22px;
+    color: var(--hero-text);
+    line-height: 1.25;
+    letter-spacing: -0.01em;
   }
+  .footer-tagline em { font-style: italic; color: var(--hero-glow); }
 
   .footer-contact {
     font-style: normal;
@@ -117,16 +116,6 @@ const year = new Date().getFullYear();
   .footer-contact a { color: rgba(243,240,236,0.55); text-decoration: none; transition: color 0.2s; }
   .footer-contact a:hover { color: var(--hero-glow); }
 
-  .footer-reg {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px 28px;
-    font-size: 11px;
-    letter-spacing: 0.04em;
-    color: rgba(243,240,236,0.3);
-    margin: -8px 0 32px;
-  }
-
   .footer-nav {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -135,10 +124,11 @@ const year = new Date().getFullYear();
 
   .footer-col-title {
     display: block;
-    color: rgba(229,193,136,0.35);
-    font-size: 9px;
-    letter-spacing: 0.22em;
-    margin-bottom: 20px;
+    color: #fff;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    margin-bottom: 22px;
   }
 
   .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 12px; }

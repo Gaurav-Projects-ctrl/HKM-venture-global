@@ -9,19 +9,27 @@ import SectionBg from '../components/SectionBg.astro';
 import { hasImage } from '../lib/images';
 const visionImg = hasImage('about-vision');
 const partnersImg = hasImage('about-partners');
-import { founders, registrations, verticals } from '../data/site';
+import Certifications from '../components/Certifications.astro';
+import { founders, verticals } from '../data/site';
 
-const commitments = [
-  { title: 'Certified manufacturers only', body: 'We source from manufacturers holding the certifications your market requires — WHO-GMP for pharmaceuticals — and share those certificates before you order.' },
-  { title: 'Samples before your first order', body: 'Approve us on evidence. Samples and the supporting documents arrive before you commit.' },
-  { title: 'A full document set, every time', body: 'COA, origin, regulatory and shipping documents come with every shipment as standard — not on request.' },
-  { title: 'Batch-level traceability', body: 'Every batch we ship can be traced back to the manufacturer and its test results.' },
-  { title: 'A reply within 24 hours', body: 'Every enquiry gets a response from a named person within one working day.' },
-  { title: 'Trial orders welcome', body: 'Start small and scale when you are satisfied. We would rather earn the second order than oversell the first.' },
+const commitments: { title: string; body: string; certs?: { group: string; items: string[] }[] }[] = [
+  { title: 'Inspection before dispatch', body: 'We inspect every order before it ships, and we can arrange independent third-party inspection (SGS, Bureau Veritas, Intertek) on request. Frozen cargo ships in temperature-controlled containers with temperature records.' },
+  { title: 'Clear pricing, secure payment', body: 'Itemised quotes with the Incoterm stated (FOB, CFR or CIF) and no hidden charges. We work with secure payment terms such as letter of credit.' },
+  {
+    title: 'Certified manufacturers only',
+    body: 'We source only from manufacturers holding the certifications your market requires — for pharmaceuticals, chemicals and frozen foods — and we share those certificates before you order.',
+    certs: [
+      { group: 'Pharma & chemicals', items: ['WHO-GMP', 'ISO 9001', 'HACCP', 'ISO 22000', 'FSSC 22000'] },
+      { group: 'Frozen foods', items: ['FSSAI', 'Halal'] },
+    ],
+  },
+  { title: 'Samples first, and bulk matches the sample', body: 'Approve us on evidence. Samples and supporting documents arrive before you commit, and your shipment is checked against the approved sample before it leaves.' },
+  { title: 'Full documents and batch traceability', body: 'COA, origin, regulatory and shipping documents come with every shipment as standard. Every batch can be traced back to the manufacturer and its test results.' },
+  { title: 'Trial orders and a named contact', body: 'Start small and scale when you are satisfied. Every enquiry gets a reply from a named person within one working day. We would rather earn the second order than oversell the first.' },
 ];
 
-const steps = [
-  { title: 'Certification check', body: 'Valid GMP and export certifications, verified with the issuing authority.' },
+const steps: { title: string; body: string; certs?: string[] }[] = [
+  { title: 'Certification check', body: 'Valid export certifications, verified with the issuing authority — as applicable to the product:', certs: ['ISO 9001', 'HACCP', 'ISO 22000', 'Halal', 'WHO-GMP'] },
   { title: 'Site visit', body: 'Our team visits the facility in person — most of our partners are within driving distance in Gujarat.' },
   { title: 'Sample testing', body: 'Product samples tested against specification before we offer it to any buyer.' },
   { title: 'Ongoing review', body: 'Every shipment’s quality, documents and timeliness tracked against the partner.' },
@@ -59,10 +67,10 @@ const initials = (name: string) =>
             HKM Venture Global is an India-based sourcing, export and third-party manufacturing company. We connect international importers, distributors and businesses with reliable Indian manufacturers across {verticals.map((v) => v.short).join(', ').replace(/, ([^,]*)$/, ' and $1')}.
           </p>
           <p class="a-body">
-            We are based in Vadodara, at the centre of Gujarat — home to many of India’s pharmaceutical and chemical manufacturers. Being close to our manufacturing partners means we can visit them, inspect material and solve problems in person rather than over email.
+            We are based in Vadodara, at the centre of Gujarat, home to many of India’s pharmaceutical and chemical manufacturers. Being close to our manufacturing partners means we can visit them, inspect material and solve problems in person rather than over email.
           </p>
           <p class="a-body">
-            We do not manufacture. Our job is to choose the right manufacturer for each product, hold them to our standards and manage everything between their factory and your warehouse.
+            We offer third-party manufacturing. We don’t run our own plants. Instead, we get your products made at selected, certified partner facilities, to your specifications and, where needed, under your brand or private label. For each product, we choose the right manufacturer, hold them to our standards and manage everything between their factory and your warehouse. That covers specification alignment, production oversight, quality checks, packaging, documentation and shipping.
           </p>
         </div>
       </div>
@@ -78,7 +86,7 @@ const initials = (name: string) =>
         </div>
         <div class="mv reveal">
           <span class="label">Our Vision</span>
-          <p>To become the most trusted Indian trade partner for healthcare and essential goods in Africa, one long-term relationship at a time.</p>
+          <p>To become the most trusted Indian trade partner for healthcare and essential goods worldwide, one long-term relationship at a time.</p>
         </div>
       </div>
     </section>
@@ -97,6 +105,16 @@ const initials = (name: string) =>
               <span class="commit-num">{String(i + 1).padStart(2, '0')}</span>
               <h3>{c.title}</h3>
               <p>{c.body}</p>
+              {c.certs && (
+                <div class="cert-groups">
+                  {c.certs.map((g) => (
+                    <div class="cert-group">
+                      <span class="label cert-group-label">{g.group}</span>
+                      <ul class="chips">{g.items.map((it) => <li>{it}</li>)}</ul>
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
           ))}
         </div>
@@ -149,32 +167,14 @@ const initials = (name: string) =>
               <span class="step-num">{String(i + 1).padStart(2, '0')}</span>
               <h3>{s.title}</h3>
               <p>{s.body}</p>
+              {s.certs && <ul class="chips">{s.certs.map((it) => <li>{it}</li>)}</ul>}
             </div>
           ))}
         </div>
       </div>
     </section>
 
-    <!-- Registrations -->
-    <section class="a-reg">
-      <div class="container">
-        <div class="a-reg-inner reveal">
-          <div>
-            <span class="label a-label">Registered & Compliant</span>
-            <h2 class="a-reg-title">Government registrations</h2>
-            <p class="a-body">Verify us. Copies of these registrations are included in our compliance document pack, available on request.</p>
-          </div>
-          <dl class="reg-list">
-            {registrations.map((r) => (
-              <div class="reg">
-                <dt class="label">{r.label}</dt>
-                <dd>{r.value}</dd>
-              </div>
-            ))}
-          </dl>
-        </div>
-      </div>
-    </section>
+    <Certifications tone="muted" />
 
     <CTA primaryHref="/contact" />
   </main>
@@ -215,6 +215,15 @@ const initials = (name: string) =>
   .commit { padding: 36px 32px 36px 0; border-bottom: 1px solid var(--outline-variant); }
   .commit:not(:nth-child(3n+1)) { padding-left: 32px; border-left: 1px solid var(--outline-variant); }
   .commit-num { font-family: var(--font-display); font-style: italic; font-size: 26px; color: var(--primary-container); }
+  .cert-groups { display: flex; flex-direction: column; gap: 14px; margin-top: 18px; }
+  .cert-group-label { display: block; color: var(--outline); font-size: 9px; margin-bottom: 8px; }
+  .chips { list-style: none; display: flex; flex-wrap: wrap; gap: 6px; margin-top: 14px; }
+  .cert-group .chips { margin-top: 0; }
+  .chips li {
+    font-size: 11.5px; font-weight: 600; letter-spacing: 0.02em;
+    color: var(--primary); background: rgba(184,151,98,0.1);
+    border: 1px solid rgba(184,151,98,0.4); padding: 4px 10px; border-radius: 999px;
+  }
   .commit h3 { font-size: 22px; margin: 10px 0 10px; color: var(--on-surface); line-height: 1.25; }
   .commit p { font-size: 14px; line-height: 1.75; color: var(--on-surface-variant); }
 

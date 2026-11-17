@@ -7,15 +7,13 @@
 export const company = {
   name: 'HKM Venture Global',
   tagline: 'Connecting Markets. Delivering Trust.',
-  // ⚠ PLACEHOLDER — full registered address
-  address: '[Registered office address], Vadodara, Gujarat, India',
+  address: 'B-1104, Neptune Trion, Sarabhai Campus, Subhanpura, Vadodara, Gujarat, India',
   city: 'Vadodara, Gujarat, India',
   // ⚠ PLACEHOLDER — domain email, not Gmail
   email: 'info@hkmventureglobal.com',
-  // ⚠ PLACEHOLDER — phone shown on site (display format)
-  phone: '+91 00000 00000',
-  // ⚠ PLACEHOLDER — WhatsApp number: country code + number, digits only (e.g. 919876543210)
-  whatsapp: '910000000000',
+  phone: '+91 96017 10900',
+  // WhatsApp number: country code + number, digits only
+  whatsapp: '919601710900',
   whatsappMessage: "Hello HKM Venture Global, I'd like to enquire about your products.",
   hours: 'Monday – Saturday, 9:00 AM – 6:00 PM IST',
   linkedin: 'https://www.linkedin.com/company/hkm-venture-global',
@@ -24,13 +22,36 @@ export const company = {
   web3formsKey: '72884102-36af-41f8-9214-3aec938ab1de',
 };
 
-// Government registrations — shown on About + footer.
+// Government registrations — not shown on the site at the client's request (kept for internal reference).
 // ⚠ PLACEHOLDER — fill in real numbers. Remove a line if not yet obtained.
 export const registrations = [
   { label: 'IEC (Import Export Code)', value: '[IEC number]' },
   { label: 'GSTIN', value: '[GST number]' },
   { label: 'Drug Licence (Wholesale)', value: '[Drug licence no.]' },
   { label: 'RCMC — Pharmexcil', value: '[RCMC no. / Applied]' },
+];
+
+// Certifications held by HKM's manufacturing partners — shown in the certification carousel.
+// `logo` lives in /public/certifications/; items without a logo show as a text badge.
+export const certifications: { name: string; logo?: string; scope: string }[] = [
+  { name: 'WHO-GMP', logo: '/certifications/who-gmp', scope: 'Pharmaceuticals' },
+  { name: 'ISO 9001', logo: '/certifications/iso-9001', scope: 'Quality management' },
+  { name: 'ISO 22000', logo: '/certifications/iso-22000', scope: 'Food safety' },
+  { name: 'HACCP', scope: 'Food safety' },
+  { name: 'FSSC 22000', scope: 'Food safety' },
+  { name: 'FSSAI', logo: '/certifications/fssai', scope: 'Frozen foods' },
+  { name: 'Halal', logo: '/certifications/halal', scope: 'Frozen foods' },
+];
+
+// Global presence section — countries we ship to (flags drawn in GlobalPresence.astro)
+export const presence = [
+  { code: 'gh', name: 'Ghana' },
+  { code: 'ng', name: 'Nigeria' },
+  { code: 'ci', name: 'Côte d’Ivoire' },
+  { code: 'sl', name: 'Sierra Leone' },
+  { code: 'gn', name: 'Guinea' },
+  { code: 'ml', name: 'Mali' },
+  { code: 'ga', name: 'Gabon' },
 ];
 
 // ⚠ PLACEHOLDER — founding members. Add a photo path (e.g. '/team/name.jpg' in /public/team/) or leave '' for a monogram.
@@ -88,7 +109,7 @@ export interface Vertical {
   forms?: string[];
   documents: { name: string; detail: string }[];
   services: { title: string; body: string }[];
-  markets: { title: string; body: string };
+  markets: { title: string; body: string; regions?: string[] };
   faqs: { q: string; a: string }[];
 }
 
@@ -106,10 +127,10 @@ export const verticals: Vertical[] = [
     cardBody:
       'Generic medicines and healthcare products sourced from WHO-GMP certified Indian manufacturers, with full documentation for registration and import.',
     heroSub:
-      'Quality generic medicines from WHO-GMP certified Indian manufacturers — with the documents, samples and registration support importers in Ghana and across Africa need to order with confidence.',
+      'Quality generic medicines from WHO-GMP certified Indian manufacturers — with the documents, samples and registration support importers across Africa, South East Asia, Asia Pacific, the UAE and Central & South America need to order with confidence.',
     intro: [
       'India supplies a large share of the world’s generic medicines, and much of its manufacturing base is right here in Gujarat. HKM Venture Global works as the sourcing and export partner between these manufacturers and importers, distributors and pharmacy chains abroad.',
-      'We do not manufacture. We select manufacturing partners on their certifications, audit history and export experience, and we stand between them and you on every order: quotation, samples, documents, quality checks, shipping and after-delivery support.',
+      'We offer contract manufacturing. We don’t run our own plants — we select certified manufacturing partners on their certifications, audit history and export experience, get your products made to your specification and, where needed, under your brand, and stand between them and you on every order: quotation, samples, documents, quality checks, shipping and after-delivery support.',
     ],
     groups: [
       {
@@ -213,7 +234,7 @@ export const verticals: Vertical[] = [
     services: [
       {
         title: 'Registration Support',
-        body: 'Most African markets require products to be registered before import — in Ghana, with the Food and Drugs Authority. We coordinate the dossier, CoPP, samples and stability data with the manufacturer so your registration moves faster.',
+        body: 'Most markets in Africa and the UAE require products to be registered before import — with Ghana’s Food and Drugs Authority, Nigeria’s NAFDAC, Kenya’s Pharmacy and Poisons Board, Tanzania’s TMDA, Uganda’s NDA, the UAE Ministry of Health and others. We coordinate the dossier, CoPP, samples and stability data with the manufacturer so your registration moves faster.',
       },
       {
         title: 'Samples Before Orders',
@@ -229,13 +250,14 @@ export const verticals: Vertical[] = [
       },
     ],
     markets: {
-      title: 'Focused on Ghana & West Africa',
-      body: 'Our first focus market is Ghana, with supply to other West and East African markets on request. A focused market means we learn its regulations, documentation and buyers in depth — rather than claiming to serve everyone.',
+      title: 'Africa, the UAE, Asia & the Americas',
+      body: 'We supply importers, distributors and pharmacy chains across Africa, the UAE, South East Asia, Asia Pacific and Central & South America — learning each market’s registration rules, documentation and buyers in depth.',
+      regions: ['Africa', 'UAE', 'South East Asia', 'Asia Pacific', 'Central America', 'South America'],
     },
     faqs: [
       {
         q: 'Are you a manufacturer?',
-        a: 'No. We are a sourcing and export partner. We work with WHO-GMP certified manufacturers in India and manage the full order for you — sourcing, quality checks, documentation and shipping.',
+        a: 'We offer contract (third-party) manufacturing. We don’t run our own plants — we get your products made at selected WHO-GMP certified partner facilities, to your specification and, where needed, under your brand, and manage the full order for you: sourcing, quality checks, documentation and shipping.',
       },
       {
         q: 'Can you help register products in Ghana?',
@@ -334,7 +356,7 @@ export const verticals: Vertical[] = [
     ],
     markets: {
       title: 'Serving Buyers Worldwide',
-      body: 'We supply chemical buyers across Africa, the Middle East and beyond. Tell us your destination port, and we will quote with freight and documentation included.',
+      body: 'We supply chemical buyers across Africa, the Middle East, Asia and South & Central America. Tell us your destination port, and we will quote with freight and documentation included.',
     },
     faqs: [
       {
@@ -366,9 +388,9 @@ export const verticals: Vertical[] = [
     metaDescription:
       'Frozen vegetables, seafood, frozen Indian foods and packaged snacks from certified Indian processors, shipped in temperature-controlled containers with full health and origin documentation.',
     cardBody:
-      'Frozen vegetables, seafood, frozen Indian foods and packaged snacks — cold chain managed from processor to port.',
+      'Frozen vegetables, seafood, gourmet and frozen Indian foods, and packaged snacks — cold chain managed from processor to port.',
     heroSub:
-      'Frozen vegetables, seafood, frozen Indian foods and packaged snacks from certified Indian processors — shipped at –18 °C with every health and origin document in order.',
+      'Frozen vegetables, seafood, gourmet foods, frozen Indian foods and packaged snacks from certified Indian processors — shipped at –18 °C with every health and origin document in order.',
     intro: [
       'Food imports are won and lost on consistency and paperwork. We work with certified Indian food processors and manage the cold chain from their facility to your port, so product arrives frozen, labelled and cleared.',
       'Whether you are a retailer, distributor or food-service buyer, we source to your pack sizes, labelling and certification needs.',
@@ -385,6 +407,10 @@ export const verticals: Vertical[] = [
       {
         name: 'Frozen Indian & Multicuisine Foods',
         items: ['Parathas & flatbreads', 'Samosas & snacks', 'Ready-to-cook meals', 'Multicuisine frozen foods'],
+      },
+      {
+        name: 'Gourmet Foods',
+        items: ['Snacks — fried & steamed', 'Curries & dips', 'Flatbreads', 'Rice dishes', 'Ready meals'],
       },
       {
         name: 'Meat & Processed Food Products',

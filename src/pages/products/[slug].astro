@@ -8,6 +8,8 @@ import Footer from '../../components/Footer.astro';
 import { verticals, waLink, type Vertical } from '../../data/site';
 import SectionImage from '../../components/SectionImage.astro';
 import SectionBg from '../../components/SectionBg.astro';
+import Certifications from '../../components/Certifications.astro';
+import GlobalPresence from '../../components/GlobalPresence.astro';
 import { hasImage } from '../../lib/images';
 
 export function getStaticPaths() {
@@ -152,8 +154,17 @@ const faqSchema = {
         <span class="label v-label gold">Markets</span>
         <h2 class="v-market-title">{v.markets.title}</h2>
         <p class="v-market-body">{v.markets.body}</p>
+        {v.markets.regions && (
+          <ul class="v-regions" aria-label="Target markets">
+            {v.markets.regions.map((r) => <li>{r}</li>)}
+          </ul>
+        )}
       </div>
     </section>
+
+    {v.slug === 'pharmaceuticals' && <GlobalPresence />}
+
+    <Certifications tone="muted" />
 
     <!-- FAQ -->
     <section class="section-pad v-faq">
@@ -315,6 +326,12 @@ const faqSchema = {
   .v-offer-grid :global(.v-fill-img) { margin-top: 40px; min-height: 240px; }
   .v-market-title { font-size: clamp(32px, 4vw, 48px); color: var(--hero-text); line-height: 1.15; margin-bottom: 20px; }
   .v-market-body { font-size: 16px; line-height: 1.8; color: rgba(245,240,232,0.6); }
+  .v-regions { list-style: none; display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-top: 32px; }
+  .v-regions li {
+    font-family: var(--font-label); font-size: 11px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--hero-text); padding: 9px 16px;
+    border: 1px solid rgba(229,193,136,0.45); background: rgba(8,7,6,0.35); backdrop-filter: blur(2px);
+  }
 
   .v-faq-grid { display: grid; grid-template-columns: 1fr 1.4fr; gap: 80px; align-items: start; }
   .faq { border-bottom: 1px solid var(--outline-variant); }
