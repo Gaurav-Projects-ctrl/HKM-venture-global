@@ -2,34 +2,99 @@
 const services = [
   {
     num: '01',
-    title: 'Export Management',
-    body: 'We handle all outbound documentation, pricing, and logistics for your goods going global.',
+    title: 'Sourcing & Supplier Selection',
+    items: [
+      'Product and specification discussion',
+      'Manufacturer identification and shortlisting',
+      'Certification verification (WHO-GMP, ISO, HACCP, FSSAI and others)',
+      'In-person site visits and audits',
+      'Price negotiation with manufacturers',
+    ],
   },
   {
     num: '02',
-    title: 'Import Solutions',
-    body: 'Seamless sourcing and inbound clearance for international products entering India.',
+    title: 'Third-Party Manufacturing',
+    items: [
+      'Manufacturing at selected certified partner facilities',
+      'Custom formulations and specifications',
+      'Private label and own-brand manufacturing',
+      'Custom packaging, labelling and artwork (in the language your market needs)',
+      'Minimum order and batch size planning',
+    ],
   },
   {
     num: '03',
-    title: 'Customs & Documentation',
-    body: 'Full compliance with Indian and international trade regulations — zero delays.',
+    title: 'Samples & Product Development',
+    items: [
+      'Sample arrangement and dispatch',
+      'Sample testing against specification',
+      'Pre-production sample (golden sample) approval',
+    ],
   },
   {
     num: '04',
-    title: 'Logistics & Freight',
-    body: 'Air, sea, and land freight management tailored to the nature of your cargo.',
+    title: 'Quality Assurance',
+    items: [
+      'In-process quality checks',
+      'Batch testing and COA for every batch',
+      'Pre-shipment inspection',
+      'Independent third-party inspection (SGS, Bureau Veritas, Intertek) on request',
+      'Batch-level traceability',
+    ],
   },
   {
     num: '05',
-    title: 'Cold Chain Management',
-    body: 'Temperature-controlled storage and transport for frozen food products.',
+    title: 'Documentation & Compliance',
+    items: [
+      'Commercial invoice, packing list and bill of lading or air waybill',
+      'Certificate of Origin, COA, MSDS/SDS',
+      'COPP, GMP and manufacturer certificates for pharma',
+      'Export health certificate, EIC and Halal certificates for frozen food',
+      'Support with documents for product registration in the UAE and African countries',
+      'Compliance with Indian export regulations',
+    ],
   },
   {
     num: '06',
-    title: 'Quality Assurance',
-    body: 'Pre-shipment inspection and supplier verification across all product categories.',
+    title: 'Customs Clearance',
+    items: [
+      'Export customs clearance in India (shipping bill, port formalities, export duty and incentive documentation)',
+      'Preparation of the documents customs requires, such as HS code classification, valuation and Certificate of Origin',
+      'Pre-shipment checks against destination rules, such as pre-shipment inspection schemes (PVoC, SONCAP) where they apply',
+      'Follow-up with customs and agents on export-side queries to keep shipments moving',
+    ],
   },
+  {
+    num: '07',
+    title: 'Export Management',
+    items: [
+      'Quotations with Incoterms (FOB, CFR, CIF)',
+      'Export pricing and costing',
+      'Export licences and registrations',
+      'Letter of credit and payment documentation support',
+    ],
+  },
+  {
+    num: '08',
+    title: 'Logistics & Freight',
+    items: [
+      'Air, sea and land freight',
+      'Container booking and consolidation (LCL and FCL)',
+      'Cold chain: reefer containers, temperature-controlled storage and transport, temperature records',
+      'Cargo insurance',
+      'Shipment tracking up to the destination port, in line with the agreed Incoterm',
+    ],
+  },
+];
+
+// The order flow, shown as a chain under the services
+const flow = [
+  'Certified Manufacturing',
+  'Quality Assurance',
+  'Third-Party Certification (if needed)',
+  'Storage',
+  'Logistics',
+  'Customs Clearance',
 ];
 import SectionImage from './SectionImage.astro';
 import { hasImage } from '../lib/images';
@@ -53,11 +118,25 @@ const svcImg = hasImage('home-services');
           <span class="svc-num">{s.num}</span>
           <div class="svc-content">
             <h3 class="svc-title">{s.title}</h3>
-            <p class="svc-body">{s.body}</p>
+            <ul class="svc-list">
+              {s.items.map((it) => <li>{it}</li>)}
+            </ul>
           </div>
           <div class="svc-line"></div>
         </div>
       ))}
+    </div>
+
+    <div class="svc-flow">
+      <span class="label svc-flow-label">How every order flows</span>
+      <ol class="svc-flow-list">
+        {flow.map((f, i) => (
+          <li class="svc-flow-step">
+            <span class="svc-flow-num">{String(i + 1).padStart(2, '0')}</span>
+            <span class="svc-flow-name">{f}</span>
+          </li>
+        ))}
+      </ol>
     </div>
   </div>
 </section>
@@ -125,10 +204,66 @@ const svcImg = hasImage('home-services');
     letter-spacing: -0.01em;
   }
 
-  .svc-body {
+  .svc-list { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+  .svc-list li {
+    position: relative;
+    padding-left: 18px;
     font-size: 14px;
-    line-height: 1.75;
+    line-height: 1.65;
     color: var(--on-surface-variant);
+  }
+  .svc-list li::before {
+    content: '';
+    position: absolute; left: 0; top: 0.72em;
+    width: 8px; height: 1px;
+    background: var(--primary-container);
+  }
+
+  /* Order flow chain */
+  .svc-flow {
+    margin-top: 72px;
+    padding: 40px 44px;
+    background: var(--inverse-surface);
+  }
+  .svc-flow-label { display: block; color: var(--inverse-primary); margin-bottom: 26px; }
+  .svc-flow-list {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 0;
+  }
+  .svc-flow-step {
+    position: relative;
+    display: flex; flex-direction: column; gap: 10px;
+    padding: 0 18px 0 0;
+  }
+  /* connecting line + arrow between steps */
+  .svc-flow-step:not(:last-child)::after {
+    content: '';
+    position: absolute; top: 9px; left: 34px; right: 10px;
+    height: 1px; background: rgba(229,193,136,0.35);
+  }
+  .svc-flow-step:not(:last-child)::before {
+    content: '';
+    position: absolute; top: 6px; right: 10px;
+    width: 6px; height: 6px;
+    border-top: 1px solid rgba(229,193,136,0.6);
+    border-right: 1px solid rgba(229,193,136,0.6);
+    transform: rotate(45deg);
+  }
+  .svc-flow-num { font-family: var(--font-display); font-style: italic; font-size: 16px; color: var(--inverse-primary); line-height: 1.2; }
+  .svc-flow-name { font-family: var(--font-display); font-size: 18px; line-height: 1.3; color: var(--hero-text); }
+
+  @media (max-width: 1100px) {
+    .svc-flow-list { grid-template-columns: repeat(3, 1fr); row-gap: 28px; }
+    .svc-flow-step:nth-child(3)::after, .svc-flow-step:nth-child(3)::before { display: none; }
+  }
+  @media (max-width: 600px) {
+    .svc-flow { padding: 32px 24px; margin-top: 48px; }
+    .svc-flow-list { grid-template-columns: 1fr; row-gap: 0; }
+    .svc-flow-step { flex-direction: row; align-items: baseline; gap: 14px; padding: 12px 0; border-bottom: 1px solid rgba(229,193,136,0.15); }
+    .svc-flow-step:last-child { border-bottom: none; }
+    .svc-flow-step::after, .svc-flow-step::before { display: none !important; }
   }
 
   .svc-line {
@@ -144,6 +279,9 @@ const svcImg = hasImage('home-services');
 
   @media (max-width: 768px) {
     .svc-grid { grid-template-columns: 1fr; }
+    .svc-item { grid-template-columns: 32px 1fr; gap: 0 12px; }
+    .svc-line { left: 32px; }
+    .svc-item:hover .svc-line { width: calc(100% - 32px); }
     .svc-item:nth-child(odd)  { padding-right: 0; border-right: none; }
     .svc-item:nth-child(even) { padding-left: 0; }
     .svc-item:nth-last-child(-n+2) { border-bottom: 1px solid var(--outline-variant); }
