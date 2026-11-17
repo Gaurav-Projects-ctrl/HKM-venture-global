@@ -37,8 +37,8 @@ export const certifications: { name: string; logo?: string; scope: string }[] = 
   { name: 'WHO-GMP', logo: '/certifications/who-gmp', scope: 'Pharmaceuticals' },
   { name: 'ISO 9001', logo: '/certifications/iso-9001', scope: 'Quality management' },
   { name: 'ISO 22000', logo: '/certifications/iso-22000', scope: 'Food safety' },
-  { name: 'HACCP', scope: 'Food safety' },
-  { name: 'FSSC 22000', scope: 'Food safety' },
+  { name: 'HACCP', logo: '/certifications/haccp', scope: 'Food safety' },
+  { name: 'FSSC 22000', logo: '/certifications/fssc-22000', scope: 'Food safety' },
   { name: 'FSSAI', logo: '/certifications/fssai', scope: 'Frozen foods' },
   { name: 'Halal', logo: '/certifications/halal', scope: 'Frozen foods' },
 ];
