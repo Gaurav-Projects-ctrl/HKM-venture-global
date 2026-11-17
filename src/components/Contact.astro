@@ -42,9 +42,6 @@ const { product = '' } = Astro.props;
       </div>
 
       <form class="contact-form" id="contact-form" novalidate>
-        <input type="hidden" name="access_key" value="72884102-36af-41f8-9214-3aec938ab1de" />
-        <input type="hidden" name="subject" value="New Enquiry — HKM Venture Global Website" />
-        <input type="hidden" name="from_name" value="HKM Venture Global Website" />
         <input type="checkbox" name="botcheck" style="display:none;" />
         <div class="form-row two-col">
           <div class="form-group">
@@ -270,6 +267,7 @@ const { product = '' } = Astro.props;
 <script>
   import { gsap } from 'gsap';
   import { ScrollTrigger } from 'gsap/ScrollTrigger';
+  import { EMAILJS, sendEmail } from '../lib/emailjs';
   gsap.registerPlugin(ScrollTrigger);
 
   gsap.from('.contact-left', {
@@ -290,17 +288,28 @@ const { product = '' } = Astro.props;
     btn.textContent = 'Sending…';
     btn.disabled = true;
 
-    const data = Object.fromEntries(new FormData(form));
+    const data = Object.fromEntries(new FormData(form)) as Record<string, string>;
+    const productSel = form.querySelector('#product') as HTMLSelectElement;
+    const product = productSel.value ? productSel.selectedOptions[0].textContent!.trim() : '';
 
-    const res = await fetch('https://api.web3forms.com/submit', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-      body: JSON.stringify(data),
+    // Hidden honeypot ticked → a bot; pretend success, send nothing
+    const ok = data.botcheck ? true : await sendEmail(EMAILJS.templates.leadNotification, {
+      lead_type: 'Website enquiry',
+      name: data.name,
+      company: data.company,
+      email: data.email,
+      phone: data.phone ? `${data.phone_code} ${data.phone}` : '',
+      country: '',
+      product,
+      message: data.message,
     });
 
-    const json = await res.json();
+    // Thank-you email to the buyer (a failure here doesn't affect the enquiry)
+    if (ok && !data.botcheck) {
+      sendEmail(EMAILJS.templates.autoReply, { name: data.name, email: data.email, product: product || 'our products' });
+    }
 
-    if (json.success) {
+    if (ok) {
       btn.textContent = 'Enquiry Sent ✓';
       btn.style.background = 'var(--primary)';
       btn.style.color = '#fff';

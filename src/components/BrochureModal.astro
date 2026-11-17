@@ -3,7 +3,7 @@ import { company } from '../data/site';
 ---
 <!--
   Brochure download pop-up. Any element with the attribute  data-brochure
-  opens it. The visitor's details are emailed via Web3Forms (a lead), then
+  opens it. The visitor's details are emailed via EmailJS (a lead), then
   the brochure downloads.
 -->
 <dialog id="brochure-modal" class="bro-modal" aria-labelledby="bro-title">
@@ -14,9 +14,6 @@ import { company } from '../data/site';
     Our products, quality standards and how we work — in one PDF. Tell us who you are and the download starts right away.
   </p>
   <form id="brochure-form" class="bro-form" novalidate>
-    <input type="hidden" name="access_key" value={company.web3formsKey} />
-    <input type="hidden" name="subject" value="Brochure Download — HKM Venture Global Website" />
-    <input type="hidden" name="from_name" value="HKM Venture Global Website" />
     <input type="checkbox" name="botcheck" style="display:none;" />
     <div class="bro-row">
       <label class="bro-field">
@@ -102,6 +99,7 @@ import { company } from '../data/site';
 </style>
 
 <script>
+  import { EMAILJS, sendEmail } from '../lib/emailjs';
   const modal = document.getElementById('brochure-modal') as HTMLDialogElement;
   const form = document.getElementById('brochure-form') as HTMLFormElement;
   const err = document.getElementById('bro-error')!;
@@ -133,13 +131,20 @@ import { company } from '../data/site';
     const btn = form.querySelector('.bro-submit') as HTMLButtonElement;
     btn.disabled = true;
     btn.textContent = 'Preparing…';
-    try {
-      await fetch('https://api.web3forms.com/submit', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-        body: JSON.stringify(Object.fromEntries(new FormData(form))),
+    const d = Object.fromEntries(new FormData(form)) as Record<string, string>;
+    if (!d.botcheck) {
+      // Lead email to HKM; the download goes ahead even if sending fails
+      await sendEmail(EMAILJS.templates.leadNotification, {
+        lead_type: 'Brochure download',
+        name: d.name,
+        company: d.company,
+        email: d.email,
+        phone: '',
+        country: d.country,
+        product: '',
+        message: 'Downloaded the company brochure.',
       });
-    } catch (_) { /* download anyway */ }
+    }
     file.click();
     btn.textContent = 'Downloaded ✓';
     setTimeout(() => {
