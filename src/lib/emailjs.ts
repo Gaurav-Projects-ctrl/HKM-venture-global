@@ -4,7 +4,7 @@
  */
 export const EMAILJS = {
   publicKey: 'QZv_AWdUtPQblMPQf',
-  serviceId: 'service_v7zalfu',
+  serviceId: 'service_q62sb5y',
   templates: {
     leadNotification: 'template_urty87q', // to HKM — enquiries and brochure downloads
     autoReply: 'template_0uaqblb',        // to the buyer — enquiries only
