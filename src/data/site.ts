@@ -17,8 +17,6 @@ export const company = {
   whatsappMessage: "Hello HKM Venture Global, I'd like to enquire about your products.",
   hours: 'Monday – Saturday, 9:00 AM – 6:00 PM IST',
   linkedin: 'https://www.linkedin.com/company/hkm-venture-global',
-  // ⚠ PLACEHOLDER — replace /public/brochure/hkm-venture-global-brochure.pdf with the real brochure
-  brochureUrl: '/brochure/hkm-venture-global-brochure.pdf',
   web3formsKey: '72884102-36af-41f8-9214-3aec938ab1de',
 };
 

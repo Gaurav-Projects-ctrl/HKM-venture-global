@@ -1,44 +1,53 @@
 ---
-import { company } from '../data/site';
 ---
 <!--
-  Brochure download pop-up. Any element with the attribute  data-brochure
-  opens it. The visitor's details are emailed via EmailJS (a lead), then
-  the brochure downloads.
+  Brochure request pop-up. Any element with the attribute  data-brochure  opens it.
+  The brochure is NOT on the website: the visitor's details are emailed to HKM (EmailJS),
+  and the sales team sends the brochure to them by email.
 -->
 <dialog id="brochure-modal" class="bro-modal" aria-labelledby="bro-title">
   <button class="bro-close" type="button" aria-label="Close" data-bro-close>×</button>
-  <span class="label bro-over">Company Brochure</span>
-  <h2 id="bro-title" class="bro-title">Download our <em>brochure</em></h2>
-  <p class="bro-sub">
-    Our products, quality standards and how we work — in one PDF. Tell us who you are and the download starts right away.
-  </p>
-  <form id="brochure-form" class="bro-form" novalidate>
-    <input type="checkbox" name="botcheck" style="display:none;" />
-    <div class="bro-row">
+
+  <div class="bro-step" id="bro-step-form">
+    <span class="label bro-over">Company Brochure</span>
+    <h2 id="bro-title" class="bro-title">Request our <em>brochure</em></h2>
+    <p class="bro-sub">
+      Our products, quality standards and how we work. Share your details and our sales team will email the brochure to you.
+    </p>
+    <form id="brochure-form" class="bro-form" novalidate>
+      <input type="checkbox" name="botcheck" style="display:none;" tabindex="-1" autocomplete="off" />
       <label class="bro-field">
         <span class="label">Full Name *</span>
         <input type="text" name="name" required autocomplete="name" placeholder="Your name" />
       </label>
+      <div class="bro-row">
+        <label class="bro-field">
+          <span class="label">Email *</span>
+          <input type="email" name="email" required autocomplete="email" placeholder="you@company.com" />
+        </label>
+        <label class="bro-field">
+          <span class="label">Contact Number *</span>
+          <input type="tel" name="phone" required autocomplete="tel" inputmode="tel" placeholder="+233 24 123 4567" />
+        </label>
+      </div>
       <label class="bro-field">
-        <span class="label">Company *</span>
-        <input type="text" name="company" required autocomplete="organization" placeholder="Your company" />
+        <span class="label">Company</span>
+        <input type="text" name="company" autocomplete="organization" placeholder="Your company (optional)" />
       </label>
-    </div>
-    <div class="bro-row">
-      <label class="bro-field">
-        <span class="label">Business Email *</span>
-        <input type="email" name="email" required autocomplete="email" placeholder="you@company.com" />
-      </label>
-      <label class="bro-field">
-        <span class="label">Country</span>
-        <input type="text" name="country" autocomplete="country-name" placeholder="e.g. Ghana" />
-      </label>
-    </div>
-    <p class="bro-error" id="bro-error" role="alert"></p>
-    <button type="submit" class="btn btn-dark bro-submit">Download Brochure ↓</button>
-  </form>
-  <a id="bro-file" href={company.brochureUrl} download hidden>Brochure</a>
+      <p class="bro-error" id="bro-error" role="alert"></p>
+      <button type="submit" class="btn btn-dark bro-submit">Request Brochure</button>
+    </form>
+  </div>
+
+  <div class="bro-step bro-done" id="bro-step-done" hidden>
+    <span class="bro-tick" aria-hidden="true">✓</span>
+    <span class="label bro-over">Request received</span>
+    <h2 class="bro-title">Thank you, <em id="bro-done-name"></em></h2>
+    <p class="bro-sub">
+      Our sales team will email the brochure to <strong id="bro-done-email"></strong> shortly, usually within one working day.
+    </p>
+    <button type="button" class="btn btn-dark" data-bro-close>Close</button>
+  </div>
 </dialog>
 
 <style>
@@ -90,6 +99,14 @@ import { company } from '../data/site';
   .bro-field input.invalid { border-bottom-color: #ba1a1a; }
   .bro-error { font-size: 13px; color: #ba1a1a; min-height: 18px; }
   .bro-submit { align-self: flex-start; }
+  .bro-done { text-align: left; }
+  .bro-tick {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 44px; height: 44px; border-radius: 50%;
+    background: var(--primary); color: #fff; font-size: 20px;
+    margin-bottom: 20px;
+  }
+  .bro-done strong { color: var(--on-surface); font-weight: 600; overflow-wrap: anywhere; }
 
   @media (max-width: 600px) {
     .bro-modal { padding: 40px 22px 28px; }
@@ -100,10 +117,10 @@ import { company } from '../data/site';
 
 <script>
   import { EMAILJS, sendEmail } from '../lib/emailjs';
+  const EMAIL_TO = 'info@hkmventureglobal.com';
   const modal = document.getElementById('brochure-modal') as HTMLDialogElement;
   const form = document.getElementById('brochure-form') as HTMLFormElement;
   const err = document.getElementById('bro-error')!;
-  const file = document.getElementById('bro-file') as HTMLAnchorElement;
 
   document.addEventListener('click', (e) => {
     const t = (e.target as HTMLElement).closest('[data-brochure]');
@@ -119,39 +136,62 @@ import { company } from '../data/site';
     i.addEventListener('input', () => { i.classList.remove('invalid'); err.textContent = ''; })
   );
 
+  const stepForm = document.getElementById('bro-step-form')!;
+  const stepDone = document.getElementById('bro-step-done')!;
+  const reset = () => {
+    form.reset();
+    form.querySelectorAll('input').forEach((i) => i.classList.remove('invalid'));
+    err.textContent = '';
+    stepForm.hidden = false;
+    stepDone.hidden = true;
+  };
+  modal.addEventListener('close', reset);
+
+  const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+  const phoneOk = (v: string) => /^[+\d][\d\s().-]*$/.test(v) && (v.match(/\d/g) || []).length >= 7 && (v.match(/\d/g) || []).length <= 15;
+
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
-    const required = [...form.querySelectorAll('input[required]')] as HTMLInputElement[];
-    const bad = required.filter((i) => !i.value.trim() || (i.type === 'email' && !i.checkValidity()));
+    const f = (n: string) => form.elements.namedItem(n) as HTMLInputElement;
+    const checks: [HTMLInputElement, boolean][] = [
+      [f('name'), f('name').value.trim().length > 1],
+      [f('email'), EMAIL_RE.test(f('email').value.trim())],
+      [f('phone'), phoneOk(f('phone').value.trim())],
+    ];
+    const bad = checks.filter(([, ok]) => !ok).map(([el]) => el);
     bad.forEach((i) => i.classList.add('invalid'));
     if (bad.length) {
-      err.textContent = 'Please fill in your name, company and a valid email.';
+      err.textContent = 'Please enter your name, a valid email address and a contact number with country code.';
+      bad[0].focus();
       return;
     }
+
     const btn = form.querySelector('.bro-submit') as HTMLButtonElement;
     btn.disabled = true;
-    btn.textContent = 'Preparing…';
+    btn.textContent = 'Sending…';
+
     const d = Object.fromEntries(new FormData(form)) as Record<string, string>;
-    if (!d.botcheck) {
-      // Lead email to HKM; the download goes ahead even if sending fails
-      await sendEmail(EMAILJS.templates.leadNotification, {
-        lead_type: 'Brochure download',
-        name: d.name,
-        company: d.company,
-        email: d.email,
-        phone: '',
-        country: d.country,
-        product: '',
-        message: 'Downloaded the company brochure.',
-      });
+    // Honeypot ticked → a bot; show success, send nothing
+    const ok = d.botcheck ? true : await sendEmail(EMAILJS.templates.leadNotification, {
+      lead_type: 'Brochure request',
+      name: d.name,
+      company: d.company,
+      email: d.email,
+      phone: d.phone,
+      country: '',
+      product: '',
+      message: 'Requested the company brochure. Please email the brochure to this contact.',
+    });
+
+    btn.disabled = false;
+    btn.textContent = 'Request Brochure';
+    if (ok) {
+      document.getElementById('bro-done-name')!.textContent = d.name.trim().split(/\s+/)[0] + '.';
+      document.getElementById('bro-done-email')!.textContent = d.email.trim();
+      stepForm.hidden = true;
+      stepDone.hidden = false;
+    } else {
+      err.textContent = 'Sorry, your request could not be sent. Please try again, or email us at ' + EMAIL_TO + '.';
     }
-    file.click();
-    btn.textContent = 'Downloaded ✓';
-    setTimeout(() => {
-      modal.close();
-      form.reset();
-      btn.disabled = false;
-      btn.textContent = 'Download Brochure ↓';
-    }, 1400);
   });
 </script>
