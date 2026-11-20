@@ -267,7 +267,7 @@ const { product = '' } = Astro.props;
 <script>
   import { gsap } from 'gsap';
   import { ScrollTrigger } from 'gsap/ScrollTrigger';
-  import { EMAILJS, sendEmail } from '../lib/emailjs';
+  import { sendLead } from '../lib/forms';
   gsap.registerPlugin(ScrollTrigger);
 
   gsap.from('.contact-left', {
@@ -293,21 +293,17 @@ const { product = '' } = Astro.props;
     const product = productSel.value ? productSel.selectedOptions[0].textContent!.trim() : '';
 
     // Hidden honeypot ticked → a bot; pretend success, send nothing
-    const ok = data.botcheck ? true : await sendEmail(EMAILJS.templates.leadNotification, {
-      lead_type: 'Website enquiry',
-      name: data.name,
-      company: data.company,
-      email: data.email,
-      phone: data.phone ? `${data.phone_code} ${data.phone}` : '',
-      country: '',
-      product,
-      message: data.message,
-    });
-
-    // Thank-you email to the buyer (a failure here doesn't affect the enquiry)
-    if (ok && !data.botcheck) {
-      sendEmail(EMAILJS.templates.autoReply, { name: data.name, email: data.email, product: product || 'our products' });
-    }
+    const ok = data.botcheck ? true : await sendLead(
+      `New enquiry: ${product || 'General'} from ${data.name}${data.company ? ` (${data.company})` : ''}`,
+      {
+        name: data.name,
+        company: data.company,
+        email: data.email,
+        phone: data.phone ? `${data.phone_code} ${data.phone}` : '',
+        product,
+        message: data.message,
+      },
+    );
 
     if (ok) {
       btn.textContent = 'Enquiry Sent ✓';

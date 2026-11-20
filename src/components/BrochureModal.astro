@@ -2,7 +2,7 @@
 ---
 <!--
   Brochure request pop-up. Any element with the attribute  data-brochure  opens it.
-  The brochure is NOT on the website: the visitor's details are emailed to HKM (EmailJS),
+  The brochure is NOT on the website: the visitor's details are emailed to HKM (Web3Forms),
   and the sales team sends the brochure to them by email.
 -->
 <dialog id="brochure-modal" class="bro-modal" aria-labelledby="bro-title">
@@ -116,7 +116,7 @@
 </style>
 
 <script>
-  import { EMAILJS, sendEmail } from '../lib/emailjs';
+  import { sendLead } from '../lib/forms';
   const EMAIL_TO = 'info@hkmventureglobal.com';
   const modal = document.getElementById('brochure-modal') as HTMLDialogElement;
   const form = document.getElementById('brochure-form') as HTMLFormElement;
@@ -172,16 +172,16 @@
 
     const d = Object.fromEntries(new FormData(form)) as Record<string, string>;
     // Honeypot ticked → a bot; show success, send nothing
-    const ok = d.botcheck ? true : await sendEmail(EMAILJS.templates.leadNotification, {
-      lead_type: 'Brochure request',
-      name: d.name,
-      company: d.company,
-      email: d.email,
-      phone: d.phone,
-      country: '',
-      product: '',
-      message: 'Requested the company brochure. Please email the brochure to this contact.',
-    });
+    const ok = d.botcheck ? true : await sendLead(
+      `Brochure request from ${d.name}${d.company ? ` (${d.company})` : ''}`,
+      {
+        name: d.name,
+        email: d.email,
+        phone: d.phone,
+        company: d.company,
+        message: 'Requested the company brochure. Please email the brochure to this contact.',
+      },
+    );
 
     btn.disabled = false;
     btn.textContent = 'Request Brochure';
