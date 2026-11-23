@@ -11,9 +11,9 @@
 // ─────────────────────────────────────────────────────────────
 export const tracking = {
   googleTagId: 'GTM-NPTW3MDN',
-  adsConversionId: '', // ⚠ e.g. 'AW-1234567890'
+  adsConversionId: 'AW-18584118147',
   adsConversionLabels: {
-    quote: '',    // ⚠ "Request a quote" form sent
+    quote: 'Lgc1CNiA7r0dEIPHzJ1F', // "Request a quote" form sent
     brochure: '', // ⚠ Brochure request form sent
     whatsapp: '', // ⚠ WhatsApp button / link clicked
     phone: '',    // ⚠ Phone number clicked
