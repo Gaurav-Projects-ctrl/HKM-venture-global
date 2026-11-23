@@ -47,6 +47,16 @@ const own = v.slug;
 const fb = v.image ?? v.slug;
 const sec = (part: string) => (hasImage(`${own}-${part}`) ? `${own}-${part}` : `${fb}-${part}`);
 const headerImg = hasHeader(own) ? own : fb;
+// Alt text describes what each photo actually shows. Add a line here when a new photo is added.
+const photoAlts: Record<string, string> = {
+  'pharmaceuticals-overview': 'Pharmacy shelves stocked with medicine bottles and boxed healthcare products',
+  'pharmaceuticals-work': 'Worker in protective clothing moving packed goods in a pharmaceutical warehouse',
+  'chemicals-overview': 'Laboratory scientist in safety goggles and mask working at a glass enclosure with lab mice',
+  'chemicals-work': 'Chemical storage tanks at an industrial terminal at dusk',
+  'frozen-foods-overview': 'Gloved hands sorting frozen raspberries on a food processing line',
+  'frozen-foods-work': 'Refrigerated truck being loaded with packed produce cartons and a temperature logger',
+};
+const altFor = (name: string, fallback: string) => photoAlts[name] ?? fallback;
 
 const faqSchema = {
   '@context': 'https://schema.org',
@@ -77,7 +87,7 @@ const faqSchema = {
     <section class="section-pad v-intro">
       <div class="container split-media split-media--img-right">
         <div class="split-media__img">
-          <SectionImage name={sec('overview')} alt={`${v.title} — sourcing and quality checks`} fill />
+          <SectionImage name={sec('overview')} alt={altFor(sec('overview'), `${v.short} — sourcing and quality checks`)} fill />
         </div>
         <div class="split-media__text reveal">
           <span class="label v-label">Overview</span>
@@ -156,7 +166,7 @@ const faqSchema = {
           <p class="v-body light">
             We are new, so we ask you to judge us on how we work: the manufacturers we choose, the documents we provide and how quickly we answer.
           </p>
-          <SectionImage name={sec('work')} alt={`${v.title} — storage and handling before export`} fill class="v-fill-img" />
+          <SectionImage name={sec('work')} alt={altFor(sec('work'), `${v.short} — storage and handling before export`)} fill class="v-fill-img" />
         </div>
         <div class="offer-list">
           {v.services.map((s) => (
