@@ -14,7 +14,7 @@ import SectionImage from './SectionImage.astro';
 import SectionBg from './SectionBg.astro';
 import Certifications from './Certifications.astro';
 import GlobalPresence from './GlobalPresence.astro';
-import { hasImage } from '../lib/images';
+import { hasImage, hasHeader } from '../lib/images';
 
 interface Props {
   v: Vertical;
@@ -41,8 +41,12 @@ const {
   adLanding = false,
 } = Astro.props;
 const quoteWa = waLink(`Hello HKM Venture Global, I would like a quote for ${v.short.toLowerCase()}.`);
-// Photo file prefix in /public/images and /public/headers
-const img = v.image ?? v.slug;
+// Photos: the page's own files (/public/images/<slug>-overview.jpg, /public/headers/<slug>-desktop.jpg …)
+// are used when present; otherwise each photo falls back to v.image (e.g. the pharmaceuticals photos).
+const own = v.slug;
+const fb = v.image ?? v.slug;
+const sec = (part: string) => (hasImage(`${own}-${part}`) ? `${own}-${part}` : `${fb}-${part}`);
+const headerImg = hasHeader(own) ? own : fb;
 
 const faqSchema = {
   '@context': 'https://schema.org',
@@ -66,14 +70,14 @@ const faqSchema = {
       crumbs={[{ label: 'Products', href: '/products' }, { label: crumb }]}
       primaryLabel="Request a Quote"
       primaryHref="#contact"
-      image={img}
+      image={headerImg}
     />
 
     <!-- Intro -->
     <section class="section-pad v-intro">
       <div class="container split-media split-media--img-right">
         <div class="split-media__img">
-          <SectionImage name={`${img}-overview`} alt={`${v.title} — sourcing and quality checks`} fill />
+          <SectionImage name={sec('overview')} alt={`${v.title} — sourcing and quality checks`} fill />
         </div>
         <div class="split-media__text reveal">
           <span class="label v-label">Overview</span>
@@ -152,7 +156,7 @@ const faqSchema = {
           <p class="v-body light">
             We are new, so we ask you to judge us on how we work: the manufacturers we choose, the documents we provide and how quickly we answer.
           </p>
-          <SectionImage name={`${img}-work`} alt={`${v.title} — storage and handling before export`} fill class="v-fill-img" />
+          <SectionImage name={sec('work')} alt={`${v.title} — storage and handling before export`} fill class="v-fill-img" />
         </div>
         <div class="offer-list">
           {v.services.map((s) => (
@@ -192,8 +196,8 @@ const faqSchema = {
     </section>
 
     <!-- Markets -->
-    <section class:list={['v-market', { 'has-img': hasImage(`${img}-market`) }]}>
-      <SectionBg name={`${img}-market`} shade={0.7} />
+    <section class:list={['v-market', { 'has-img': hasImage(sec('market')) }]}>
+      <SectionBg name={sec('market')} shade={0.7} />
       <div class="container v-market-inner reveal">
         <span class="label v-label gold">Markets</span>
         <h2 class="v-market-title">{v.markets.title}</h2>

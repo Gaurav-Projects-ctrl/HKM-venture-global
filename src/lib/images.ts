@@ -9,6 +9,9 @@ export const imgSrc = (name: string) => `/images/${name}.jpg`;
 /** True if /public/images/<name>.jpg exists — sections without a photo keep their text-only layout */
 export const hasImage = (name: string) => fs.existsSync(pub('images', `${name}.jpg`));
 
+/** True if /public/headers/<name>-desktop.jpg exists */
+export const hasHeader = (name: string) => fs.existsSync(pub('headers', `${name}-desktop.jpg`));
+
 const optCache = new Map<string, string[]>();
 const optFiles = (dir: string) => {
   if (!optCache.has(dir)) {

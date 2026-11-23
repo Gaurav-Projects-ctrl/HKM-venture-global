@@ -92,7 +92,7 @@ export interface ProductGroup {
 
 export interface Vertical {
   slug: string;
-  /** Photo file prefix in /public/images and /public/headers (defaults to slug) */
+  /** Fallback photo prefix in /public/images and /public/headers, used where the page has no photo of its own (defaults to slug) */
   image?: string;
   /** Short line under the name in the Products menu (defaults to the first three group names) */
   navDesc?: string;
