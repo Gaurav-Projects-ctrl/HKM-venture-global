@@ -1,5 +1,7 @@
 ---
-import { verticals } from '../data/site';
+import { verticals, medicalSupplies } from '../data/site';
+// Medical & Surgical Supplies sits right after Healthcare & Pharmaceuticals
+const productPages = [verticals[0], medicalSupplies, ...verticals.slice(1)];
 const path = Astro.url.pathname.replace(/\/$/, '') || '/';
 const isActive = (href: string) => (href === '/' ? path === '/' : path.startsWith(href));
 ---
@@ -17,12 +19,12 @@ const isActive = (href: string) => (href === '/' ? path === '/' : path.startsWit
         </a>
         <div class="dd-panel">
           <div class="dd-inner">
-            {verticals.map((v) => (
+            {productPages.map((v) => (
               <a href={`/products/${v.slug}`} class="dd-item">
                 <span class="dd-icon">{v.icon}</span>
                 <span>
                   <span class="dd-title">{v.short}</span>
-                  <span class="dd-desc">{v.groups.slice(0, 3).map((g) => g.name).join(' · ')}</span>
+                  <span class="dd-desc">{v.navDesc ?? v.groups.slice(0, 3).map((g) => g.name).join(' · ')}</span>
                 </span>
               </a>
             ))}
@@ -46,7 +48,7 @@ const isActive = (href: string) => (href === '/' ? path === '/' : path.startsWit
     <li><a href="/">Home</a></li>
     <li><a href="/about">About Us</a></li>
     <li><a href="/products">All Products</a></li>
-    {verticals.map((v) => (
+    {productPages.map((v) => (
       <li class="sub"><a href={`/products/${v.slug}`}>{v.short}</a></li>
     ))}
     <li><a href="/#services">Services</a></li>

@@ -1,11 +1,13 @@
 ---
 /**
- * "Present in X countries" — global export network section with country flags.
+ * "Exporting to 10+ countries" — global export network section with the flags of
+ * the West & Central African markets HKM is expanding into.
  * Countries come from `presence` in src/data/site.ts; flags are drawn as inline SVG (no image downloads).
  */
 import { presence } from '../data/site';
 
-const count = presence.length;
+// Number of countries HKM exports to (shown in the heading and the stat box)
+const exportCount = '10+';
 
 // Simple tricolour flags (3:2). h = horizontal stripes, v = vertical stripes.
 const flags: Record<string, { dir: 'h' | 'v'; colors: string[]; star?: boolean }> = {
@@ -20,12 +22,11 @@ const flags: Record<string, { dir: 'h' | 'v'; colors: string[]; star?: boolean }
 const star = '15.00,6.60 15.79,8.91 18.23,8.95 16.28,10.42 17.00,12.75 15.00,11.35 13.00,12.75 13.72,10.42 11.77,8.95 14.21,8.91';
 
 const regions = [
-  { name: 'West & Central Africa', list: presence.map((p) => p.name).join(' · ') },
-  { name: 'Expanding to', list: 'UAE · South East Asia · Asia Pacific · Central & South America' },
+  { name: 'Expanding across West & Central Africa:', list: presence.map((p) => p.name).join(' · ') },
 ];
 
 const stats = [
-  { num: `${count}+`, label: 'African countries', accent: true },
+  { num: exportCount, label: 'Export countries', accent: true },
   { num: '5000+', label: 'Products' },
   { num: '3', label: 'Industry sectors' },
   { num: '24h', label: 'Enquiry response' },
@@ -37,10 +38,10 @@ const stats = [
       <div class="gp-text reveal">
         <span class="label gp-label">Global Export Network</span>
         <h2 class="gp-title" id="gp-title">
-          Present in <span class="gp-accent">{count}+ Countries</span><br/>Across Africa
+          Exporting to <span class="gp-accent">{exportCount} Countries</span><br/>Expanding Across West &amp; Central Africa
         </h2>
         <p class="gp-body">
-          Indian medicines, chemicals and foods sourced by HKM reach importers and distributors across West and Central Africa — with new markets opening in the Middle East, Asia and the Americas.
+          Indian medicines, chemicals and foods sourced by HKM reach importers and distributors in {exportCount} countries — and we are now expanding across West and Central Africa.
         </p>
         <ul class="gp-regions">
           {regions.map((r) => (
@@ -59,7 +60,7 @@ const stats = [
       </div>
     </div>
 
-    <ul class="gp-flags reveal" aria-label="Countries we export to">
+    <ul class="gp-flags reveal" aria-label="West and Central African markets">
       {presence.map((p) => {
         const f = flags[p.code];
         return (

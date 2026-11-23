@@ -2,24 +2,41 @@
 import '../styles/global.css';
 import WhatsAppFloat from '../components/WhatsAppFloat.astro';
 import BrochureModal from '../components/BrochureModal.astro';
+import { tracking } from '../data/tracking';
 
 interface Props {
   title?: string;
   description?: string;
+  /** Keep this page out of search results (e.g. Google Ads landing pages) */
+  noindex?: boolean;
 }
 const {
   title = "HKM Venture Global — Pharmaceutical, Chemical & Frozen Food Exporter from India",
   description = 'India-based sourcing and export partner for healthcare & pharmaceuticals, chemicals and frozen foods. WHO-GMP certified manufacturing partners, full documentation and registration support for importers in Ghana and Africa.',
+  noindex = false,
 } = Astro.props;
+const { googleTagId } = tracking;
 const canonical = new URL(Astro.url.pathname, 'https://hkmventureglobal.com').href;
 ---
 <!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    {googleTagId && (
+      <Fragment>
+        <!-- Google tag (Google Ads / Tag Manager) -->
+        <script is:inline async src={`https://www.googletagmanager.com/gtm.js?id=${googleTagId}`}></script>
+        <script is:inline>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+        </script>
+      </Fragment>
+    )}
     <script is:inline>document.documentElement.classList.add('js');</script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content={description} />
+    {noindex && <meta name="robots" content="noindex, follow" />}
     <title>{title}</title>
     <link rel="canonical" href={canonical} />
     <meta property="og:type" content="website" />
@@ -47,6 +64,17 @@ const canonical = new URL(Astro.url.pathname, 'https://hkmventureglobal.com').hr
         });
       }, { rootMargin: '0px 0px -8% 0px' });
       document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
+    </script>
+    <script>
+      // Count WhatsApp and phone clicks as leads (Google Ads conversions)
+      import { trackLead } from '../lib/track';
+      document.addEventListener('click', (e) => {
+        const a = (e.target as HTMLElement).closest('a');
+        if (!a) return;
+        const href = a.getAttribute('href') || '';
+        if (href.startsWith('https://wa.me/')) trackLead('whatsapp', { page: location.pathname });
+        else if (href.startsWith('tel:')) trackLead('phone', { page: location.pathname });
+      });
     </script>
   </body>
 </html>

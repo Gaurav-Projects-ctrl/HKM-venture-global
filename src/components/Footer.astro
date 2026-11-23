@@ -1,5 +1,6 @@
 ---
-import { company, verticals, waLink } from '../data/site';
+import { company, verticals, waLink, medicalSupplies } from '../data/site';
+const productPages = [verticals[0], medicalSupplies, ...verticals.slice(1)];
 const year = new Date().getFullYear();
 ---
 <footer class="footer">
@@ -30,7 +31,7 @@ const year = new Date().getFullYear();
         <div class="footer-col">
           <span class="label footer-col-title">Products</span>
           <ul>
-            {verticals.map((v) => (
+            {productPages.map((v) => (
               <li><a href={`/products/${v.slug}`}>{v.short}</a></li>
             ))}
             <li><a href="/products">All Products</a></li>

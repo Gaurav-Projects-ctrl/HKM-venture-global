@@ -104,6 +104,7 @@ const { product = '' } = Astro.props;
           <select id="product" name="product">
             <option value="" selected={!product}>Select a category</option>
             <option value="pharmaceuticals" selected={product === 'pharmaceuticals'}>Healthcare & Pharmaceuticals</option>
+            <option value="medical-supplies" selected={product === 'medical-supplies'}>Medical & Surgical Supplies</option>
             <option value="chemicals" selected={product === 'chemicals'}>Chemicals</option>
             <option value="frozen-foods" selected={product === 'frozen-foods'}>Frozen Foods</option>
             <option value="other">Other</option>
@@ -268,6 +269,7 @@ const { product = '' } = Astro.props;
   import { gsap } from 'gsap';
   import { ScrollTrigger } from 'gsap/ScrollTrigger';
   import { sendLead } from '../lib/forms';
+  import { trackLead } from '../lib/track';
   gsap.registerPlugin(ScrollTrigger);
 
   gsap.from('.contact-left', {
@@ -306,6 +308,7 @@ const { product = '' } = Astro.props;
     );
 
     if (ok) {
+      if (!data.botcheck) trackLead('quote', { product: productSel.value || 'general', page: location.pathname });
       btn.textContent = 'Enquiry Sent ✓';
       btn.style.background = 'var(--primary)';
       btn.style.color = '#fff';
