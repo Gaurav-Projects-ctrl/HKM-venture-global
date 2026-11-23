@@ -28,6 +28,8 @@ interface Props {
   noindex?: boolean;
   /** "Also from HKM" cards (defaults to the other verticals) */
   others?: Vertical[];
+  /** Google Ads landing page: adds a quote band after the product range and a sticky quote bar on phones */
+  adLanding?: boolean;
 }
 const {
   v,
@@ -36,7 +38,9 @@ const {
   showPresence = false,
   noindex = false,
   others = verticals.filter((o) => o.slug !== v.slug),
+  adLanding = false,
 } = Astro.props;
+const quoteWa = waLink(`Hello HKM Venture Global, I would like a quote for ${v.short.toLowerCase()}.`);
 // Photo file prefix in /public/images and /public/headers
 const img = v.image ?? v.slug;
 
@@ -120,6 +124,23 @@ const faqSchema = {
         </div>
       </div>
     </section>
+
+    {adLanding && (
+      <!-- Quote band (ad landing pages) -->
+      <section class="quote-band">
+        <div class="container quote-band-inner">
+          <div>
+            <span class="label quote-band-over">Importers &amp; distributors</span>
+            <h2 class="quote-band-title">Get a wholesale quote <em>within 24 hours</em></h2>
+            <p class="quote-band-sub">Send your product list, quantities and destination port. We reply with prices, MOQs, lead times and the documents available.</p>
+          </div>
+          <div class="quote-band-btns">
+            <a href="#contact" class="btn btn-gold">Request a Quote</a>
+            <a href={quoteWa} class="btn btn-ghost-gold" target="_blank" rel="noopener">WhatsApp Us</a>
+          </div>
+        </div>
+      </section>
+    )}
 
     <!-- What we offer -->
     <section class="section-pad v-offer">
@@ -229,6 +250,18 @@ const faqSchema = {
     <CTA primaryHref="#contact" />
     <Contact product={contactProduct} />
   </main>
+  {adLanding && (
+    <div class="quote-bar" aria-label="Request a quote">
+      <a href="#contact" class="btn btn-gold">Request a Quote</a>
+      <a href={quoteWa} class="btn btn-ghost-gold" target="_blank" rel="noopener">WhatsApp</a>
+    </div>
+    <style is:inline>
+      @media (max-width: 768px) {
+        .wa-float { display: none !important; }
+        body { padding-bottom: 76px; }
+      }
+    </style>
+  )}
   <Footer />
 </Layout>
 
@@ -301,6 +334,29 @@ const faqSchema = {
   }
   .range-foot p { font-size: 14px; line-height: 1.7; color: var(--on-surface-variant); max-width: 560px; }
   .range-btns { display: flex; gap: 12px; flex-wrap: wrap; flex-shrink: 0; }
+
+  /* Quote band + phone quote bar (ad landing pages) */
+  .quote-band { background: var(--on-surface); color: #f3f0ec; padding: 64px 0; }
+  .quote-band-inner { display: flex; align-items: center; justify-content: space-between; gap: 48px; }
+  .quote-band-over { color: var(--inverse-primary); display: block; margin-bottom: 14px; }
+  .quote-band-title { font-size: clamp(30px, 3.4vw, 44px); line-height: 1.12; letter-spacing: -0.02em; margin-bottom: 14px; }
+  .quote-band-title em { font-style: italic; color: var(--inverse-primary); }
+  .quote-band-sub { font-size: 15px; line-height: 1.7; color: rgba(243, 240, 236, 0.65); max-width: 620px; }
+  .quote-band-btns { display: flex; gap: 12px; flex-wrap: wrap; flex-shrink: 0; }
+  .quote-bar { display: none; }
+  @media (max-width: 900px) {
+    .quote-band-inner { flex-direction: column; align-items: flex-start; gap: 28px; }
+  }
+  @media (max-width: 768px) {
+    .quote-bar {
+      display: flex; gap: 10px;
+      position: fixed; left: 0; right: 0; bottom: 0; z-index: 900;
+      padding: 12px 16px calc(12px + env(safe-area-inset-bottom));
+      background: rgba(28, 27, 25, 0.96);
+      border-top: 1px solid rgba(229, 193, 136, 0.25);
+    }
+    .quote-bar .btn { flex: 1; justify-content: center; padding: 13px 10px; }
+  }
 
   .v-offer { background: var(--inverse-surface); }
   .v-offer-grid { display: grid; grid-template-columns: 1fr 1.3fr; gap: 80px; align-items: stretch; }

@@ -63,14 +63,14 @@ export const founders = [
     role: 'Co-Founder & Director — Sales & Business Development',
     photo: '',
     bio: 'Leads sales and business development at HKM. Buyers work with Dhruv from their first enquiry through quotation, samples and order confirmation.',
-    linkedin: '',
+    linkedin: 'https://www.linkedin.com/in/dhruv-patel0508/',
   },
   {
     name: 'Mahesh Jethava',
     role: 'Co-Founder & Director — Procurement & Supply Chain',
     photo: '',
     bio: 'Leads procurement and supply chain at HKM: selecting manufacturing partners, quality checks before dispatch, and getting every shipment out with its documents in order.',
-    linkedin: '',
+    linkedin: 'https://www.linkedin.com/in/mahesh-jethava-418419332/',
   },
 ];
 
