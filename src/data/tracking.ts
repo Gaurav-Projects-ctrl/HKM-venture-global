@@ -14,8 +14,8 @@ export const tracking = {
   adsConversionId: 'AW-18584118147',
   adsConversionLabels: {
     quote: 'Lgc1CNiA7r0dEIPHzJ1F', // "Request a quote" form sent
-    brochure: '', // ⚠ Brochure request form sent
-    whatsapp: '', // ⚠ WhatsApp button / link clicked
-    phone: '',    // ⚠ Phone number clicked
+    brochure: 'OZfhCNuA7r0dEIPHzJ1F', // Brochure request form sent
+    whatsapp: '72q0CN6A7r0dEIPHzJ1F', // WhatsApp button / link clicked
+    phone: 'SO5rCOGA7r0dEIPHzJ1F',    // Phone number clicked
   },
 };
