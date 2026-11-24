@@ -3,6 +3,7 @@ import '../styles/global.css';
 import WhatsAppFloat from '../components/WhatsAppFloat.astro';
 import BrochureModal from '../components/BrochureModal.astro';
 import { tracking } from '../data/tracking';
+import { company, founders } from '../data/site';
 
 interface Props {
   title?: string;
@@ -11,11 +12,45 @@ interface Props {
   noindex?: boolean;
 }
 const {
-  title = "HKM Venture Global — Pharmaceutical, Chemical & Frozen Food Exporter from India",
-  description = 'India-based sourcing and export partner for healthcare & pharmaceuticals, chemicals and frozen foods. WHO-GMP certified manufacturing partners, full documentation and registration support for importers in Ghana and Africa.',
+  title = 'Pharma, Frozen Food & Chemical Exporter | HKM Venture Global',
+  description = 'Indian exporter of pharmaceuticals, medical supplies, frozen foods and chemicals from certified makers. Exporting to 10+ countries. Quotes in 24h.',
   noindex = false,
 } = Astro.props;
 const { googleTagId } = tracking;
+
+// Business details in the format Google reads (schema.org Organization)
+const orgSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: company.name,
+  url: 'https://hkmventureglobal.com/',
+  logo: 'https://hkmventureglobal.com/logo.png',
+  description:
+    'Indian export company supplying pharmaceuticals, medical and surgical supplies, frozen foods and chemicals from certified manufacturers.',
+  email: company.email,
+  telephone: company.phone,
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: 'B-1104, Neptune Trion, Sarabhai Campus, Subhanpura',
+    addressLocality: 'Vadodara',
+    addressRegion: 'Gujarat',
+    addressCountry: 'IN',
+  },
+  contactPoint: {
+    '@type': 'ContactPoint',
+    contactType: 'sales',
+    telephone: company.phone,
+    email: company.email,
+    availableLanguage: ['English'],
+  },
+  founder: founders.map((f) => ({
+    '@type': 'Person',
+    name: f.name,
+    jobTitle: f.role,
+    ...(f.linkedin ? { sameAs: [f.linkedin] } : {}),
+  })),
+  sameAs: [company.linkedin],
+};
 const canonical = new URL(Astro.url.pathname, 'https://hkmventureglobal.com').href;
 ---
 <!doctype html>
@@ -52,6 +87,7 @@ const canonical = new URL(Astro.url.pathname, 'https://hkmventureglobal.com').hr
       href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500&family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Manrope:wght@300;400;500;600&family=Montserrat:wght@500;600&display=swap"
       rel="stylesheet"
     />
+    <script type="application/ld+json" set:html={JSON.stringify(orgSchema)} />
   </head>
   <body>
     <slot />

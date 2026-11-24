@@ -125,9 +125,9 @@ export const verticals: Vertical[] = [
     icon: '✦',
     // No drug-class names here: this menu appears on the Google Ads landing pages too
     navDesc: 'Generic medicines · Healthcare products · APIs',
-    metaTitle: 'Pharmaceutical Exporter from India — Generic Medicines for Ghana & Africa | HKM Venture Global',
+    metaTitle: 'Pharmaceutical Exporter from India | HKM Venture Global',
     metaDescription:
-      'Generic medicines, anti-malarials, antibiotics and healthcare products sourced from WHO-GMP certified Indian manufacturers. Full documentation and registration support for importers in Ghana and Africa.',
+      'Generic medicines and healthcare products from WHO-GMP certified Indian manufacturers, with documents and registration support for importers in Africa.',
     cardBody:
       'Generic medicines and healthcare products sourced from WHO-GMP certified Indian manufacturers, with full documentation for registration and import.',
     heroSub:
@@ -290,9 +290,9 @@ export const verticals: Vertical[] = [
     title: 'Chemicals &',
     titleEm: 'Raw Materials',
     icon: '⬡',
-    metaTitle: 'Chemical Exporter from Gujarat, India — Specialty & Industrial Chemicals | HKM Venture Global',
+    metaTitle: 'Chemical Exporter from Gujarat, India | HKM Venture Global',
     metaDescription:
-      'Specialty chemicals, industrial chemicals, solvents, castor derivatives, essential oils and agrochemicals sourced from manufacturers in Gujarat’s chemical belt, with COA, SDS and full export documentation.',
+      'Specialty and industrial chemicals, solvents, castor derivatives and essential oils from Gujarat manufacturers, with COA, SDS and full export documents.',
     cardBody:
       'Specialty and industrial chemicals sourced from manufacturers in Gujarat’s chemical belt, with full technical and safety documentation.',
     heroSub:
@@ -390,9 +390,9 @@ export const verticals: Vertical[] = [
     title: 'Frozen &',
     titleEm: 'Packaged Foods',
     icon: '◈',
-    metaTitle: 'Frozen Food Exporter from India — Frozen Vegetables, Seafood & Indian Snacks | HKM Venture Global',
+    metaTitle: 'Frozen Food Exporter from India | HKM Venture Global',
     metaDescription:
-      'Frozen vegetables, seafood, frozen Indian foods and packaged snacks from certified Indian processors, shipped in temperature-controlled containers with full health and origin documentation.',
+      'Frozen vegetables, seafood, ready-to-cook Indian foods and snacks from certified Indian processors, shipped cold-chain with health and origin documents.',
     cardBody:
       'Frozen vegetables, seafood, gourmet and frozen Indian foods, and packaged snacks — cold chain managed from processor to port.',
     heroSub:
@@ -489,9 +489,9 @@ export const medicalSupplies: Vertical = {
   title: 'Medical &',
   titleEm: 'Surgical Supplies',
   icon: '✚',
-  metaTitle: 'Medical & Surgical Supplies Exporter from India | HKM Venture Global',
+  metaTitle: 'Medical & Surgical Supplies Exporter | HKM Venture Global',
   metaDescription:
-    'Wholesale medical supplies, hospital consumables and surgical products from certified Indian manufacturers, for distributors, hospitals and importers across Africa.',
+    'Wholesale medical supplies, hospital consumables and surgical products from certified Indian manufacturers, for distributors and hospitals across Africa.',
   cardBody:
     'Hospital consumables, surgical supplies and medical equipment from certified Indian manufacturers, supplied wholesale.',
   heroSub:
@@ -591,7 +591,7 @@ export const pharmaAds: Vertical = {
   ...pharma,
   slug: 'pharmaceutical-wholesale',
   image: 'pharmaceuticals',
-  metaTitle: 'Pharmaceutical Wholesale Supplier from India | HKM Venture Global',
+  metaTitle: 'Pharmaceutical Wholesale Supplier | HKM Venture Global',
   metaDescription:
     'Wholesale generic medicines and healthcare products from WHO-GMP certified Indian manufacturers, with full documentation for importers and distributors.',
   title: 'Pharmaceutical',
