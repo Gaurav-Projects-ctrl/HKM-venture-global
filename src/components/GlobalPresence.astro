@@ -4,7 +4,7 @@
  * the West & Central African markets HKM is expanding into.
  * Countries come from `presence` in src/data/site.ts; flags are drawn as inline SVG (no image downloads).
  */
-import { presence } from '../data/site';
+import { presence, registeredMarkets } from '../data/site';
 
 // Number of countries HKM exports to (shown in the heading and the stat box)
 const exportCount = '10+';
@@ -78,6 +78,21 @@ const stats = [
         );
       })}
     </ul>
+
+    <div class="gp-markets reveal">
+      <h3 class="gp-markets-title">Countries Covered</h3>
+      <p class="gp-markets-sub">Registered markets by region</p>
+      <div class="gp-markets-grid">
+        {registeredMarkets.map((r) => (
+          <div class="gp-market">
+            <h4 class="label gp-market-region">{r.region} <span>({r.countries.length})</span></h4>
+            <ul class="gp-market-list">
+              {r.countries.map((c) => <li>{c}</li>)}
+            </ul>
+          </div>
+        ))}
+      </div>
+    </div>
   </div>
 </section>
 
@@ -120,7 +135,19 @@ const stats = [
   .gp-flag:hover svg { transform: translateY(-3px); }
   .gp-flag span { font-size: 12px; color: rgba(245, 240, 232, 0.7); letter-spacing: 0.02em; }
 
+  .gp-markets { margin-top: 64px; text-align: center; }
+  .gp-markets-title { font-family: var(--font-display); font-weight: 400; font-size: clamp(26px, 2.6vw, 34px); color: var(--hero-text); }
+  .gp-markets-sub { font-size: 14px; color: rgba(245, 240, 232, 0.55); margin-top: 6px; }
+  .gp-markets-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 32px; text-align: left; }
+  .gp-market { padding: 28px 26px; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(229, 193, 136, 0.14); }
+  .gp-market-region { color: var(--inverse-primary); font-size: 11px; margin-bottom: 16px; }
+  .gp-market-region span { color: rgba(245, 240, 232, 0.45); }
+  .gp-market-list { list-style: none; display: flex; flex-wrap: wrap; gap: 6px 0; }
+  .gp-market-list li { font-size: 14px; line-height: 1.6; color: rgba(245, 240, 232, 0.72); }
+  .gp-market-list li:not(:last-child)::after { content: '·'; margin: 0 9px; color: rgba(229, 193, 136, 0.5); }
+
   @media (max-width: 900px) {
+    .gp-markets-grid { grid-template-columns: 1fr; }
     .gp-grid { grid-template-columns: 1fr; gap: 48px; }
     .gp-flags { gap: 24px 26px; margin-top: 56px; padding-top: 40px; }
   }

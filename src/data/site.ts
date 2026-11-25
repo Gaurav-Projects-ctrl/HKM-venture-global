@@ -55,6 +55,22 @@ export const presence = [
   { code: 'ga', name: 'Gabon' },
 ];
 
+// Registered markets by region (shown under the flags in GlobalPresence.astro)
+export const registeredMarkets = [
+  {
+    region: 'Africa',
+    countries: ['Nigeria', 'Ghana', 'Kenya', 'Tanzania', 'Malawi', 'Côte d’Ivoire', 'Mali', 'Sierra Leone', 'Liberia', 'Libya', 'Madagascar', 'Rwanda', 'Zambia', 'Congo', 'Senegal', 'Burkina Faso', 'Benin', 'Togo'],
+  },
+  {
+    region: 'Asia & CIS',
+    countries: ['Yemen', 'Afghanistan', 'Cambodia', 'Philippines', 'Sri Lanka', 'Myanmar', 'Mongolia', 'Iraq', 'Iran', 'Tajikistan', 'Russia', 'Armenia', 'Georgia'],
+  },
+  {
+    region: 'Latin America & Caribbean',
+    countries: ['Guatemala', 'Honduras', 'Nicaragua', 'Ecuador', 'Peru', 'Bolivia', 'Dominican Republic'],
+  },
+];
+
 // Founding members. Add a photo path (e.g. '/team/name.jpg' in /public/team/) or leave '' for a monogram.
 // ⚠ Bios are short placeholders based on each role — replace with each person's own background.
 export const founders = [
