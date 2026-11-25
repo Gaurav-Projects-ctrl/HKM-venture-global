@@ -61,39 +61,74 @@ const { product = '' } = Astro.props;
           <div class="form-group">
             <label class="label" for="phone">Phone Number</label>
             <div class="phone-row">
-              <select id="phone-code" name="phone_code" class="phone-code-select">
+              <select id="phone-code" name="phone_code" class="phone-code-select" aria-label="Country code">
                 <option value="+91">🇮🇳 +91</option>
-                <option value="+1">🇺🇸 +1</option>
-                <option value="+44">🇬🇧 +44</option>
-                <option value="+971">🇦🇪 +971</option>
-                <option value="+966">🇸🇦 +966</option>
-                <option value="+974">🇶🇦 +974</option>
-                <option value="+965">🇰🇼 +965</option>
-                <option value="+968">🇴🇲 +968</option>
-                <option value="+973">🇧🇭 +973</option>
-                <option value="+49">🇩🇪 +49</option>
-                <option value="+33">🇫🇷 +33</option>
-                <option value="+39">🇮🇹 +39</option>
-                <option value="+34">🇪🇸 +34</option>
-                <option value="+31">🇳🇱 +31</option>
-                <option value="+7">🇷🇺 +7</option>
-                <option value="+86">🇨🇳 +86</option>
-                <option value="+81">🇯🇵 +81</option>
-                <option value="+82">🇰🇷 +82</option>
-                <option value="+65">🇸🇬 +65</option>
-                <option value="+60">🇲🇾 +60</option>
-                <option value="+66">🇹🇭 +66</option>
-                <option value="+62">🇮🇩 +62</option>
-                <option value="+63">🇵🇭 +63</option>
-                <option value="+880">🇧🇩 +880</option>
-                <option value="+92">🇵🇰 +92</option>
-                <option value="+94">🇱🇰 +94</option>
-                <option value="+977">🇳🇵 +977</option>
-                <option value="+20">🇪🇬 +20</option>
-                <option value="+27">🇿🇦 +27</option>
-                <option value="+55">🇧🇷 +55</option>
-                <option value="+61">🇦🇺 +61</option>
-                <option value="+64">🇳🇿 +64</option>
+                <optgroup label="Africa">
+                  <option value="+233" title="Ghana">🇬🇭 +233</option>
+                  <option value="+234" title="Nigeria">🇳🇬 +234</option>
+                  <option value="+225" title="Côte d'Ivoire">🇨🇮 +225</option>
+                  <option value="+221" title="Senegal">🇸🇳 +221</option>
+                  <option value="+232" title="Sierra Leone">🇸🇱 +232</option>
+                  <option value="+224" title="Guinea">🇬🇳 +224</option>
+                  <option value="+223" title="Mali">🇲🇱 +223</option>
+                  <option value="+226" title="Burkina Faso">🇧🇫 +226</option>
+                  <option value="+228" title="Togo">🇹🇬 +228</option>
+                  <option value="+229" title="Benin">🇧🇯 +229</option>
+                  <option value="+231" title="Liberia">🇱🇷 +231</option>
+                  <option value="+220" title="Gambia">🇬🇲 +220</option>
+                  <option value="+227" title="Niger">🇳🇪 +227</option>
+                  <option value="+237" title="Cameroon">🇨🇲 +237</option>
+                  <option value="+241" title="Gabon">🇬🇦 +241</option>
+                  <option value="+242" title="Congo">🇨🇬 +242</option>
+                  <option value="+243" title="DR Congo">🇨🇩 +243</option>
+                  <option value="+235" title="Chad">🇹🇩 +235</option>
+                  <option value="+244" title="Angola">🇦🇴 +244</option>
+                  <option value="+254" title="Kenya">🇰🇪 +254</option>
+                  <option value="+255" title="Tanzania">🇹🇿 +255</option>
+                  <option value="+256" title="Uganda">🇺🇬 +256</option>
+                  <option value="+250" title="Rwanda">🇷🇼 +250</option>
+                  <option value="+251" title="Ethiopia">🇪🇹 +251</option>
+                  <option value="+260" title="Zambia">🇿🇲 +260</option>
+                  <option value="+265" title="Malawi">🇲🇼 +265</option>
+                  <option value="+258" title="Mozambique">🇲🇿 +258</option>
+                  <option value="+263" title="Zimbabwe">🇿🇼 +263</option>
+                  <option value="+27" title="South Africa">🇿🇦 +27</option>
+                  <option value="+20" title="Egypt">🇪🇬 +20</option>
+                  <option value="+212" title="Morocco">🇲🇦 +212</option>
+                  <option value="+213" title="Algeria">🇩🇿 +213</option>
+                  <option value="+216" title="Tunisia">🇹🇳 +216</option>
+                </optgroup>
+                <optgroup label="Other countries">
+                  <option value="+1">🇺🇸 +1</option>
+                  <option value="+44">🇬🇧 +44</option>
+                  <option value="+971">🇦🇪 +971</option>
+                  <option value="+966">🇸🇦 +966</option>
+                  <option value="+974">🇶🇦 +974</option>
+                  <option value="+965">🇰🇼 +965</option>
+                  <option value="+968">🇴🇲 +968</option>
+                  <option value="+973">🇧🇭 +973</option>
+                  <option value="+49">🇩🇪 +49</option>
+                  <option value="+33">🇫🇷 +33</option>
+                  <option value="+39">🇮🇹 +39</option>
+                  <option value="+34">🇪🇸 +34</option>
+                  <option value="+31">🇳🇱 +31</option>
+                  <option value="+7">🇷🇺 +7</option>
+                  <option value="+86">🇨🇳 +86</option>
+                  <option value="+81">🇯🇵 +81</option>
+                  <option value="+82">🇰🇷 +82</option>
+                  <option value="+65">🇸🇬 +65</option>
+                  <option value="+60">🇲🇾 +60</option>
+                  <option value="+66">🇹🇭 +66</option>
+                  <option value="+62">🇮🇩 +62</option>
+                  <option value="+63">🇵🇭 +63</option>
+                  <option value="+880">🇧🇩 +880</option>
+                  <option value="+92">🇵🇰 +92</option>
+                  <option value="+94">🇱🇰 +94</option>
+                  <option value="+977">🇳🇵 +977</option>
+                  <option value="+55">🇧🇷 +55</option>
+                  <option value="+61">🇦🇺 +61</option>
+                  <option value="+64">🇳🇿 +64</option>
+                </optgroup>
               </select>
               <input type="tel" id="phone" name="phone" placeholder="00000 00000" />
             </div>
@@ -104,6 +139,7 @@ const { product = '' } = Astro.props;
           <select id="product" name="product">
             <option value="" selected={!product}>Select a category</option>
             <option value="pharmaceuticals" selected={product === 'pharmaceuticals'}>Healthcare & Pharmaceuticals</option>
+            <option value="medical-supplies" selected={product === 'medical-supplies'}>Medical & Surgical Supplies</option>
             <option value="chemicals" selected={product === 'chemicals'}>Chemicals</option>
             <option value="frozen-foods" selected={product === 'frozen-foods'}>Frozen Foods</option>
             <option value="other">Other</option>
@@ -268,6 +304,7 @@ const { product = '' } = Astro.props;
   import { gsap } from 'gsap';
   import { ScrollTrigger } from 'gsap/ScrollTrigger';
   import { sendLead } from '../lib/forms';
+  import { trackLead } from '../lib/track';
   gsap.registerPlugin(ScrollTrigger);
 
   gsap.from('.contact-left', {
@@ -306,6 +343,7 @@ const { product = '' } = Astro.props;
     );
 
     if (ok) {
+      if (!data.botcheck) trackLead('quote', { product: productSel.value || 'general', page: location.pathname });
       btn.textContent = 'Enquiry Sent ✓';
       btn.style.background = 'var(--primary)';
       btn.style.color = '#fff';

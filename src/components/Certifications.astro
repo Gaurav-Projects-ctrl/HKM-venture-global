@@ -36,7 +36,7 @@ const loop = [...certifications, ...certifications];
             {c.logo ? (
               <picture>
                 <source srcset={`${c.logo}.webp`} type="image/webp" />
-                <img src={`${c.logo}.png`} alt={`${c.name} certified`} width="120" height="120" loading="lazy" decoding="async" />
+                <img src={`${c.logo}.png`} alt={`${c.name} certification logo`} width="120" height="120" loading="lazy" decoding="async" />
               </picture>
             ) : (
               <span class="cert-badge"><span>{c.name}</span><small>Certified</small></span>

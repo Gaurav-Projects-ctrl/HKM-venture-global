@@ -2,24 +2,76 @@
 import '../styles/global.css';
 import WhatsAppFloat from '../components/WhatsAppFloat.astro';
 import BrochureModal from '../components/BrochureModal.astro';
+import { tracking } from '../data/tracking';
+import { company, founders } from '../data/site';
 
 interface Props {
   title?: string;
   description?: string;
+  /** Keep this page out of search results (e.g. Google Ads landing pages) */
+  noindex?: boolean;
 }
 const {
-  title = "HKM Venture Global — Pharmaceutical, Chemical & Frozen Food Exporter from India",
-  description = 'India-based sourcing and export partner for healthcare & pharmaceuticals, chemicals and frozen foods. WHO-GMP certified manufacturing partners, full documentation and registration support for importers in Ghana and Africa.',
+  title = 'Pharma, Frozen Food & Chemical Exporter | HKM Venture Global',
+  description = 'Indian exporter of pharmaceuticals, medical supplies, frozen foods and chemicals from certified makers. Exporting to 10+ countries. Quotes in 24h.',
+  noindex = false,
 } = Astro.props;
+const { googleTagId } = tracking;
+
+// Business details in the format Google reads (schema.org Organization)
+const orgSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: company.name,
+  url: 'https://hkmventureglobal.com/',
+  logo: 'https://hkmventureglobal.com/logo.png',
+  description:
+    'Indian export company supplying pharmaceuticals, medical and surgical supplies, frozen foods and chemicals from certified manufacturers.',
+  email: company.email,
+  telephone: company.phone,
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: 'B-1104, Neptune Trion, Sarabhai Campus, Subhanpura',
+    addressLocality: 'Vadodara',
+    addressRegion: 'Gujarat',
+    addressCountry: 'IN',
+  },
+  contactPoint: {
+    '@type': 'ContactPoint',
+    contactType: 'sales',
+    telephone: company.phone,
+    email: company.email,
+    availableLanguage: ['English'],
+  },
+  founder: founders.map((f) => ({
+    '@type': 'Person',
+    name: f.name,
+    jobTitle: f.role,
+    ...(f.linkedin ? { sameAs: [f.linkedin] } : {}),
+  })),
+  sameAs: [company.linkedin],
+};
 const canonical = new URL(Astro.url.pathname, 'https://hkmventureglobal.com').href;
 ---
 <!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    {googleTagId && (
+      <Fragment>
+        <!-- Google tag (Google Ads / Tag Manager) -->
+        <script is:inline async src={`https://www.googletagmanager.com/gtm.js?id=${googleTagId}`}></script>
+        <script is:inline>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+        </script>
+      </Fragment>
+    )}
     <script is:inline>document.documentElement.classList.add('js');</script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content={description} />
+    {noindex && <meta name="robots" content="noindex, follow" />}
     <title>{title}</title>
     <link rel="canonical" href={canonical} />
     <meta property="og:type" content="website" />
@@ -27,14 +79,25 @@ const canonical = new URL(Astro.url.pathname, 'https://hkmventureglobal.com').hr
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
-    <meta property="og:image" content="https://hkmventureglobal.com/logo.png" />
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌐</text></svg>" />
+    <meta property="og:image" content="https://hkmventureglobal.com/og-image.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="HKM Venture Global logo" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content="https://hkmventureglobal.com/og-image.jpg" />
+    <link rel="icon" href="/favicon.ico" sizes="48x48" />
+    <link rel="icon" href="/favicon-32.png" type="image/png" sizes="32x32" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500&family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Manrope:wght@300;400;500;600&family=Montserrat:wght@500;600&display=swap"
       rel="stylesheet"
     />
+    <script type="application/ld+json" set:html={JSON.stringify(orgSchema)} />
   </head>
   <body>
     <slot />
@@ -47,6 +110,17 @@ const canonical = new URL(Astro.url.pathname, 'https://hkmventureglobal.com').hr
         });
       }, { rootMargin: '0px 0px -8% 0px' });
       document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
+    </script>
+    <script>
+      // Count WhatsApp and phone clicks as leads (Google Ads conversions)
+      import { trackLead } from '../lib/track';
+      document.addEventListener('click', (e) => {
+        const a = (e.target as HTMLElement).closest('a');
+        if (!a) return;
+        const href = a.getAttribute('href') || '';
+        if (href.startsWith('https://wa.me/')) trackLead('whatsapp', { page: location.pathname });
+        else if (href.startsWith('tel:')) trackLead('phone', { page: location.pathname });
+      });
     </script>
   </body>
 </html>

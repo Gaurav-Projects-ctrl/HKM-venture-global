@@ -25,15 +25,16 @@ const TOTAL_FRAMES = 61;
 
     <!-- Main hero content -->
     <div class="hero-content" id="hero-content">
-      <div id="h-overline">
-        <span class="label" style="color:#f5d99a;letter-spacing:0.3em;font-size:13px;opacity:1;">
-          INDIA'S GLOBAL TRADE PARTNER
+      <!-- The page's main heading (for Google) is the line above the slogan -->
+      <h1 id="h-overline">
+        <span class="label" style="color:#f5d99a;letter-spacing:0.2em;font-size:12px;opacity:1;">
+          Pharmaceutical, Frozen Food &amp; Chemical Exporter from India
         </span>
-      </div>
-      <h1 class="hero-title">
+      </h1>
+      <p class="hero-title">
         <span class="h-line" id="h-line-1">We Move What</span>
         <span class="h-line" id="h-line-2">the World <em>Needs.</em></span>
-      </h1>
+      </p>
       <p class="hero-sub" id="h-sub">
         We connect international buyers with reliable Indian manufacturers
         across pharmaceuticals &amp; healthcare, chemicals, and frozen foods —
@@ -166,7 +167,7 @@ const TOTAL_FRAMES = 61;
     padding: 0 8vw 0 22vw;
   }
 
-  #h-overline { margin-bottom: 24px; overflow: hidden; text-align: center; }
+  #h-overline { margin: 0 0 24px; overflow: hidden; text-align: center; font-size: inherit; font-weight: inherit; line-height: 1.6; }
 
   .hero-content > * { width: 100%; max-width: 620px; }
 
@@ -297,6 +298,7 @@ const TOTAL_FRAMES = 61;
     .hero-end-panel { display: none; }
     .hero-tagline p { font-size: 32px; padding: 0 24px; }
     #h-overline { margin-bottom: 16px; }
+    #h-overline .label { font-size: 11px !important; letter-spacing: 0.14em !important; }
     .hero-title { font-size: clamp(40px, 11vw, 52px); margin-bottom: 20px; }
     .hero-sub { font-size: 16px; line-height: 1.7; margin-bottom: 28px; }
   }

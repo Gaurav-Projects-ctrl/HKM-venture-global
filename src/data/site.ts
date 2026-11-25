@@ -20,6 +20,9 @@ export const company = {
   web3formsKey: '72884102-36af-41f8-9214-3aec938ab1de',
 };
 
+// Google Ads conversion tracking settings live in ./tracking.ts
+export { tracking } from './tracking';
+
 // Government registrations — not shown on the site at the client's request (kept for internal reference).
 // ⚠ PLACEHOLDER — fill in real numbers. Remove a line if not yet obtained.
 export const registrations = [
@@ -52,28 +55,22 @@ export const presence = [
   { code: 'ga', name: 'Gabon' },
 ];
 
-// ⚠ PLACEHOLDER — founding members. Add a photo path (e.g. '/team/name.jpg' in /public/team/) or leave '' for a monogram.
+// Founding members. Add a photo path (e.g. '/team/name.jpg' in /public/team/) or leave '' for a monogram.
+// ⚠ Bios are short placeholders based on each role — replace with each person's own background.
 export const founders = [
   {
-    name: '[Founder Name]',
-    role: 'Founder & Managing Director',
+    name: 'Dhruv Patel',
+    role: 'Co-Founder & Director — Sales & Business Development',
     photo: '',
-    bio: '[2–3 lines: background, years in trade or industry, what they personally oversee at HKM — e.g. manufacturer partnerships and quality.]',
-    linkedin: '',
+    bio: 'Leads sales and business development at HKM. Buyers work with Dhruv from their first enquiry through quotation, samples and order confirmation.',
+    linkedin: 'https://www.linkedin.com/in/dhruv-patel0508/',
   },
   {
-    name: '[Co-Founder Name]',
-    role: 'Co-Founder & Director — Business Development',
+    name: 'Mahesh Jethava',
+    role: 'Co-Founder & Director — Procurement & Supply Chain',
     photo: '',
-    bio: '[2–3 lines: background, markets they handle (e.g. Ghana & West Africa), and how buyers work with them directly.]',
-    linkedin: '',
-  },
-  {
-    name: '[Co-Founder Name]',
-    role: 'Co-Founder & Director — Operations',
-    photo: '',
-    bio: '[2–3 lines: background in logistics, documentation or regulatory affairs, and their role in getting every shipment out on time.]',
-    linkedin: '',
+    bio: 'Leads procurement and supply chain at HKM: selecting manufacturing partners, quality checks before dispatch, and getting every shipment out with its documents in order.',
+    linkedin: 'https://www.linkedin.com/in/mahesh-jethava-418419332/',
   },
 ];
 
@@ -88,10 +85,17 @@ export interface ProductGroup {
   name: string;
   note?: string;
   items: string[];
+  /** Optional link shown under the group, e.g. to a dedicated page */
+  href?: string;
+  linkLabel?: string;
 }
 
 export interface Vertical {
   slug: string;
+  /** Fallback photo prefix in /public/images and /public/headers, used where the page has no photo of its own (defaults to slug) */
+  image?: string;
+  /** Short line under the name in the Products menu (defaults to the first three group names) */
+  navDesc?: string;
   index: string;
   short: string;
   title: string;
@@ -119,13 +123,15 @@ export const verticals: Vertical[] = [
     title: 'Healthcare &',
     titleEm: 'Pharmaceuticals',
     icon: '✦',
-    metaTitle: 'Pharmaceutical Exporter from India — Generic Medicines for Ghana & Africa | HKM Venture Global',
+    // No drug-class names here: this menu appears on the Google Ads landing pages too
+    navDesc: 'Generic medicines · Healthcare products · APIs',
+    metaTitle: 'Pharmaceutical Exporter from India | HKM Venture Global',
     metaDescription:
-      'Generic medicines, anti-malarials, antibiotics and healthcare products sourced from WHO-GMP certified Indian manufacturers. Full documentation and registration support for importers in Ghana and Africa.',
+      'Generic medicines and healthcare products from WHO-GMP certified Indian manufacturers, with documents and registration support for importers in Africa.',
     cardBody:
       'Generic medicines and healthcare products sourced from WHO-GMP certified Indian manufacturers, with full documentation for registration and import.',
     heroSub:
-      'Quality generic medicines from WHO-GMP certified Indian manufacturers — with the documents, samples and registration support importers across Africa, South East Asia, Asia Pacific, the UAE and Central & South America need to order with confidence.',
+      'Quality generic medicines from WHO-GMP certified Indian manufacturers — with the documents, samples and registration support importers in 10+ countries, and now across West and Central Africa, need to order with confidence.',
     intro: [
       'India supplies a large share of the world’s generic medicines, and much of its manufacturing base is right here in Gujarat. HKM Venture Global works as the sourcing and export partner between these manufacturers and importers, distributors and pharmacy chains abroad.',
       'We offer contract manufacturing. We don’t run our own plants — we select certified manufacturing partners on their certifications, audit history and export experience, get your products made to your specification and, where needed, under your brand, and stand between them and you on every order: quotation, samples, documents, quality checks, shipping and after-delivery support.',
@@ -207,6 +213,8 @@ export const verticals: Vertical[] = [
           'Gauze, bandages & dressings',
           'Medical & non-medical equipment',
         ],
+        href: '/products/medical-supplies',
+        linkLabel: 'Medical & surgical supplies',
       },
       {
         name: 'APIs & Pharma Intermediates',
@@ -248,9 +256,9 @@ export const verticals: Vertical[] = [
       },
     ],
     markets: {
-      title: 'Africa, the UAE, Asia & the Americas',
-      body: 'We supply importers, distributors and pharmacy chains across Africa, the UAE, South East Asia, Asia Pacific and Central & South America — learning each market’s registration rules, documentation and buyers in depth.',
-      regions: ['Africa', 'UAE', 'South East Asia', 'Asia Pacific', 'Central America', 'South America'],
+      title: 'Markets We Serve',
+      body: 'We export to importers, distributors and pharmacy chains in 10+ countries, and are expanding across West and Central Africa — learning each market’s registration rules, documentation and buyers in depth.',
+      regions: ['West Africa', 'Central Africa'],
     },
     faqs: [
       {
@@ -282,9 +290,9 @@ export const verticals: Vertical[] = [
     title: 'Chemicals &',
     titleEm: 'Raw Materials',
     icon: '⬡',
-    metaTitle: 'Chemical Exporter from Gujarat, India — Specialty & Industrial Chemicals | HKM Venture Global',
+    metaTitle: 'Chemical Exporter from Gujarat, India | HKM Venture Global',
     metaDescription:
-      'Specialty chemicals, industrial chemicals, solvents, castor derivatives, essential oils and agrochemicals sourced from manufacturers in Gujarat’s chemical belt, with COA, SDS and full export documentation.',
+      'Specialty and industrial chemicals, solvents, castor derivatives and essential oils from Gujarat manufacturers, with COA, SDS and full export documents.',
     cardBody:
       'Specialty and industrial chemicals sourced from manufacturers in Gujarat’s chemical belt, with full technical and safety documentation.',
     heroSub:
@@ -382,9 +390,9 @@ export const verticals: Vertical[] = [
     title: 'Frozen &',
     titleEm: 'Packaged Foods',
     icon: '◈',
-    metaTitle: 'Frozen Food Exporter from India — Frozen Vegetables, Seafood & Indian Snacks | HKM Venture Global',
+    metaTitle: 'Frozen Food Exporter from India | HKM Venture Global',
     metaDescription:
-      'Frozen vegetables, seafood, frozen Indian foods and packaged snacks from certified Indian processors, shipped in temperature-controlled containers with full health and origin documentation.',
+      'Frozen vegetables, seafood, ready-to-cook Indian foods and snacks from certified Indian processors, shipped cold-chain with health and origin documents.',
     cardBody:
       'Frozen vegetables, seafood, gourmet and frozen Indian foods, and packaged snacks — cold chain managed from processor to port.',
     heroSub:
@@ -467,5 +475,159 @@ export const verticals: Vertical[] = [
     ],
   },
 ];
+
+// ─────────────────────────────────────────────────────────────
+//  Medical & Surgical Supplies — part of the Healthcare vertical,
+//  with its own page at /products/medical-supplies
+// ─────────────────────────────────────────────────────────────
+// ⚠ Product groups are representative categories — confirm with the team what HKM can supply.
+export const medicalSupplies: Vertical = {
+  slug: 'medical-supplies',
+  image: 'pharmaceuticals',
+  index: '01',
+  short: 'Medical & Surgical Supplies',
+  title: 'Medical &',
+  titleEm: 'Surgical Supplies',
+  icon: '✚',
+  metaTitle: 'Medical & Surgical Supplies Exporter | HKM Venture Global',
+  metaDescription:
+    'Wholesale medical supplies, hospital consumables and surgical products from certified Indian manufacturers, for distributors and hospitals across Africa.',
+  cardBody:
+    'Hospital consumables, surgical supplies and medical equipment from certified Indian manufacturers, supplied wholesale.',
+  heroSub:
+    'Hospital consumables, surgical supplies and medical equipment from certified Indian manufacturers — supplied wholesale to distributors, hospitals and importers, with the documents your market requires.',
+  intro: [
+    'Hospitals, clinics and distributors need steady supply of the basics: syringes, gloves, dressings and consumables used every day. India manufactures these at scale, and HKM Venture Global sources them from certified manufacturers and ships them in bulk.',
+    'We source to your specification and pack sizes, combine medical supplies with medicines in one shipment where it helps, and handle the paperwork through to delivery.',
+  ],
+  groups: [
+    {
+      name: 'Syringes, Needles & Infusion',
+      items: ['Disposable syringes', 'Hypodermic needles', 'IV sets & IV cannulas', 'Infusion accessories'],
+    },
+    {
+      name: 'Gloves & Protective Wear',
+      items: ['Examination gloves', 'Sterile surgical gloves', 'Face masks', 'Surgical gowns & caps'],
+    },
+    {
+      name: 'Wound Care & Dressings',
+      items: ['Gauze rolls & swabs', 'Bandages', 'Surgical dressings', 'Adhesive tapes & plasters'],
+    },
+    {
+      name: 'Hospital Consumables',
+      items: ['Cotton & absorbent products', 'Urine bags & catheters', 'Specimen containers', 'Other disposables on request'],
+    },
+    {
+      name: 'Medical Equipment & Instruments',
+      items: ['Surgical instruments', 'Diagnostic equipment', 'Medical & non-medical equipment', 'Specific models on request'],
+    },
+    {
+      name: 'Healthcare Products',
+      items: ['First aid kits', 'Hygiene & personal care products', 'Private label options'],
+    },
+  ],
+  groupsNote:
+    'Representative categories. Share the product, specification, pack size and quantity, and we will source and quote to your requirement.',
+  documents: [
+    { name: 'Manufacturer Certificates', detail: 'ISO 13485, CE or other quality certificates of the manufacturing site, where held, shared before you order.' },
+    { name: 'Certificate of Analysis / Test Reports', detail: 'Batch test results, including sterility for sterile products.' },
+    { name: 'Free Sale Certificate', detail: 'Where required by the importing country.' },
+    { name: 'Product Specifications', detail: 'Technical details, materials and pack sizes for your registration and tenders.' },
+    { name: 'Certificate of Origin', detail: 'Including preferential origin where applicable.' },
+    { name: 'Export Documents', detail: 'Commercial invoice, packing list, bill of lading.' },
+  ],
+  services: [
+    {
+      title: 'Wholesale & Bulk Supply',
+      body: 'Supply in the volumes distributors, hospital groups and tenders need, with pack sizes matched to your market.',
+    },
+    {
+      title: 'One Shipment, Medicines Included',
+      body: 'Combine medical supplies with generic medicines in one order and one container, with one contact for both.',
+    },
+    {
+      title: 'Samples Before Orders',
+      body: 'Samples and the supporting documents before your first order, so you can check quality on evidence.',
+    },
+    {
+      title: 'Private Label',
+      body: 'Selected consumables and healthcare products packed under your brand, to your market’s labelling rules.',
+    },
+  ],
+  markets: {
+    title: 'Markets We Serve',
+    body: 'We export to distributors, hospitals and importers in 10+ countries, and are expanding across West and Central Africa.',
+    regions: ['West Africa', 'Central Africa'],
+  },
+  faqs: [
+    {
+      q: 'Do you supply hospitals directly?',
+      a: 'We supply hospitals, hospital groups, distributors and importers. Share your requirement and destination, and we will quote with freight and documents included.',
+    },
+    {
+      q: 'Can medical supplies be shipped together with medicines?',
+      a: 'Yes. Medical supplies and generic medicines can be combined in one order and one shipment.',
+    },
+    {
+      q: 'What are your minimum order quantities?',
+      a: 'MOQs depend on the product and pack size. We accept trial orders, so share your requirement and we will quote with the MOQ clearly stated.',
+    },
+    {
+      q: 'Can we get samples before ordering?',
+      a: 'Yes. Samples and supporting documents can be arranged before your first order. Sample terms depend on the product.',
+    },
+  ],
+};
+
+// ─────────────────────────────────────────────────────────────
+//  Google Ads landing page for pharma — /pharmaceutical-wholesale
+//  Same offer as /products/pharmaceuticals but WITHOUT prescription drug
+//  names: Google Ads does not allow promoting prescription medicines in
+//  most countries, so ads must point here, not to the product page.
+//  The page is noindex, so it does not compete with the product page in search.
+// ─────────────────────────────────────────────────────────────
+const pharma = verticals.find((v) => v.slug === 'pharmaceuticals')!;
+export const pharmaAds: Vertical = {
+  ...pharma,
+  slug: 'pharmaceutical-wholesale',
+  image: 'pharmaceuticals',
+  metaTitle: 'Pharmaceutical Wholesale Supplier | HKM Venture Global',
+  metaDescription:
+    'Wholesale generic medicines and healthcare products from WHO-GMP certified Indian manufacturers, with full documentation for importers and distributors.',
+  title: 'Pharmaceutical',
+  titleEm: 'Wholesale Supply',
+  heroSub:
+    'Generic medicines and healthcare products from WHO-GMP certified Indian manufacturers, supplied wholesale to importers, distributors and pharmacy chains — with samples, documents and registration support.',
+  groups: [
+    {
+      name: 'Generic Medicines',
+      items: ['Tablets & capsules', 'Oral liquids & dry syrups', 'Injectables', 'Creams & ointments', 'Major therapeutic categories — full list on request'],
+    },
+    {
+      name: 'OTC & Healthcare Products',
+      items: ['Oral rehydration salts', 'Pain and fever relief', 'Antacids & digestive care', 'Everyday healthcare products'],
+    },
+    {
+      name: 'Vitamins & Nutraceuticals',
+      items: ['Multivitamins', 'Iron & folic acid', 'Calcium & vitamin D3', 'Vitamin C'],
+    },
+    {
+      name: 'Private Label & Third-Party Manufacturing',
+      items: ['Your brand, your artwork', 'Labelling to your market’s rules', 'WHO-GMP partner facilities', 'Trial orders welcome'],
+    },
+    {
+      name: 'APIs & Pharma Intermediates',
+      items: ['Active pharmaceutical ingredients', 'Pharmaceutical intermediates', 'Excipients'],
+    },
+    {
+      name: 'Medical & Surgical Supplies',
+      items: ['Syringes & IV sets', 'Gloves', 'Gauze, bandages & dressings', 'Medical equipment'],
+      href: '/products/medical-supplies',
+      linkLabel: 'Medical & surgical supplies',
+    },
+  ],
+  groupsNote:
+    'Our full product list with strengths and pack sizes is shared on request — tell us what you import today and we will match it.',
+};
 
 export const getVertical = (slug: string) => verticals.find((v) => v.slug === slug)!;

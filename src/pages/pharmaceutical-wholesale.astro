@@ -1,0 +1,17 @@
+---
+/**
+ * Google Ads landing page for the pharma campaign (no prescription drug names).
+ * Kept out of search results with noindex; the public product page is /products/pharmaceuticals.
+ */
+import VerticalPage from '../components/VerticalPage.astro';
+import { pharmaAds, verticals } from '../data/site';
+---
+<VerticalPage
+  v={pharmaAds}
+  crumb="Pharmaceutical Wholesale"
+  contactProduct="pharmaceuticals"
+  showPresence
+  noindex
+  adLanding
+  others={verticals.filter((o) => o.slug !== 'pharmaceuticals')}
+/>
