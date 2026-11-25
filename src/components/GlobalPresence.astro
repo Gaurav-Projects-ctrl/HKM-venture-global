@@ -22,7 +22,7 @@ const flags: Record<string, { dir: 'h' | 'v'; colors: string[]; star?: boolean }
 const star = '15.00,6.60 15.79,8.91 18.23,8.95 16.28,10.42 17.00,12.75 15.00,11.35 13.00,12.75 13.72,10.42 11.77,8.95 14.21,8.91';
 
 const regions = [
-  { name: 'Expanding across West & Central Africa:', list: presence.map((p) => p.name).join(' · ') },
+  { name: 'Expanding across West & Central Africa:', list: presence.map((p) => p.name) },
 ];
 
 const stats = [
@@ -45,7 +45,7 @@ const stats = [
         </p>
         <ul class="gp-regions">
           {regions.map((r) => (
-            <li><span class="gp-dot" aria-hidden="true"></span><strong>{r.name}</strong> {r.list}</li>
+            <li><span class="gp-dot" aria-hidden="true"></span><strong>{r.name}</strong> {r.list.map((c, i) => <><span class="gp-nw">{c}</span>{i < r.list.length - 1 && ' · '}</>)}</li>
           ))}
         </ul>
       </div>
@@ -84,10 +84,10 @@ const stats = [
       <p class="gp-markets-sub">Registered markets by region</p>
       <div class="gp-markets-grid">
         {registeredMarkets.map((r) => (
-          <div class="gp-market">
+          <div class="gp-market" style={`--cols:${r.cols};--rows:${Math.ceil(r.countries.length / r.cols)}`}>
             <h4 class="label gp-market-region">{r.region} <span>({r.countries.length})</span></h4>
             <ul class="gp-market-list">
-              {r.countries.map((c) => <li>{c}</li>)}
+              {[...r.countries].sort((a, b) => a.localeCompare(b)).map((c) => <li>{c}</li>)}
             </ul>
           </div>
         ))}
@@ -138,16 +138,20 @@ const stats = [
   .gp-markets { margin-top: 64px; text-align: center; }
   .gp-markets-title { font-family: var(--font-display); font-weight: 400; font-size: clamp(26px, 2.6vw, 34px); color: var(--hero-text); }
   .gp-markets-sub { font-size: 14px; color: rgba(245, 240, 232, 0.55); margin-top: 6px; }
-  .gp-markets-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 32px; text-align: left; }
-  .gp-market { padding: 28px 26px; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(229, 193, 136, 0.14); }
-  .gp-market-region { color: var(--inverse-primary); font-size: 11px; margin-bottom: 16px; }
+  .gp-nw { white-space: nowrap; }
+  .gp-markets-grid { display: grid; grid-template-columns: 3fr 2fr; gap: 14px; margin-top: 32px; text-align: left; }
+  .gp-market { padding: 30px 32px; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(229, 193, 136, 0.14); }
+  .gp-market:first-child { grid-column: 1 / -1; }
+  .gp-market-region { color: var(--inverse-primary); font-size: 11px; margin-bottom: 20px; padding-bottom: 14px; border-bottom: 1px solid rgba(229, 193, 136, 0.14); }
   .gp-market-region span { color: rgba(245, 240, 232, 0.45); }
-  .gp-market-list { list-style: none; display: flex; flex-wrap: wrap; gap: 6px 0; }
-  .gp-market-list li { font-size: 14px; line-height: 1.6; color: rgba(245, 240, 232, 0.72); }
-  .gp-market-list li:not(:last-child)::after { content: '·'; margin: 0 9px; color: rgba(229, 193, 136, 0.5); }
+  .gp-market-list { list-style: none; display: grid; grid-template-columns: repeat(var(--cols, 2), 1fr); grid-auto-flow: column; grid-template-rows: repeat(var(--rows), auto); gap: 10px 24px; }
+  .gp-market-list li { font-size: 14px; line-height: 1.5; color: rgba(245, 240, 232, 0.78); padding-left: 16px; position: relative; }
+  .gp-market-list li::before { content: ''; position: absolute; left: 0; top: 0.72em; width: 6px; height: 1px; background: var(--inverse-primary); }
 
   @media (max-width: 900px) {
     .gp-markets-grid { grid-template-columns: 1fr; }
+    .gp-market { padding: 26px 22px; }
+    .gp-market-list { grid-template-columns: 1fr 1fr; grid-auto-flow: row; grid-template-rows: none; }
     .gp-grid { grid-template-columns: 1fr; gap: 48px; }
     .gp-flags { gap: 24px 26px; margin-top: 56px; padding-top: 40px; }
   }

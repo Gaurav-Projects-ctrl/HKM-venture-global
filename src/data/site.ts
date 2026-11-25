@@ -59,14 +59,17 @@ export const presence = [
 export const registeredMarkets = [
   {
     region: 'Africa',
+    cols: 4,
     countries: ['Nigeria', 'Ghana', 'Kenya', 'Tanzania', 'Malawi', 'Côte d’Ivoire', 'Mali', 'Sierra Leone', 'Liberia', 'Libya', 'Madagascar', 'Rwanda', 'Zambia', 'Congo', 'Senegal', 'Burkina Faso', 'Benin', 'Togo'],
   },
   {
     region: 'Asia & CIS',
+    cols: 3,
     countries: ['Yemen', 'Afghanistan', 'Cambodia', 'Philippines', 'Sri Lanka', 'Myanmar', 'Mongolia', 'Iraq', 'Iran', 'Tajikistan', 'Russia', 'Armenia', 'Georgia'],
   },
   {
     region: 'Latin America & Caribbean',
+    cols: 2,
     countries: ['Guatemala', 'Honduras', 'Nicaragua', 'Ecuador', 'Peru', 'Bolivia', 'Dominican Republic'],
   },
 ];
