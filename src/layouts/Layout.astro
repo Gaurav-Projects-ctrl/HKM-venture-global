@@ -47,6 +47,7 @@ const orgSchema = {
     '@type': 'Person',
     name: f.name,
     jobTitle: f.role,
+    ...(f.photo ? { image: `https://hkmventureglobal.com${f.photo}` } : {}),
     ...(f.linkedin ? { sameAs: [f.linkedin] } : {}),
   })),
   sameAs: [company.linkedin],
